@@ -74,6 +74,6 @@ module Resdl_m_SDL_MessageBoxColorType = {
     | SDL_MESSAGEBOX_COLOR_MAX;
 }
 
-module Resdl_t_windowing {
+module Resdl_t_windowing = {
   type window;
 }

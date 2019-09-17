@@ -1,15 +1,14 @@
 {
-  "name": "reason-glfw",
+  "name": "reason-sdl2",
   "version": "3.2.1027",
-  "description": "GLFW bindings for OCaml",
+  "description": "SDL2 bindings for OCaml",
   "license": "MIT",
   "esy": {
     "build": [
       [
         "dune",
         "build",
-        "--root",
-        "."
+        "src"
       ],
       [
         "dune",

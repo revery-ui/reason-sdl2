@@ -1,4 +1,5 @@
 external hello_sdl: unit => unit = "hello_sdl";
+open Sdl_external_functions.Setup;
 
 let run = () => {
   /*let _ = hello_sdl();*/

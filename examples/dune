@@ -1,10 +1,10 @@
 (library
-    (name EsyGlfwExamples)
+    (name EsySdl2Examples)
     (preprocess (pps lwt_ppx))
     (js_of_ocaml)
     (libraries
         lwt
-        reglfw ))
+        resdl2 ))
 
 (install
     (section bin)

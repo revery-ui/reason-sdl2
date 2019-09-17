@@ -1,11 +1,11 @@
 (executable
-    (name test_glfw)
+    (name test_sdl2)
     (preprocess (pps lwt_ppx))
-    (public_name test_glfw)
+    (public_name test_sdl2)
     (libraries
         lwt
         lwt.unix
         reglm
-        EsyGlfwExamples
-        reglfw
+        EsySdl2Examples
+        resdl2
             ))

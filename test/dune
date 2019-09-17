@@ -2,5 +2,5 @@
     (name test)
     (public_name runtest)
     (libraries
-        reglfw
+        resdl2
             ))

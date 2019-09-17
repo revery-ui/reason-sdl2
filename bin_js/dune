@@ -1,16 +1,16 @@
 (executable
-    (name test_glfw)
+    (name test_sdl2)
     (preprocess (pps lwt_ppx))
-    (public_name test_glfw_js)
+    (public_name test_sdl2_js)
     (js_of_ocaml)
     (libraries
         js_of_ocaml
         lwt
         bigarray
-        reglfw
-        EsyGlfwExamples
+        resdl2
+        EsySdl2Examples
             ))
 
 (install
     (section bin)
-    (files gl-matrix-min.js index.html test_glfw.bc.js))
+    (files gl-matrix-min.js index.html test_sdl2.bc.js))
