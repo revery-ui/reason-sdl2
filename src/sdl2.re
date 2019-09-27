@@ -103,6 +103,7 @@ module Gl = {
   external swapWindow: Window.t => unit = "resdl_SDL_GL_SwapWindow";
   external getDrawableSize: Window.t => Size.t =
     "resdl_SDL_GL_GetDrawableSize";
+  external setSwapInterval: int => unit = "resdl_SDL_GL_SetSwapInterval";
   include OldGl;
 };
 

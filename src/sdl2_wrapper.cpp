@@ -201,13 +201,17 @@ CAMLprim value resdl_SDL_GetWindowDisplayIndex(value w) {
   CAMLreturn(Val_int(idx));
 };
 
+CAMLprim value resdl_SDL_GL_SetSwapInterval(value vInterval) {
+  int interval = Int_val(vInterval);
+  SDL_GL_SetSwapInterval(interval);
+  return Val_unit;
+};
+
 CAMLprim value resdl_SDL_GL_Setup(value w) {
   SDL_Window *win = (SDL_Window *)w;
   SDL_GLContext ctx= SDL_GL_CreateContext(win);
   SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2);
   SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 0);
-
-  SDL_GL_SetSwapInterval(0);
 
   /* Turn on double buffering with a 24bit Z buffer.
    * You may need to change this to 16 or 32 for your system */
