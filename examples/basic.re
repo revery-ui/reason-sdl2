@@ -68,6 +68,8 @@ let run = () => {
   Sdl2.Window.setSize(primaryWindow, 800, 600);
   Sdl2.Window.center(primaryWindow);
 
+  Sdl2.Window.show(primaryWindow);
+
   // Start text input, to experiment with IME + events
   Sdl2.TextInput.setInputRect(25, 50, 100, 25);
   Sdl2.TextInput.start();

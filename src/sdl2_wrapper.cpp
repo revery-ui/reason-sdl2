@@ -751,8 +751,8 @@ CAMLprim value resdl_SDL_CreateWindow(value vWidth, value vHeight,
   SDL_Window *win =
       (SDL_CreateWindow(String_val(vName), SDL_WINDOWPOS_CENTERED,
                         SDL_WINDOWPOS_CENTERED, width, height,
-                        SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN |
-                            SDL_WINDOW_ALLOW_HIGHDPI | SDL_WINDOW_RESIZABLE));
+                        SDL_WINDOW_OPENGL |
+                        SDL_WINDOW_ALLOW_HIGHDPI | SDL_WINDOW_RESIZABLE));
 
   value vWindow = (value)win;
   CAMLreturn(vWindow);
