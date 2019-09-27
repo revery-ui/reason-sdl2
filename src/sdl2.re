@@ -454,6 +454,15 @@ module Cursor = {
   external set: t => unit = "resdl_SDL_SetCursor";
 };
 
+module MessageBox = {
+  type flags = 
+  | Error
+  | Warning
+  | Information;
+
+  external showSimple: (flags, string, string, option(Window.t)) => unit = "resdl_SDL_ShowSimpleMessageBox";
+};
+
 type renderFunction = unit => bool;
 external _javaScriptRenderLoop: renderFunction => unit =
   "resdl__javascript__renderloop";

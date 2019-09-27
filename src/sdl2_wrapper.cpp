@@ -969,6 +969,36 @@ CAMLprim value resdl_SDL_ModAltGrDown(value vMod) {
   return Val_bool((Int_val(vMod) & KMOD_MODE) == KMOD_MODE);
 };
 
+CAMLprim value resdl_SDL_ShowSimpleMessageBox(value vFlags, value vTitle, value vMessage, value vWindow) {
+  CAMLparam4(vFlags, vTitle, vMessage, vWindow);
+  int flags = SDL_MESSAGEBOX_INFORMATION;
+
+  switch (Int_val(vFlags)) {
+  case 0:
+    flags = SDL_MESSAGEBOX_ERROR;
+    break;
+  case 1:
+    flags = SDL_MESSAGEBOX_WARNING;
+    break;
+  default:
+    flags = SDL_MESSAGEBOX_INFORMATION;
+    break;
+  }
+
+  const char* title = String_val(vTitle);
+  const char* msg = String_val(vMessage);
+
+  SDL_Window *win = NULL;
+
+  if (Is_block(vWindow)) {
+    win = (SDL_Window *)Field(vWindow, 0);
+  }
+
+  SDL_ShowSimpleMessageBox(flags, title, msg, win);
+
+  CAMLreturn(Val_unit);
+}
+
 CAMLprim value resdl_PassThrough(value v) { return v; };
 
 CAMLprim value resdl__javascript__renderloop() { return Val_unit; }
