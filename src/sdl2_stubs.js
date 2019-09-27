@@ -216,6 +216,11 @@ function resdl_SDL_GetWindowSize(w) {
     return [0, width, height];
 }
 
+// Provides: resdl_SDL_GetWindowId
+function resdl_SDL_GetWindowId(w) {
+    return 0;
+}
+
 // Provides: resdl_SDL_GL_GetDrawableSize
 function resdl_SDL_GL_GetDrawableSize(w) {
     var pixelRatio = joo_global_object.window.devicePixelRatio;
