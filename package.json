@@ -1,6 +1,6 @@
 {
   "name": "reason-sdl2",
-  "version": "2.10.2001",
+  "version": "2.10.3001",
   "description": "SDL2 bindings for OCaml",
   "license": "MIT",
   "scripts": {
@@ -35,7 +35,7 @@
     "@opam/js_of_ocaml-lwt": "^3.3.0",
     "@opam/lwt": "^4.0.0",
     "@opam/lwt_ppx": "^1.1.0",
-    "esy-sdl2": "^2.0.10002",
+    "esy-sdl2": "^2.0.10003",
     "esy-cmake": "^0.3.4",
     "reason-gl-matrix": "^0.9.9304"
   },
