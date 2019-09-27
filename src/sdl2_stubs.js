@@ -102,15 +102,20 @@ function caml_glfwGetCursorPos(w) {
     return caml_js_to_array([joo_global_object._mouseState.x, joo_global_object._mouseState.y]);
 }
 
-// Provides: caml_glfwCreateStandardCursor
-function caml_glfwCreateStandardCursor(shape) {
+// Provides: resdl_SDL_CreateSystemCursor
+function resdl_SDL_CreateSystemCursor(shape) {
   switch (shape) {
   case 0: return "default";
   case 1: return "text";
-  case 2: return "crosshair";
-  case 3: return "pointer";
-  case 4: return "ew-resize";
-  case 5: return "ns-resize";
+  case 3: return "crosshair";
+  case 4: return "wait";
+  case 5: return "nwse-resize";
+  case 6: return "nesw-resize";
+  case 7: return "we-resize";
+  case 8: return "ns-resize";
+  case 9: return "resize";
+  case 10: return "not-allowed";
+  case 11: return "pointer";
   default:
     joo_global_object.console.warn("Unsupported cursor shape.");
     return "default";
@@ -162,9 +167,9 @@ function caml_glfwDestroyCursor(cursor) {
   // no op
 }
 
-// Provides: caml_glfwSetCursor
-function caml_glfwSetCursor(window, cursor) {
-  window.canvas.style.cursor = cursor;
+// Provides: resdl_SDL_SetCursor
+function resdl_SDL_SetCursor(cursor) {
+  joo_global_object._activeWindow.canvas.style.cursor = cursor;
 }
 
 // Provides: caml_glfwGetTime_byte
@@ -250,6 +255,11 @@ function resdl__javascript__renderloop(loopFunc) {
     }
 
     joo_global_object.window.requestAnimationFrame(renderLoop);
+}
+
+//Provides: resdl_SDL_ShowWindow
+function resdl_SDL_ShowWindow(w) {
+    // no-op
 }
 
 //Provides: resdl_SDL_CreateWindow

@@ -82,17 +82,16 @@ let run = () => {
   /*   glfwSetWindowSize(secondaryWindow, 800, 600); */
   /*   glfwSetWindowTitle(secondaryWindow, "second window"); */
 
-  /*let cursors = [|
-      glfwCreateStandardCursor(GLFW_ARROW_CURSOR),
-      glfwCreateStandardCursor(GLFW_IBEAM_CURSOR),
-      glfwCreateStandardCursor(GLFW_CROSSHAIR_CURSOR),
-      glfwCreateStandardCursor(GLFW_HAND_CURSOR),
-      glfwCreateStandardCursor(GLFW_HRESIZE_CURSOR),
-      glfwCreateStandardCursor(GLFW_VRESIZE_CURSOR),
-    |];
-    Random.self_init();
-    let cursor = Random.int(Array.length(cursors));
-    glfwSetCursor(primaryWindow, cursors[cursor]);*/
+  let cursors = [|
+    Sdl2.Cursor.createSystem(Arrow),
+    Sdl2.Cursor.createSystem(IBeam),
+    Sdl2.Cursor.createSystem(Wait),
+    Sdl2.Cursor.createSystem(No),
+    Sdl2.Cursor.createSystem(Hand),
+  |];
+  Random.self_init();
+  let cursor = Random.int(Array.length(cursors));
+  Sdl2.Cursor.set(cursors[cursor]);
 
   let iconSurface =
     Sdl2.Surface.createFromImagePath(

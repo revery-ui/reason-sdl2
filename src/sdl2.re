@@ -451,7 +451,7 @@ module Cursor = {
   type t;
 
   external createSystem: systemCursor => t = "resdl_SDL_CreateSystemCursor";
-  external setCursor: t => unit = "resdl_SDL_SetCursor";
+  external set: t => unit = "resdl_SDL_SetCursor";
 };
 
 type renderFunction = unit => bool;
