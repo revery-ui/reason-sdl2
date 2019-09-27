@@ -51,7 +51,7 @@ CAMLprim value resdl_SDL_SetMainReady() {
   return Val_unit;
 }
 CAMLprim value resdl_SDL_DestroyWindow(value vWin) {
-  SDL_Window* win = (SDL_Window*)vWin;
+  SDL_Window *win = (SDL_Window *)vWin;
   SDL_DestroyWindow(win);
   return Val_unit;
 }
@@ -87,36 +87,36 @@ CAMLprim value resdl_SDL_SetWin32ProcessDPIAware(value vWin) {
 #ifdef WIN32
   SDL_Window *win = (SDL_Window *)vWin;
   HWND hwnd = getHWNDFromSDLWindow(win);
-  void* userDLL;
-  BOOL(WINAPI *SetProcessDPIAware)(void); // Vista and later
-  void* shcoreDLL;
-  HRESULT(WINAPI *SetProcessDpiAwareness)(PROCESS_DPI_AWARENESS dpiAwareness);
+  void *userDLL;
+  BOOL(WINAPI * SetProcessDPIAware)(void); // Vista and later
+  void *shcoreDLL;
+  HRESULT(WINAPI * SetProcessDpiAwareness)(PROCESS_DPI_AWARENESS dpiAwareness);
   // Windows 8.1 and later INT(WINAPI *GetScaleFactorForDevice)(int deviceType);
 
   userDLL = SDL_LoadObject("USER32.DLL");
   if (userDLL) {
-      SetProcessDPIAware = (BOOL(WINAPI *)(void)) SDL_LoadFunction(userDLL,
-  "SetProcessDPIAware");
+    SetProcessDPIAware =
+        (BOOL(WINAPI *)(void))SDL_LoadFunction(userDLL, "SetProcessDPIAware");
   }
 
   shcoreDLL = SDL_LoadObject("SHCORE.DLL");
   if (shcoreDLL) {
-      SetProcessDpiAwareness = (HRESULT(WINAPI *)(PROCESS_DPI_AWARENESS))
-  SDL_LoadFunction(shcoreDLL, "SetProcessDpiAwareness");
+    SetProcessDpiAwareness =
+        (HRESULT(WINAPI *)(PROCESS_DPI_AWARENESS))SDL_LoadFunction(
+            shcoreDLL, "SetProcessDpiAwareness");
   }
 
   if (SetProcessDpiAwareness) {
-      // Try Windows 8.1+ version
-      HRESULT result = SetProcessDpiAwareness(PROCESS_PER_MONITOR_DPI_AWARE);
-  }
-  else if (SetProcessDPIAware) {
-      // Try Vista - Windows 8 version.
-      // This has a constant scale factor for all monitors.
-      BOOL success = SetProcessDPIAware();
-      SDL_Log("called SetProcessDPIAware: %d", (int)success);
+    // Try Windows 8.1+ version
+    HRESULT result = SetProcessDpiAwareness(PROCESS_PER_MONITOR_DPI_AWARE);
+  } else if (SetProcessDPIAware) {
+    // Try Vista - Windows 8 version.
+    // This has a constant scale factor for all monitors.
+    BOOL success = SetProcessDPIAware();
+    SDL_Log("called SetProcessDPIAware: %d", (int)success);
   }
 #endif
-  
+
   CAMLreturn(Val_unit);
 };
 
@@ -127,13 +127,15 @@ CAMLprim value resdl_SDL_GetWin32ScaleFactor(value vWin) {
   SDL_Window *win = (SDL_Window *)vWin;
   HWND hwnd = getHWNDFromSDLWindow(win);
   HMONITOR hmon = MonitorFromWindow(hwnd, MONITOR_DEFAULTTOPRIMARY);
-  
-  void* shcoreDLL;
-  HRESULT(WINAPI *GetScaleFactorForMonitor)(HMONITOR hmon, int *pScale);
+
+  void *shcoreDLL;
+  HRESULT(WINAPI * GetScaleFactorForMonitor)(HMONITOR hmon, int *pScale);
 
   shcoreDLL = SDL_LoadObject("SHCORE.DLL");
   if (shcoreDLL) {
-    GetScaleFactorForMonitor = (HRESULT(WINAPI *)(HMONITOR, int*)) SDL_LoadFunction(shcoreDLL, "GetScaleFactorForMonitor");
+    GetScaleFactorForMonitor =
+        (HRESULT(WINAPI *)(HMONITOR, int *))SDL_LoadFunction(
+            shcoreDLL, "GetScaleFactorForMonitor");
   }
 
   if (GetScaleFactorForMonitor) {
@@ -151,7 +153,7 @@ CAMLprim value resdl_SDL_GetDisplayDPI(value vDisplay) {
   CAMLparam1(vDisplay);
   CAMLlocal1(ret);
   int displayIndex = Int_val(vDisplay);
-  
+
   float ddpi, hdpi, vdpi;
   SDL_GetDisplayDPI(displayIndex, &ddpi, &hdpi, &vdpi);
 
@@ -159,7 +161,7 @@ CAMLprim value resdl_SDL_GetDisplayDPI(value vDisplay) {
   Store_double_field(ret, 0, ddpi);
   Store_double_field(ret, 1, hdpi);
   Store_double_field(ret, 2, vdpi);
-  CAMLreturn(ret); 
+  CAMLreturn(ret);
 };
 
 CAMLprim value resdl_SDL_GetCurrentDisplayMode(value vDisplay) {
@@ -168,7 +170,7 @@ CAMLprim value resdl_SDL_GetCurrentDisplayMode(value vDisplay) {
 
   int displayIndex = Int_val(vDisplay);
   SDL_DisplayMode current;
-  
+
   SDL_GetCurrentDisplayMode(displayIndex, &current);
 
   ret = caml_alloc(3, 0);
@@ -184,7 +186,7 @@ CAMLprim value resdl_SDL_GetDesktopDisplayMode(value vDisplay) {
 
   int displayIndex = Int_val(vDisplay);
   SDL_DisplayMode current;
-  
+
   SDL_GetDesktopDisplayMode(displayIndex, &current);
 
   ret = caml_alloc(3, 0);
@@ -209,7 +211,7 @@ CAMLprim value resdl_SDL_GL_SetSwapInterval(value vInterval) {
 
 CAMLprim value resdl_SDL_GL_Setup(value w) {
   SDL_Window *win = (SDL_Window *)w;
-  SDL_GLContext ctx= SDL_GL_CreateContext(win);
+  SDL_GLContext ctx = SDL_GL_CreateContext(win);
   SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2);
   SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 0);
 
@@ -238,7 +240,7 @@ CAMLprim value resdl_SDL_GetClipboardText(value vUnit) {
   CAMLparam0();
   CAMLlocal1(ret);
 
-  char* clip = SDL_GetClipboardText();
+  char *clip = SDL_GetClipboardText();
   if (clip == NULL) {
     ret = Val_none;
   } else {
@@ -273,7 +275,8 @@ CAMLprim value Val_SDL_WindowEvent(int type, int windowID) {
   CAMLreturn(ret);
 }
 
-CAMLprim value Val_SDL_WindowEventWithData(int type, int windowID, int data1, int data2) {
+CAMLprim value Val_SDL_WindowEventWithData(int type, int windowID, int data1,
+                                           int data2) {
   CAMLparam0();
   CAMLlocal2(ret, v);
 
@@ -294,160 +297,163 @@ CAMLprim value Val_SDL_Event(SDL_Event *event) {
 
   int tag, mouseButton;
 
-    switch (event->type) {
-    case SDL_QUIT:
-      v = Val_int(0);
-      break;
-    case SDL_MOUSEMOTION:
-      vInner = caml_alloc(3, 0);
-      Store_field(vInner, 0, Val_int(event->motion.windowID));
-      Store_field(vInner, 1, Val_int(event->motion.x));
-      Store_field(vInner, 2, Val_int(event->motion.y));
+  switch (event->type) {
+  case SDL_QUIT:
+    v = Val_int(0);
+    break;
+  case SDL_MOUSEMOTION:
+    vInner = caml_alloc(3, 0);
+    Store_field(vInner, 0, Val_int(event->motion.windowID));
+    Store_field(vInner, 1, Val_int(event->motion.x));
+    Store_field(vInner, 2, Val_int(event->motion.y));
 
-      v = caml_alloc(1, 0);
-      Store_field(v, 0, vInner);
-      break;
-    case SDL_MOUSEWHEEL:
-      v = caml_alloc(1, 1);
+    v = caml_alloc(1, 0);
+    Store_field(v, 0, vInner);
+    break;
+  case SDL_MOUSEWHEEL:
+    v = caml_alloc(1, 1);
 
-      vInner = caml_alloc(4, 0);
-      Store_field(vInner, 0, Val_int(event->wheel.windowID));
-      Store_field(vInner, 1, Val_int(event->wheel.x));
-      Store_field(vInner, 2, Val_int(event->wheel.y));
-      Store_field(vInner, 3,
-                  Val_bool(event->wheel.direction == SDL_MOUSEWHEEL_FLIPPED));
+    vInner = caml_alloc(4, 0);
+    Store_field(vInner, 0, Val_int(event->wheel.windowID));
+    Store_field(vInner, 1, Val_int(event->wheel.x));
+    Store_field(vInner, 2, Val_int(event->wheel.y));
+    Store_field(vInner, 3,
+                Val_bool(event->wheel.direction == SDL_MOUSEWHEEL_FLIPPED));
 
-      Store_field(v, 0, vInner);
-      break;
-    case SDL_MOUSEBUTTONUP:
-    case SDL_MOUSEBUTTONDOWN:
-      if (event->type == SDL_MOUSEBUTTONDOWN)
-        v = caml_alloc(1, 2);
-      else
-        v = caml_alloc(1, 3);
+    Store_field(v, 0, vInner);
+    break;
+  case SDL_MOUSEBUTTONUP:
+  case SDL_MOUSEBUTTONDOWN:
+    if (event->type == SDL_MOUSEBUTTONDOWN)
+      v = caml_alloc(1, 2);
+    else
+      v = caml_alloc(1, 3);
 
+    mouseButton = 0;
+    switch (event->button.button) {
+    case SDL_BUTTON_LEFT:
       mouseButton = 0;
-      switch (event->button.button) {
-      case SDL_BUTTON_LEFT:
-        mouseButton = 0;
-        break;
-      case SDL_BUTTON_MIDDLE:
-        mouseButton = 1;
-        break;
-      case SDL_BUTTON_RIGHT:
-        mouseButton = 2;
-        break;
-      case SDL_BUTTON_X1:
-        mouseButton = 3;
-        break;
-      case SDL_BUTTON_X2:
-        mouseButton = 4;
-        break;
-      default:
-        mouseButton = 0;
-        break;
-      }
-
-      vInner = caml_alloc(5, 0);
-      Store_field(vInner, 0, Val_int(event->button.windowID));
-      Store_field(vInner, 1, Val_int(mouseButton));
-      Store_field(vInner, 2, Val_int(event->button.clicks));
-      Store_field(vInner, 3, Val_int(event->button.x));
-      Store_field(vInner, 4, Val_int(event->button.y));
-
-      Store_field(v, 0, vInner);
       break;
-    case SDL_KEYDOWN:
-    case SDL_KEYUP:
-      v = caml_alloc(1, event->type == SDL_KEYDOWN ? 4 : 5);
-
-      vInner = caml_alloc(5, 0);
-      Store_field(vInner, 0, Val_int(event->key.windowID));
-      Store_field(vInner, 1, Val_bool(event->key.repeat));
-      Store_field(vInner, 2, Val_int(event->key.keysym.mod));
-      Store_field(vInner, 3, Val_int(event->key.keysym.scancode));
-      Store_field(vInner, 4, Val_int(event->key.keysym.sym));
-
-      Store_field(v, 0, vInner);
+    case SDL_BUTTON_MIDDLE:
+      mouseButton = 1;
       break;
-    case SDL_TEXTINPUT:
-      v = caml_alloc(1, 6);
-
-      vInner = caml_alloc(2, 0);
-      Store_field(vInner, 0, Val_int(event->text.windowID));
-      Store_field(vInner, 1, caml_copy_string(event->text.text));
-      
-      Store_field(v, 0, vInner);
+    case SDL_BUTTON_RIGHT:
+      mouseButton = 2;
       break;
-    case SDL_TEXTEDITING:
-      v = caml_alloc(1, 7);
+    case SDL_BUTTON_X1:
+      mouseButton = 3;
+      break;
+    case SDL_BUTTON_X2:
+      mouseButton = 4;
+      break;
+    default:
+      mouseButton = 0;
+      break;
+    }
 
-      vInner = caml_alloc(4, 0);
-      Store_field(vInner, 0, Val_int(event->edit.windowID));
-      Store_field(vInner, 1, caml_copy_string(event->edit.text));
-      Store_field(vInner, 2, Val_int(event->edit.start));
-      Store_field(vInner, 3, Val_int(event->edit.length));
-      
-      Store_field(v, 0, vInner);
+    vInner = caml_alloc(5, 0);
+    Store_field(vInner, 0, Val_int(event->button.windowID));
+    Store_field(vInner, 1, Val_int(mouseButton));
+    Store_field(vInner, 2, Val_int(event->button.clicks));
+    Store_field(vInner, 3, Val_int(event->button.x));
+    Store_field(vInner, 4, Val_int(event->button.y));
+
+    Store_field(v, 0, vInner);
     break;
-    case SDL_WINDOWEVENT:
-      switch (event->window.event) {
-      case SDL_WINDOWEVENT_SHOWN:
-        v = Val_SDL_WindowEvent(8, event->window.windowID);
-        break;
-      case SDL_WINDOWEVENT_HIDDEN:
-        v = Val_SDL_WindowEvent(9, event->window.windowID);
-        break;
-      case SDL_WINDOWEVENT_EXPOSED:
-        v = Val_SDL_WindowEvent(10, event->window.windowID);
-        break;
-      case SDL_WINDOWEVENT_MOVED:
-        v = Val_SDL_WindowEventWithData(11, event->window.windowID, event->window.data1, event->window.data2);
-        break;
-      case SDL_WINDOWEVENT_RESIZED:
-        v = Val_SDL_WindowEventWithData(12, event->window.windowID, event->window.data1, event->window.data2);
-        break;
-      case SDL_WINDOWEVENT_SIZE_CHANGED:
-        v = Val_SDL_WindowEventWithData(13, event->window.windowID, event->window.data1, event->window.data2);
-        break;
-      case SDL_WINDOWEVENT_MINIMIZED:
-        v = Val_SDL_WindowEvent(14, event->window.windowID);
-        break;
-      case SDL_WINDOWEVENT_MAXIMIZED:
-        v = Val_SDL_WindowEvent(15, event->window.windowID);
-        break;
-      case SDL_WINDOWEVENT_RESTORED:
-        v = Val_SDL_WindowEvent(16, event->window.windowID);
-        break;
-      case SDL_WINDOWEVENT_ENTER:
-        v = Val_SDL_WindowEvent(17, event->window.windowID);
-        break;
-      case SDL_WINDOWEVENT_LEAVE:
-        v = Val_SDL_WindowEvent(18, event->window.windowID);
-        break;
-      case SDL_WINDOWEVENT_FOCUS_GAINED:
-        v = Val_SDL_WindowEvent(19, event->window.windowID);
-        break;
-      case SDL_WINDOWEVENT_FOCUS_LOST:
-        v = Val_SDL_WindowEvent(20, event->window.windowID);
-        break;
-      case SDL_WINDOWEVENT_CLOSE:
-        v = Val_SDL_WindowEvent(21, event->window.windowID);
-        break;
-      case SDL_WINDOWEVENT_TAKE_FOCUS:
-        v = Val_SDL_WindowEvent(22, event->window.windowID);
-        break;
-      case SDL_WINDOWEVENT_HIT_TEST:
-        v = Val_SDL_WindowEvent(23, event->window.windowID);
-        break;
-      default:
-        v = Val_int(1);
-      };
-    
+  case SDL_KEYDOWN:
+  case SDL_KEYUP:
+    v = caml_alloc(1, event->type == SDL_KEYDOWN ? 4 : 5);
+
+    vInner = caml_alloc(5, 0);
+    Store_field(vInner, 0, Val_int(event->key.windowID));
+    Store_field(vInner, 1, Val_bool(event->key.repeat));
+    Store_field(vInner, 2, Val_int(event->key.keysym.mod));
+    Store_field(vInner, 3, Val_int(event->key.keysym.scancode));
+    Store_field(vInner, 4, Val_int(event->key.keysym.sym));
+
+    Store_field(v, 0, vInner);
     break;
+  case SDL_TEXTINPUT:
+    v = caml_alloc(1, 6);
+
+    vInner = caml_alloc(2, 0);
+    Store_field(vInner, 0, Val_int(event->text.windowID));
+    Store_field(vInner, 1, caml_copy_string(event->text.text));
+
+    Store_field(v, 0, vInner);
+    break;
+  case SDL_TEXTEDITING:
+    v = caml_alloc(1, 7);
+
+    vInner = caml_alloc(4, 0);
+    Store_field(vInner, 0, Val_int(event->edit.windowID));
+    Store_field(vInner, 1, caml_copy_string(event->edit.text));
+    Store_field(vInner, 2, Val_int(event->edit.start));
+    Store_field(vInner, 3, Val_int(event->edit.length));
+
+    Store_field(v, 0, vInner);
+    break;
+  case SDL_WINDOWEVENT:
+    switch (event->window.event) {
+    case SDL_WINDOWEVENT_SHOWN:
+      v = Val_SDL_WindowEvent(8, event->window.windowID);
+      break;
+    case SDL_WINDOWEVENT_HIDDEN:
+      v = Val_SDL_WindowEvent(9, event->window.windowID);
+      break;
+    case SDL_WINDOWEVENT_EXPOSED:
+      v = Val_SDL_WindowEvent(10, event->window.windowID);
+      break;
+    case SDL_WINDOWEVENT_MOVED:
+      v = Val_SDL_WindowEventWithData(11, event->window.windowID,
+                                      event->window.data1, event->window.data2);
+      break;
+    case SDL_WINDOWEVENT_RESIZED:
+      v = Val_SDL_WindowEventWithData(12, event->window.windowID,
+                                      event->window.data1, event->window.data2);
+      break;
+    case SDL_WINDOWEVENT_SIZE_CHANGED:
+      v = Val_SDL_WindowEventWithData(13, event->window.windowID,
+                                      event->window.data1, event->window.data2);
+      break;
+    case SDL_WINDOWEVENT_MINIMIZED:
+      v = Val_SDL_WindowEvent(14, event->window.windowID);
+      break;
+    case SDL_WINDOWEVENT_MAXIMIZED:
+      v = Val_SDL_WindowEvent(15, event->window.windowID);
+      break;
+    case SDL_WINDOWEVENT_RESTORED:
+      v = Val_SDL_WindowEvent(16, event->window.windowID);
+      break;
+    case SDL_WINDOWEVENT_ENTER:
+      v = Val_SDL_WindowEvent(17, event->window.windowID);
+      break;
+    case SDL_WINDOWEVENT_LEAVE:
+      v = Val_SDL_WindowEvent(18, event->window.windowID);
+      break;
+    case SDL_WINDOWEVENT_FOCUS_GAINED:
+      v = Val_SDL_WindowEvent(19, event->window.windowID);
+      break;
+    case SDL_WINDOWEVENT_FOCUS_LOST:
+      v = Val_SDL_WindowEvent(20, event->window.windowID);
+      break;
+    case SDL_WINDOWEVENT_CLOSE:
+      v = Val_SDL_WindowEvent(21, event->window.windowID);
+      break;
+    case SDL_WINDOWEVENT_TAKE_FOCUS:
+      v = Val_SDL_WindowEvent(22, event->window.windowID);
+      break;
+    case SDL_WINDOWEVENT_HIT_TEST:
+      v = Val_SDL_WindowEvent(23, event->window.windowID);
+      break;
     default:
       v = Val_int(1);
-    }
+    };
+
+    break;
+  default:
+    v = Val_int(1);
+  }
 
   CAMLreturn(v);
 };
@@ -467,7 +473,7 @@ CAMLprim value resdl_SDL_PollEvent() {
     evt = Val_SDL_Event(&e);
     ret = Val_some(evt);
   }
-  
+
   CAMLreturn(ret);
 }
 
@@ -486,7 +492,7 @@ CAMLprim value resdl_SDL_WaitEvent() {
   } else {
     ret = Val_error(caml_copy_string(SDL_GetError()));
   }
-  
+
   CAMLreturn(ret);
 }
 
@@ -499,14 +505,14 @@ CAMLprim value resdl_SDL_WaitTimeoutEvent(value vTimeout) {
   caml_release_runtime_system();
   int result = SDL_WaitEventTimeout(&e, timeout);
   caml_acquire_runtime_system();
-  
+
   if (result == 1) {
     evt = Val_SDL_Event(&e);
     ret = Val_some(evt);
   } else {
     ret = Val_none;
   }
-  
+
   CAMLreturn(ret);
 }
 
@@ -603,7 +609,8 @@ CAMLprim value resdl_SDL_StopTextInput() {
   return Val_unit;
 }
 
-CAMLprim value resdl_SDL_SetTextInputRect(value vX, value vY, value vWidth, value vHeight) {
+CAMLprim value resdl_SDL_SetTextInputRect(value vX, value vY, value vWidth,
+                                          value vHeight) {
   int x = Int_val(vX);
   int y = Int_val(vY);
   int width = Int_val(vWidth);
@@ -708,7 +715,7 @@ CAMLprim value resdl_SDL_SetWindowTitle(value vWin, value vTitle) {
   CAMLparam2(vWin, vTitle);
 
   SDL_Window *win = (SDL_Window *)vWin;
-  const char *title = (const char*)String_val(vTitle);
+  const char *title = (const char *)String_val(vTitle);
   SDL_SetWindowTitle(win, title);
 
   CAMLreturn(Val_unit);
@@ -745,7 +752,7 @@ CAMLprim value resdl_SDL_CreateWindow(value vWidth, value vHeight,
       (SDL_CreateWindow(String_val(vName), SDL_WINDOWPOS_CENTERED,
                         SDL_WINDOWPOS_CENTERED, width, height,
                         SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN |
-                        SDL_WINDOW_ALLOW_HIGHDPI | SDL_WINDOW_RESIZABLE));
+                            SDL_WINDOW_ALLOW_HIGHDPI | SDL_WINDOW_RESIZABLE));
 
   value vWindow = (value)win;
   CAMLreturn(vWindow);
@@ -837,7 +844,7 @@ CAMLprim value resdl_SDL_Init() {
   int ret = SDL_Init(SDL_INIT_VIDEO);
 
   /*printf("SDL_INIT");
-  
+  
   void* userDLL;
   BOOL(WINAPI *SetProcessDPIAware)(void); // Vista and later
   void* shcoreDLL;
@@ -857,9 +864,9 @@ CAMLprim value resdl_SDL_Init() {
       printf("Found SHCOREd.ll!\n");
       SetProcessDpiAwareness = (HRESULT(WINAPI *)(PROCESS_DPI_AWARENESS))
   SDL_LoadFunction(shcoreDLL, "SetProcessDpiAwareness");
-      
+      
       GetScaleFactorForDevice = (INT(WINAPI *)(INT)) SDL_LoadFunction(shcoreDLL,
-  "GetScaleFactorForDevice"); 
+  "GetScaleFactorForDevice");
   GetScaleFactorForMonitor = (HRESULT(WINAPI
   *)(HMONITOR, int*)) SDL_LoadFunction(shcoreDLL, "GetScaleFactorForMonitor");
   }
@@ -964,7 +971,5 @@ CAMLprim value resdl_SDL_ModAltGrDown(value vMod) {
 
 CAMLprim value resdl_PassThrough(value v) { return v; };
 
-CAMLprim value resdl__javascript__renderloop() {
-  return Val_unit;
-}
+CAMLprim value resdl__javascript__renderloop() { return Val_unit; }
 };

@@ -117,6 +117,46 @@ function caml_glfwCreateStandardCursor(shape) {
   }
 }
 
+// Provides: resdl_SDL_GL_SetSwapInterval
+function resdl_SDL_GL_SetSwapInterval() {
+  // no op
+}
+
+// Provides: resdl_SDL_GL_MakeCurrent
+function resdl_SDL_GL_MakeCurrent() {
+  // no op
+}
+
+// Provides: resdl_SDL_SetWin32ProcessDPIAware
+function resdl_SDL_SetWin32ProcessDPIAware() {
+  // no op
+}
+
+// Provides: resdl_SDL_GetWin32ScaleFactor
+function resdl_SDL_GetWin32ScaleFactor() {
+  return 1;
+}
+
+// Provides: resdl_SDL_GetWindowDisplayIndex
+function resdl_SDL_GetWindowDisplayIndex() {
+  return 0;
+}
+
+// Provides: resdl_SDL_GetDisplayDPI
+function resdl_SDL_GetDisplayDPI() {
+  return 96;
+}
+
+// Provides: resdl_SDL_GetDesktopDisplayMode
+function resdl_SDL_GetDesktopDisplayMode() {
+  return [0, 100, 200, 0];
+}
+
+// Provides: resdl_SDL_WindowCenter
+function resdl_SDL_WindowCenter() {
+  //no-op
+}
+
 // Provides: caml_glfwDestroyCursor
 function caml_glfwDestroyCursor(cursor) {
   // no op
@@ -450,6 +490,13 @@ function resdl_SDL_PollEvent() {
         return 0;
     }
     return 0;
+}
+
+// Provides: resdl_SDL_WaitTimeoutEvent
+// Requires: resdl_SDL_PollEvent
+function resdl_SDL_WaitTimeoutEvent() {
+    joo_global_object.console.warn("waitTimeout not supported in JSOO");
+    return resdl_SDL_PollEvent();
 }
 
 // Provides: resdl_SDL_GL_SwapWindow
