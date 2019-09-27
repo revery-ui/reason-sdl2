@@ -455,12 +455,13 @@ module Cursor = {
 };
 
 module MessageBox = {
-  type flags = 
-  | Error
-  | Warning
-  | Information;
+  type flags =
+    | Error
+    | Warning
+    | Information;
 
-  external showSimple: (flags, string, string, option(Window.t)) => unit = "resdl_SDL_ShowSimpleMessageBox";
+  external showSimple: (flags, string, string, option(Window.t)) => unit =
+    "resdl_SDL_ShowSimpleMessageBox";
 };
 
 type renderFunction = unit => bool;
