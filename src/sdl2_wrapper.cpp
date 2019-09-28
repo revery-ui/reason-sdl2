@@ -969,6 +969,10 @@ CAMLprim value resdl_SDL_ModAltGrDown(value vMod) {
   return Val_bool((Int_val(vMod) & KMOD_MODE) == KMOD_MODE);
 };
 
+CAMLprim value resdl_SDL_GetModState(value vUnit) {
+  return Val_int(SDL_GetModState());
+};
+
 CAMLprim value resdl_SDL_ShowSimpleMessageBox(value vFlags, value vTitle, value vMessage, value vWindow) {
   CAMLparam4(vFlags, vTitle, vMessage, vWindow);
   int flags = SDL_MESSAGEBOX_INFORMATION;

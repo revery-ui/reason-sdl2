@@ -240,6 +240,8 @@ module Keymod = {
       int_of_bool(isAltGrKeyDown(v)),
     );
   };
+
+  [@noalloc] external getState: unit => t = "resdl_SDL_GetModState";
 };
 
 module Event = {

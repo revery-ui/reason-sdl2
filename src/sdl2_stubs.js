@@ -511,6 +511,11 @@ function resdl_SDL_ShowSimpleMessageBox(flags, title, msg, win) {
     joo_global_object.alert(msg);
 }
 
+// Provides: resdl_SDL_GetModState
+function resdl_SDL_GetModState() {
+    return 0;
+}
+
 // Provides: resdl_SDL_WaitTimeoutEvent
 // Requires: resdl_SDL_PollEvent
 function resdl_SDL_WaitTimeoutEvent() {
