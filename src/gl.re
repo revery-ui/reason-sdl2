@@ -135,7 +135,12 @@ type textureParameter =
 type textureParameterValue =
   | GL_REPEAT
   | GL_LINEAR
-  | GL_CLAMP_TO_EDGE;
+  | GL_CLAMP_TO_EDGE
+  | GL_NEAREST
+  | GL_NEAREST_MIPMAP_NEAREST
+  | GL_LINEAR_MIPMAP_NEAREST
+  | GL_NEAREST_MIPMAP_LINEAR
+  | GL_LINEAR_MIPMAP_LINEAR;
 
 type format =
   | GL_ALPHA

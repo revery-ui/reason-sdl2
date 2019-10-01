@@ -126,6 +126,16 @@ GLenum variantToTextureParameterValue(value vVal) {
     return GL_LINEAR;
   case 2:
     return GL_CLAMP_TO_EDGE;
+  case 3:
+    return GL_NEAREST;
+  case 4:
+    return GL_NEAREST_MIPMAP_NEAREST;
+  case 5:
+    return GL_LINEAR_MIPMAP_NEAREST;
+  case 6:
+    return GL_NEAREST_MIPMAP_LINEAR;
+  case 7:
+    return GL_LINEAR_MIPMAP_LINEAR;
   default:
     warn("Unexpected texture parameter value!");
     return 0;
