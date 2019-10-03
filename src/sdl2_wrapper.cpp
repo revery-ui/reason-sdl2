@@ -212,16 +212,6 @@ CAMLprim value resdl_SDL_GL_SetSwapInterval(value vInterval) {
 CAMLprim value resdl_SDL_GL_Setup(value w) {
   SDL_Window *win = (SDL_Window *)w;
   SDL_GLContext ctx = SDL_GL_CreateContext(win);
-  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2);
-  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 0);
-
-  /* Turn on double buffering with a 24bit Z buffer.
-   * You may need to change this to 16 or 32 for your system */
-  SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
-  // SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
-
-  SDL_CreateRenderer(win, -1,
-                     SDL_RENDERER_ACCELERATED | SDL_RENDERER_TARGETTEXTURE);
 
   gladLoadGLES2Loader((GLADloadproc)SDL_GL_GetProcAddress);
   return (value)ctx;
@@ -747,6 +737,16 @@ CAMLprim value resdl_SDL_CreateWindow(value vWidth, value vHeight,
 
   int width = Int_val(vWidth);
   int height = Int_val(vHeight);
+
+  // According to the docs - `SDL_GL_SetAttribute` needs
+  // to be called prior to creating the window.
+  
+  /* Turn on double buffering with a 24bit Z buffer.
+   * You may need to change this to 16 or 32 for your system */
+  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2);
+  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 0);
+  SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+  // SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
 
   SDL_Window *win =
       (SDL_CreateWindow(String_val(vName), SDL_WINDOWPOS_CENTERED,
