@@ -62,6 +62,12 @@ module Display = {
 
 module Window = {
   type t;
+
+  type hitTestResult =
+  | Normal;
+
+  type hitTestCallback = (t, int, int) => hitTestResult;
+
   external create: (int, int, string) => t = "resdl_SDL_CreateWindow";
   external getId: t => int = "resdl_SDL_GetWindowId";
   external getSize: t => Size.t = "resdl_SDL_GetWindowSize";
@@ -72,6 +78,20 @@ module Window = {
   external setResizable: (t, bool) => unit = "resdl_SDL_SetWindowResizable";
   external setSize: (t, int, int) => unit = "resdl_SDL_SetWindowSize";
   external setTitle: (t, string) => unit = "resdl_SDL_SetWindowTitle";
+
+  external _enableHitTest: (t) => unit = "resdl_SDL_EnableHitTest";
+  external _disableHitTest: (t) => unit = "resdl_SDL_EnableHitTest";
+
+  let _idToHitTest: Hashtbl.t(int, hitTestCallback) = Hashtbl.create(16);
+
+  let setHitTest = (win: t, cb: option(hitTestCallback)) => {
+    switch (cb) {
+    | None => _disableHitTest(win);
+    | Some(v) => 
+      _enableHitTest(win);
+      Hashtbl.add(_idToHitTest, getId(win), v);
+    }
+  };
 
   external hide: t => unit = "resdl_SDL_HideWindow";
   external raise: t => unit = "resdl_SDL_RaiseWindow";

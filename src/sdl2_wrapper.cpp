@@ -49,8 +49,17 @@ SDL_HitTestResult resdl_hit_test(
   SDL_Window *win,
   const SDL_Point *area,
   void *data) {
-    printf("Checking hit test");
+    printf("Checking hit test: %d, %d\n", area->x, area->y);
+    if (area->y < 10) {
+    printf("- resize-top\n");
+    return SDL_HITTEST_RESIZE_LEFT;
+    } else if(area->y < 40) {
+    printf("- raggable\n");
     return SDL_HITTEST_DRAGGABLE;
+    } else {
+    printf("- normal\nb");
+    return SDL_HITTEST_NORMAL;
+    }
   };
 
 CAMLprim value resdl_SDL_EnableHitTest(value vWin) {
@@ -704,10 +713,6 @@ CAMLprim value resdl_SDL_GL_SwapWindow(value w) {
   SDL_Window *win = (SDL_Window *)w;
   SDL_GL_SwapWindow(win);
   return Val_unit;
-}
-
-SDL_HitTestResult hittest(SDL_Window *win, const SDL_Point *area, void *data) {
-  return SDL_HITTEST_DRAGGABLE;
 }
 
 CAMLprim value resdl_SDL_SetWindowSize(value vWin, value vW, value vH) {
