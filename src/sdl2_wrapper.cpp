@@ -27,7 +27,6 @@ static value Val_some(value v) {
   Store_field(some, 0, v);
   CAMLreturn(some);
 }
-
 static value Val_ok(value v) {
   CAMLparam1(v);
   CAMLlocal1(some);
@@ -45,6 +44,27 @@ static value Val_error(value v) {
 }
 
 extern "C" {
+
+SDL_HitTestResult resdl_hit_test(
+  SDL_Window *win,
+  const SDL_Point *area,
+  void *data) {
+    printf("Checking hit test");
+    return SDL_HITTEST_DRAGGABLE;
+  };
+
+CAMLprim value resdl_SDL_EnableHitTest(value vWin) {
+  SDL_Window *win = (SDL_Window *)vWin;
+  SDL_SetWindowHitTest(win, resdl_hit_test, NULL);
+  return Val_unit;
+}
+
+CAMLprim value resdl_SDL_DisableHitTest(value vWin) {
+  SDL_Window *win = (SDL_Window *)vWin;
+  SDL_SetWindowHitTest(win, NULL, NULL);
+  return Val_unit;
+}
+
 CAMLprim value resdl_SDL_SetMainReady() {
   SDL_SetMainReady();
 
