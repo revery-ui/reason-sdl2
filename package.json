@@ -4,7 +4,8 @@
   "description": "SDL2 bindings for OCaml",
   "license": "MIT",
   "scripts": {
-    "format": "esy dune build @fmt --auto-promote"
+    "format": "esy dune build @fmt --auto-promote",
+    "run": "esy x test_sdl2"
   },
   "esy": {
     "build": [

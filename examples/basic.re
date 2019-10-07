@@ -298,7 +298,7 @@ let run = () => {
 
   //let frame = ref(0);
   Sdl2.renderLoop(() => {
-    switch (Sdl2.Event.waitTimeout(1000)) {
+    switch (Sdl2.Event.poll()) {
     | None => ()
     | Some(evt) =>
       print_endline(Sdl2.Event.show(evt));
