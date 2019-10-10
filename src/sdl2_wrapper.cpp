@@ -842,57 +842,6 @@ CAMLprim value resdl_SDL_Init() {
   CAMLparam0();
   int ret = SDL_Init(SDL_INIT_VIDEO);
 
-  /*printf("SDL_INIT");
-  
-  void* userDLL;
-  BOOL(WINAPI *SetProcessDPIAware)(void); // Vista and later
-  void* shcoreDLL;
-  HRESULT(WINAPI *SetProcessDpiAwareness)(PROCESS_DPI_AWARENESS dpiAwareness);
-  // Windows 8.1 and later INT(WINAPI *GetScaleFactorForDevice)(int deviceType);
-  HRESULT(WINAPI *GetScaleFactorForMonitor)(HMONITOR hmon, int *pScale);
-
-  userDLL = SDL_LoadObject("USER32.DLL");
-  if (userDLL) {
-      printf("Found user DLL!\n");
-      SetProcessDPIAware = (BOOL(WINAPI *)(void)) SDL_LoadFunction(userDLL,
-  "SetProcessDPIAware");
-  }
-
-  shcoreDLL = SDL_LoadObject("SHCORE.DLL");
-  if (shcoreDLL) {
-      printf("Found SHCOREd.ll!\n");
-      SetProcessDpiAwareness = (HRESULT(WINAPI *)(PROCESS_DPI_AWARENESS))
-  SDL_LoadFunction(shcoreDLL, "SetProcessDpiAwareness");
-      
-      GetScaleFactorForDevice = (INT(WINAPI *)(INT)) SDL_LoadFunction(shcoreDLL,
-  "GetScaleFactorForDevice");
-  GetScaleFactorForMonitor = (HRESULT(WINAPI
-  *)(HMONITOR, int*)) SDL_LoadFunction(shcoreDLL, "GetScaleFactorForMonitor");
-  }
-
-  if (GetScaleFactorForDevice) {
-      printf("Found getScaleFactorForDevice!\n");
-
-      int result = GetScaleFactorForDevice(0);
-      printf("--RESULT: %d\n", result);
-  }
-
-  if (GetScaleFactorForMonitor) {
-      printf("Found getScaleFactorForMonitor!!!\n");
-  }
-
-  if (SetProcessDpiAwareness) {
-      // Try Windows 8.1+ version
-      HRESULT result = SetProcessDpiAwareness(PROCESS_PER_MONITOR_DPI_AWARE);
-      SDL_Log("called SetProcessDpiAwareness: %d", (result == S_OK) ? 1 : 0);
-  }
-  else if (SetProcessDPIAware) {
-      // Try Vista - Windows 8 version.
-      // This has a constant scale factor for all monitors.
-      BOOL success = SetProcessDPIAware();
-      SDL_Log("called SetProcessDPIAware: %d", (int)success);
-  }*/
-
   CAMLreturn(Val_int(ret));
 }
 
