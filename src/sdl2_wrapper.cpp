@@ -27,6 +27,7 @@ static value Val_some(value v) {
   Store_field(some, 0, v);
   CAMLreturn(some);
 }
+
 static value Val_ok(value v) {
   CAMLparam1(v);
   CAMLlocal1(some);
@@ -44,22 +45,66 @@ static value Val_error(value v) {
 }
 
 extern "C" {
+CAMLprim value resdl_SDL_SetMainReady() {
+  SDL_SetMainReady();
+
+  return Val_unit;
+}
+CAMLprim value resdl_SDL_DestroyWindow(value vWin) {
+  SDL_Window *win = (SDL_Window *)vWin;
+  SDL_DestroyWindow(win);
+  return Val_unit;
+}
 
 SDL_HitTestResult resdl_hit_test(
   SDL_Window *win,
   const SDL_Point *area,
   void *data) {
-    printf("Checking hit test: %d, %d\n", area->x, area->y);
-    if (area->y < 10) {
-    printf("- resize-top\n");
-    return SDL_HITTEST_RESIZE_LEFT;
-    } else if(area->y < 40) {
-    printf("- raggable\n");
-    return SDL_HITTEST_DRAGGABLE;
-    } else {
-    printf("- normal\nb");
-    return SDL_HITTEST_NORMAL;
+
+    static value *hitTestCallback = NULL;
+    if (hitTestCallback == NULL) {
+      hitTestCallback = caml_named_value("__sdl2_caml_hittest__");
     }
+    value vRet = caml_callback3(hitTestCallback, win, Val_int(area->x), Val_int(area->y));
+    SDL_HitTestResult result;
+    switch (Int_val(vRet)) {
+      case 0:
+        result = SDL_HITTEST_NORMAL;
+        break;
+      case 1:
+        result = SDL_HITTEST_DRAGGABLE;
+        break;
+      case 2:
+        result = SDL_HITTEST_RESIZE_TOPLEFT;
+        break;
+      case 3:
+        result = SDL_HITTEST_RESIZE_TOP;
+        break;
+      case 4:
+        result = SDL_HITTEST_RESIZE_TOPRIGHT;
+        break;
+      case 5:
+        result = SDL_HITTEST_RESIZE_RIGHT;
+        break;
+      case 6:
+        result = SDL_HITTEST_RESIZE_BOTTOMRIGHT;
+        break;
+      case 7:
+        result = SDL_HITTEST_RESIZE_BOTTOM;
+        break;
+      case 8:
+        result = SDL_HITTEST_RESIZE_BOTTOMLEFT;
+        break;
+      case 9:
+        result = SDL_HITTEST_RESIZE_LEFT;
+        break;
+       default:
+        result = SDL_HITTEST_NORMAL;
+        break;
+
+    }
+
+    return result;
   };
 
 CAMLprim value resdl_SDL_EnableHitTest(value vWin) {
@@ -71,17 +116,6 @@ CAMLprim value resdl_SDL_EnableHitTest(value vWin) {
 CAMLprim value resdl_SDL_DisableHitTest(value vWin) {
   SDL_Window *win = (SDL_Window *)vWin;
   SDL_SetWindowHitTest(win, NULL, NULL);
-  return Val_unit;
-}
-
-CAMLprim value resdl_SDL_SetMainReady() {
-  SDL_SetMainReady();
-
-  return Val_unit;
-}
-CAMLprim value resdl_SDL_DestroyWindow(value vWin) {
-  SDL_Window *win = (SDL_Window *)vWin;
-  SDL_DestroyWindow(win);
   return Val_unit;
 }
 
@@ -715,6 +749,10 @@ CAMLprim value resdl_SDL_GL_SwapWindow(value w) {
   return Val_unit;
 }
 
+SDL_HitTestResult hittest(SDL_Window *win, const SDL_Point *area, void *data) {
+  return SDL_HITTEST_DRAGGABLE;
+}
+
 CAMLprim value resdl_SDL_SetWindowSize(value vWin, value vW, value vH) {
   CAMLparam3(vWin, vW, vH);
 
@@ -765,7 +803,7 @@ CAMLprim value resdl_SDL_CreateWindow(value vWidth, value vHeight,
 
   // According to the docs - `SDL_GL_SetAttribute` needs
   // to be called prior to creating the window.
-  
+
   /* Turn on double buffering with a 24bit Z buffer.
    * You may need to change this to 16 or 32 for your system */
   SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2);
@@ -773,11 +811,10 @@ CAMLprim value resdl_SDL_CreateWindow(value vWidth, value vHeight,
   SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
   // SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
 
-  SDL_Window *win =
-      (SDL_CreateWindow(String_val(vName), SDL_WINDOWPOS_CENTERED,
-                        SDL_WINDOWPOS_CENTERED, width, height,
-                        SDL_WINDOW_OPENGL |
-                        SDL_WINDOW_ALLOW_HIGHDPI | SDL_WINDOW_RESIZABLE));
+  SDL_Window *win = (SDL_CreateWindow(
+      String_val(vName), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width,
+      height,
+      SDL_WINDOW_OPENGL | SDL_WINDOW_ALLOW_HIGHDPI | SDL_WINDOW_RESIZABLE));
 
   value vWindow = (value)win;
   CAMLreturn(vWindow);
@@ -868,57 +905,6 @@ CAMLprim value resdl_SDL_Init() {
   CAMLparam0();
   int ret = SDL_Init(SDL_INIT_VIDEO);
 
-  /*printf("SDL_INIT");
-  
-  void* userDLL;
-  BOOL(WINAPI *SetProcessDPIAware)(void); // Vista and later
-  void* shcoreDLL;
-  HRESULT(WINAPI *SetProcessDpiAwareness)(PROCESS_DPI_AWARENESS dpiAwareness);
-  // Windows 8.1 and later INT(WINAPI *GetScaleFactorForDevice)(int deviceType);
-  HRESULT(WINAPI *GetScaleFactorForMonitor)(HMONITOR hmon, int *pScale);
-
-  userDLL = SDL_LoadObject("USER32.DLL");
-  if (userDLL) {
-      printf("Found user DLL!\n");
-      SetProcessDPIAware = (BOOL(WINAPI *)(void)) SDL_LoadFunction(userDLL,
-  "SetProcessDPIAware");
-  }
-
-  shcoreDLL = SDL_LoadObject("SHCORE.DLL");
-  if (shcoreDLL) {
-      printf("Found SHCOREd.ll!\n");
-      SetProcessDpiAwareness = (HRESULT(WINAPI *)(PROCESS_DPI_AWARENESS))
-  SDL_LoadFunction(shcoreDLL, "SetProcessDpiAwareness");
-      
-      GetScaleFactorForDevice = (INT(WINAPI *)(INT)) SDL_LoadFunction(shcoreDLL,
-  "GetScaleFactorForDevice");
-  GetScaleFactorForMonitor = (HRESULT(WINAPI
-  *)(HMONITOR, int*)) SDL_LoadFunction(shcoreDLL, "GetScaleFactorForMonitor");
-  }
-
-  if (GetScaleFactorForDevice) {
-      printf("Found getScaleFactorForDevice!\n");
-
-      int result = GetScaleFactorForDevice(0);
-      printf("--RESULT: %d\n", result);
-  }
-
-  if (GetScaleFactorForMonitor) {
-      printf("Found getScaleFactorForMonitor!!!\n");
-  }
-
-  if (SetProcessDpiAwareness) {
-      // Try Windows 8.1+ version
-      HRESULT result = SetProcessDpiAwareness(PROCESS_PER_MONITOR_DPI_AWARE);
-      SDL_Log("called SetProcessDpiAwareness: %d", (result == S_OK) ? 1 : 0);
-  }
-  else if (SetProcessDPIAware) {
-      // Try Vista - Windows 8 version.
-      // This has a constant scale factor for all monitors.
-      BOOL success = SetProcessDPIAware();
-      SDL_Log("called SetProcessDPIAware: %d", (int)success);
-  }*/
-
   CAMLreturn(Val_int(ret));
 }
 
@@ -998,7 +984,8 @@ CAMLprim value resdl_SDL_GetModState(value vUnit) {
   return Val_int(SDL_GetModState());
 };
 
-CAMLprim value resdl_SDL_ShowSimpleMessageBox(value vFlags, value vTitle, value vMessage, value vWindow) {
+CAMLprim value resdl_SDL_ShowSimpleMessageBox(value vFlags, value vTitle,
+                                              value vMessage, value vWindow) {
   CAMLparam4(vFlags, vTitle, vMessage, vWindow);
   int flags = SDL_MESSAGEBOX_INFORMATION;
 
@@ -1014,8 +1001,8 @@ CAMLprim value resdl_SDL_ShowSimpleMessageBox(value vFlags, value vTitle, value 
     break;
   }
 
-  const char* title = String_val(vTitle);
-  const char* msg = String_val(vMessage);
+  const char *title = String_val(vTitle);
+  const char *msg = String_val(vMessage);
 
   SDL_Window *win = NULL;
 

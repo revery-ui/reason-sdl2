@@ -64,7 +64,16 @@ module Window = {
   type t;
 
   type hitTestResult =
-  | Normal;
+  | Normal
+  | Draggable
+  | ResizeTopLeft
+  | ResizeTop
+  | ResizeTopRight
+  | Right
+  | BottomRight
+  | Bottom
+  | BottomLeft
+  | Left;
 
   type hitTestCallback = (t, int, int) => hitTestResult;
 
@@ -92,6 +101,16 @@ module Window = {
       Hashtbl.add(_idToHitTest, getId(win), v);
     }
   };
+
+  let _hitTest = (win: t, x: int, y: int) => {
+    let id = getId(win);
+    switch (Hashtbl.find_opt(windowId)) {
+    | Some(v) => v(win, x, y)
+    | None => Normal
+    }
+  };
+
+  Callback.register("__sdl2_caml_hittest__", _hitTest);
 
   external hide: t => unit = "resdl_SDL_HideWindow";
   external raise: t => unit = "resdl_SDL_RaiseWindow";

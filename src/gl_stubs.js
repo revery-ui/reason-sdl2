@@ -21,6 +21,11 @@ function caml_glClearDepth(d) {
     joo_global_object.gl.clear(joo_global_object.gl.DEPTH_BUFFER_BIT);
 }
 
+// Provides: caml_glGetString
+function caml_glGetString() {
+    return caml_js_to_string("Not implemented");
+}
+
 // Provides: caml_glAttachShader
 function caml_glAttachShader(program, shader) {
     joo_global_object.gl.attachShader(program, shader);

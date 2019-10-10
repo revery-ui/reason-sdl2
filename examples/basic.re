@@ -41,6 +41,18 @@ let run = () => {
   let _ = Sdl2.init();
   let primaryWindow = Sdl2.Window.create(100, 100, "test");
   let context = Sdl2.Gl.setup(primaryWindow);
+  let version = Sdl2.Gl.glGetString(Sdl2.Gl.Version);
+  let vendor = Sdl2.Gl.glGetString(Sdl2.Gl.Vendor);
+  let shadingLanguageVersion =
+    Sdl2.Gl.glGetString(Sdl2.Gl.ShadingLanguageVersion);
+
+  Printf.printf(
+    "OpenGL Info - version: %s vendor: %s shading language version: %s\n",
+    version,
+    vendor,
+    shadingLanguageVersion,
+  );
+
   Sdl2.Gl.setSwapInterval(1);
   //glfwMakeContextCurrent(primaryWindow);
 
@@ -70,7 +82,12 @@ let run = () => {
 
   Sdl2.Window.show(primaryWindow);
 
-  Sdl2.Window.setHitTest(primaryWindow, Some((_, _, _) => Normal));
+  Sdl2.Window.setHitTest(primaryWindow, Some((w, x, y) => {
+    let size = Sld2.Window.getSize(w);
+    let id = Sdl2.Window.getId(w);
+    Printf.printf("hit test - window id: %d width: %d height: %d areaX: %d areaY: %d\n", id, size.width, size.height, x, y);
+    Draggable;
+  });
   Sdl2.Window.setBordered(primaryWindow, false);
  // Sdl2.Window.setSize(primaryWindow, 800, 600);
   Sdl2.Window.setResizable(primaryWindow, true);
