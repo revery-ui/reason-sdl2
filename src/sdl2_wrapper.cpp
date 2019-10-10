@@ -740,20 +740,19 @@ CAMLprim value resdl_SDL_CreateWindow(value vWidth, value vHeight,
 
   // According to the docs - `SDL_GL_SetAttribute` needs
   // to be called prior to creating the window.
-  
+
   /* Turn on double buffering with a 24bit Z buffer.
    * You may need to change this to 16 or 32 for your system */
-  SDL_GL_SetAttribute (SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_ES);
+  SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_ES);
   SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2);
   SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 0);
   SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
   // SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
 
-  SDL_Window *win =
-      (SDL_CreateWindow(String_val(vName), SDL_WINDOWPOS_CENTERED,
-                        SDL_WINDOWPOS_CENTERED, width, height,
-                        SDL_WINDOW_OPENGL |
-                        SDL_WINDOW_ALLOW_HIGHDPI | SDL_WINDOW_RESIZABLE));
+  SDL_Window *win = (SDL_CreateWindow(
+      String_val(vName), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width,
+      height,
+      SDL_WINDOW_OPENGL | SDL_WINDOW_ALLOW_HIGHDPI | SDL_WINDOW_RESIZABLE));
 
   value vWindow = (value)win;
   CAMLreturn(vWindow);
@@ -845,7 +844,7 @@ CAMLprim value resdl_SDL_Init() {
   int ret = SDL_Init(SDL_INIT_VIDEO);
 
   /*printf("SDL_INIT");
-  
+  
   void* userDLL;
   BOOL(WINAPI *SetProcessDPIAware)(void); // Vista and later
   void* shcoreDLL;
@@ -865,7 +864,7 @@ CAMLprim value resdl_SDL_Init() {
       printf("Found SHCOREd.ll!\n");
       SetProcessDpiAwareness = (HRESULT(WINAPI *)(PROCESS_DPI_AWARENESS))
   SDL_LoadFunction(shcoreDLL, "SetProcessDpiAwareness");
-      
+      
       GetScaleFactorForDevice = (INT(WINAPI *)(INT)) SDL_LoadFunction(shcoreDLL,
   "GetScaleFactorForDevice");
   GetScaleFactorForMonitor = (HRESULT(WINAPI
@@ -974,7 +973,8 @@ CAMLprim value resdl_SDL_GetModState(value vUnit) {
   return Val_int(SDL_GetModState());
 };
 
-CAMLprim value resdl_SDL_ShowSimpleMessageBox(value vFlags, value vTitle, value vMessage, value vWindow) {
+CAMLprim value resdl_SDL_ShowSimpleMessageBox(value vFlags, value vTitle,
+                                              value vMessage, value vWindow) {
   CAMLparam4(vFlags, vTitle, vMessage, vWindow);
   int flags = SDL_MESSAGEBOX_INFORMATION;
 
@@ -990,8 +990,8 @@ CAMLprim value resdl_SDL_ShowSimpleMessageBox(value vFlags, value vTitle, value 
     break;
   }
 
-  const char* title = String_val(vTitle);
-  const char* msg = String_val(vMessage);
+  const char *title = String_val(vTitle);
+  const char *msg = String_val(vMessage);
 
   SDL_Window *win = NULL;
 

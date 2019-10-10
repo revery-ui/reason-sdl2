@@ -43,13 +43,13 @@ let glBlendFunc: (blendFunc, blendFunc) => unit;
 type program;
 
 type glString =
-| Extensions
-| Vendor
-| Renderer
-| Version
-| ShadingLanguageVersion;
+  | Extensions
+  | Vendor
+  | Renderer
+  | Version
+  | ShadingLanguageVersion;
 
-let glGetString: (glString) => string;
+let glGetString: glString => string;
 
 type shaderLinkResult =
   | LinkSuccess

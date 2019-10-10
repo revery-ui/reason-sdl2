@@ -47,13 +47,13 @@ external glCompileShader: shader => shaderCompilationResult =
 external glDeleteShader: shader => unit = "caml_glDeleteShader";
 
 type glString =
-| Extensions
-| Vendor
-| Renderer
-| Version
-| ShadingLanguageVersion;
+  | Extensions
+  | Vendor
+  | Renderer
+  | Version
+  | ShadingLanguageVersion;
 
-external glGetString: (glString) => string = "caml_glGetString";
+external glGetString: glString => string = "caml_glGetString";
 
 type program;
 
