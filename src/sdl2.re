@@ -69,11 +69,11 @@ module Window = {
   | ResizeTopLeft
   | ResizeTop
   | ResizeTopRight
-  | Right
-  | BottomRight
-  | Bottom
-  | BottomLeft
-  | Left;
+  | ResizeRight
+  | ResizeBottomRight
+  | ResizeBottom
+  | ResizeBottomLeft
+  | ResizeLeft;
 
   type hitTestCallback = (t, int, int) => hitTestResult;
 
@@ -104,7 +104,7 @@ module Window = {
 
   let _hitTest = (win: t, x: int, y: int) => {
     let id = getId(win);
-    switch (Hashtbl.find_opt(windowId)) {
+    switch (Hashtbl.find_opt(_idToHitTest, id)) {
     | Some(v) => v(win, x, y)
     | None => Normal
     }

@@ -65,7 +65,8 @@ SDL_HitTestResult resdl_hit_test(
     if (hitTestCallback == NULL) {
       hitTestCallback = caml_named_value("__sdl2_caml_hittest__");
     }
-    value vRet = caml_callback3(hitTestCallback, win, Val_int(area->x), Val_int(area->y));
+    value vWin = (value)win;
+    value vRet = caml_callback3(*hitTestCallback, vWin, Val_int(area->x), Val_int(area->y));
     SDL_HitTestResult result;
     switch (Int_val(vRet)) {
       case 0:
