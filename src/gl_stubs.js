@@ -23,7 +23,7 @@ function caml_glClearDepth(d) {
 
 // Provides: caml_glGetString
 function caml_glGetString() {
-    return "Not implemented";
+    return caml_js_to_string("Not implemented");
 }
 
 // Provides: caml_glAttachShader
