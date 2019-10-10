@@ -48,6 +48,24 @@ GLenum variantToEnableOption(value vVal) {
   }
 }
 
+GLenum variantToGlString(value vVal) {
+  switch (Int_val(vVal)) {
+  case 0:
+    return GL_EXTENSIONS;
+  case 1:
+    return GL_VENDOR;
+  case 2:
+    return GL_RENDERER;
+  case 3:
+    return GL_VERSION;
+  case 4:
+    return GL_SHADING_LANGUAGE_VERSION;
+  default:
+    warn("Unexpected option for glGetString");
+    return 0;
+  }
+}
+
 GLenum variantToType(value vVal) {
   switch (Int_val(vVal)) {
   case 0:
@@ -501,6 +519,15 @@ CAMLprim value caml_glTexImage2D_native(value vTextureType, value vLevel,
 
   CAMLreturn(Val_unit);
 }
+
+CAMLprim value caml_glGetString(value vVal) {
+  CAMLparam1(vVal);
+
+  GLenum str = variantToGlString(vVal);
+  const char* sz = (const char *)glGetString(str);
+
+  CAMLreturn(caml_copy_string(sz));
+};
 
 CAMLprim value caml_glTexImage2D_bytecode(value *argv, int argn) {
   return caml_glTexImage2D_native(argv[0], argv[1], argv[2], argv[3], argv[4],
