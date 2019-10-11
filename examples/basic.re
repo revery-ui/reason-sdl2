@@ -82,18 +82,30 @@ let run = () => {
 
   Sdl2.Window.show(primaryWindow);
 
-  Sdl2.Window.setHitTest(primaryWindow, Some((w, x, y) => {
-    let size = Sdl2.Window.getSize(w);
-    let id = Sdl2.Window.getId(w);
-    Printf.printf("hit test - window id: %d width: %d height: %d areaX: %d areaY: %d\n", id, size.width, size.height, x, y);
-    if (x < 10) {
-      ResizeLeft
-    } else {
-      Draggable;
-    }
-  }));
+  Sdl2.Window.setHitTest(
+    primaryWindow,
+    Some(
+      (w, x, y) => {
+        let size = Sdl2.Window.getSize(w);
+        let id = Sdl2.Window.getId(w);
+        Printf.printf(
+          "hit test - window id: %d width: %d height: %d areaX: %d areaY: %d\n",
+          id,
+          size.width,
+          size.height,
+          x,
+          y,
+        );
+        if (x < 10) {
+          ResizeLeft;
+        } else {
+          Draggable;
+        };
+      },
+    ),
+  );
   Sdl2.Window.setBordered(primaryWindow, false);
- // Sdl2.Window.setSize(primaryWindow, 800, 600);
+  // Sdl2.Window.setSize(primaryWindow, 800, 600);
   Sdl2.Window.setResizable(primaryWindow, true);
 
   // Start text input, to experiment with IME + events

@@ -64,16 +64,16 @@ module Window = {
   type t;
 
   type hitTestResult =
-  | Normal
-  | Draggable
-  | ResizeTopLeft
-  | ResizeTop
-  | ResizeTopRight
-  | ResizeRight
-  | ResizeBottomRight
-  | ResizeBottom
-  | ResizeBottomLeft
-  | ResizeLeft;
+    | Normal
+    | Draggable
+    | ResizeTopLeft
+    | ResizeTop
+    | ResizeTopRight
+    | ResizeRight
+    | ResizeBottomRight
+    | ResizeBottom
+    | ResizeBottomLeft
+    | ResizeLeft;
 
   type hitTestCallback = (t, int, int) => hitTestResult;
 
@@ -88,18 +88,18 @@ module Window = {
   external setSize: (t, int, int) => unit = "resdl_SDL_SetWindowSize";
   external setTitle: (t, string) => unit = "resdl_SDL_SetWindowTitle";
 
-  external _enableHitTest: (t) => unit = "resdl_SDL_EnableHitTest";
-  external _disableHitTest: (t) => unit = "resdl_SDL_EnableHitTest";
+  external _enableHitTest: t => unit = "resdl_SDL_EnableHitTest";
+  external _disableHitTest: t => unit = "resdl_SDL_EnableHitTest";
 
   let _idToHitTest: Hashtbl.t(int, hitTestCallback) = Hashtbl.create(16);
 
   let setHitTest = (win: t, cb: option(hitTestCallback)) => {
     switch (cb) {
-    | None => _disableHitTest(win);
-    | Some(v) => 
+    | None => _disableHitTest(win)
+    | Some(v) =>
       _enableHitTest(win);
       Hashtbl.add(_idToHitTest, getId(win), v);
-    }
+    };
   };
 
   let _hitTest = (win: t, x: int, y: int) => {
@@ -107,7 +107,7 @@ module Window = {
     switch (Hashtbl.find_opt(_idToHitTest, id)) {
     | Some(v) => v(win, x, y)
     | None => Normal
-    }
+    };
   };
 
   Callback.register("__sdl2_caml_hittest__", _hitTest);
