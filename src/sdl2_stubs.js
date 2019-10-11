@@ -513,10 +513,22 @@ function resdl_SDL_ShowSimpleMessageBox(flags, title, msg, win) {
 
 // Provides: resdl_SDL_EnableHitTest
 function resdl_SDL_EnableHitTest() {
+    // No-op
 }
 
 // Provides: resdl_SDL_DisableHitTest
 function resdl_SDL_DisableHitTest() {
+    // No-op
+}
+
+// Provides: resdl_SDL_SetWindowBordered
+function resdl_SDL_SetWindowBordered() {
+    // No-op
+}
+
+// Provides: resdl_SDL_SetWindowResizable
+function resdl_SDL_SetWindowResizable() {
+    // No-op
 }
 
 // Provides: resdl_SDL_GetModState
