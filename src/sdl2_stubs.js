@@ -511,6 +511,14 @@ function resdl_SDL_ShowSimpleMessageBox(flags, title, msg, win) {
     joo_global_object.alert(msg);
 }
 
+// Provides: resdl_SDL_EnableHitTest
+function resdl_SDL_EnableHitTest() {
+}
+
+// Provides: resdl_SDL_DisableHitTest
+function resdl_SDL_DisableHitTest() {
+}
+
 // Provides: resdl_SDL_GetModState
 function resdl_SDL_GetModState() {
     return 0;
