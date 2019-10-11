@@ -98,8 +98,10 @@ let run = () => {
         );
         if (x < 10) {
           ResizeLeft;
-        } else {
+        } else if (y < 40){
           Draggable;
+        } else {
+          Normal;
         };
       },
     ),
