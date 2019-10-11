@@ -371,7 +371,7 @@ let run = () => {
     //print_endline ("Clipboard string after: " ++ v);
 
     /* Run the GC so we can catch any GC-related crashes early! */
-    // Gc.full_major();
+    Gc.full_major();
     //glfwPollEvents();
     //glfwWindowShouldClose(primaryWindow);
     false;
