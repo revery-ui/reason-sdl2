@@ -56,57 +56,55 @@ CAMLprim value resdl_SDL_DestroyWindow(value vWin) {
   return Val_unit;
 }
 
-SDL_HitTestResult resdl_hit_test(
-  SDL_Window *win,
-  const SDL_Point *area,
-  void *data) {
+SDL_HitTestResult resdl_hit_test(SDL_Window *win, const SDL_Point *area,
+                                 void *data) {
 
-    static value *hitTestCallback = NULL;
-    if (hitTestCallback == NULL) {
-      hitTestCallback = caml_named_value("__sdl2_caml_hittest__");
-    }
-    value vWin = (value)win;
-    value vRet = caml_callback3(*hitTestCallback, vWin, Val_int(area->x), Val_int(area->y));
-    SDL_HitTestResult result;
-    switch (Int_val(vRet)) {
-      case 0:
-        result = SDL_HITTEST_NORMAL;
-        break;
-      case 1:
-        result = SDL_HITTEST_DRAGGABLE;
-        break;
-      case 2:
-        result = SDL_HITTEST_RESIZE_TOPLEFT;
-        break;
-      case 3:
-        result = SDL_HITTEST_RESIZE_TOP;
-        break;
-      case 4:
-        result = SDL_HITTEST_RESIZE_TOPRIGHT;
-        break;
-      case 5:
-        result = SDL_HITTEST_RESIZE_RIGHT;
-        break;
-      case 6:
-        result = SDL_HITTEST_RESIZE_BOTTOMRIGHT;
-        break;
-      case 7:
-        result = SDL_HITTEST_RESIZE_BOTTOM;
-        break;
-      case 8:
-        result = SDL_HITTEST_RESIZE_BOTTOMLEFT;
-        break;
-      case 9:
-        result = SDL_HITTEST_RESIZE_LEFT;
-        break;
-       default:
-        result = SDL_HITTEST_NORMAL;
-        break;
+  static value *hitTestCallback = NULL;
+  if (hitTestCallback == NULL) {
+    hitTestCallback = caml_named_value("__sdl2_caml_hittest__");
+  }
+  value vWin = (value)win;
+  value vRet = caml_callback3(*hitTestCallback, vWin, Val_int(area->x),
+                              Val_int(area->y));
+  SDL_HitTestResult result;
+  switch (Int_val(vRet)) {
+  case 0:
+    result = SDL_HITTEST_NORMAL;
+    break;
+  case 1:
+    result = SDL_HITTEST_DRAGGABLE;
+    break;
+  case 2:
+    result = SDL_HITTEST_RESIZE_TOPLEFT;
+    break;
+  case 3:
+    result = SDL_HITTEST_RESIZE_TOP;
+    break;
+  case 4:
+    result = SDL_HITTEST_RESIZE_TOPRIGHT;
+    break;
+  case 5:
+    result = SDL_HITTEST_RESIZE_RIGHT;
+    break;
+  case 6:
+    result = SDL_HITTEST_RESIZE_BOTTOMRIGHT;
+    break;
+  case 7:
+    result = SDL_HITTEST_RESIZE_BOTTOM;
+    break;
+  case 8:
+    result = SDL_HITTEST_RESIZE_BOTTOMLEFT;
+    break;
+  case 9:
+    result = SDL_HITTEST_RESIZE_LEFT;
+    break;
+  default:
+    result = SDL_HITTEST_NORMAL;
+    break;
+  }
 
-    }
-
-    return result;
-  };
+  return result;
+};
 
 CAMLprim value resdl_SDL_EnableHitTest(value vWin) {
   SDL_Window *win = (SDL_Window *)vWin;
@@ -549,6 +547,16 @@ CAMLprim value resdl_SDL_WaitEvent() {
 
   CAMLreturn(ret);
 }
+
+CAMLprim value resdl_SDL_PushEvent() {
+  CAMLparam0();
+
+  SDL_Event user_event;
+  user_event.type = SDL_USEREEVENT;
+  SDL_PushEvent(&user_event);
+
+  CAMLreturn(Val_unit);
+};
 
 CAMLprim value resdl_SDL_WaitTimeoutEvent(value vTimeout) {
   CAMLparam1(vTimeout);

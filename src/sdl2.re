@@ -470,6 +470,7 @@ module Event = {
   };
 
   external poll: unit => option(t) = "resdl_SDL_PollEvent";
+  external push: unit => unit = "resdl_SDL_PushEvent";
   external wait: unit => result(t, string) = "resdl_SDL_WaitEvent";
   external waitTimeout: int => option(t) = "resdl_SDL_WaitTimeoutEvent";
 };
@@ -493,6 +494,7 @@ module Cursor = {
 
   external createSystem: systemCursor => t = "resdl_SDL_CreateSystemCursor";
   external set: t => unit = "resdl_SDL_SetCursor";
+  
 };
 
 module MessageBox = {
