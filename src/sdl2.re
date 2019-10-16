@@ -494,7 +494,6 @@ module Cursor = {
 
   external createSystem: systemCursor => t = "resdl_SDL_CreateSystemCursor";
   external set: t => unit = "resdl_SDL_SetCursor";
-  
 };
 
 module MessageBox = {
