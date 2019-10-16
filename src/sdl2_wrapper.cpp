@@ -552,7 +552,7 @@ CAMLprim value resdl_SDL_PushEvent() {
   CAMLparam0();
 
   SDL_Event user_event;
-  user_event.type = SDL_USEREEVENT;
+  user_event.type = SDL_USEREVENT;
   SDL_PushEvent(&user_event);
 
   CAMLreturn(Val_unit);
