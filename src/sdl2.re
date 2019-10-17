@@ -9,6 +9,12 @@ module Size = {
   };
 };
 
+module ScreenSaver = {
+  external enable: unit => unit = "resdl_SDL_EnableScreenSaver";
+  external disable: unit => unit = "resdl_SDL_DisableScreenSaver";
+  external isEnabled: unit => bool = "resdl_SDL_IsScreenSaverEnabled";
+};
+
 module Surface = {
   type t;
   external createFromImagePath: string => result(t, string) =
