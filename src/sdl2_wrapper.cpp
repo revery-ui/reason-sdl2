@@ -45,6 +45,24 @@ static value Val_error(value v) {
 }
 
 extern "C" {
+CAMLprim value resdl_SDL_EnableScreenSaver() {
+  CAMLparam0();
+  SDL_EnableScreenSaver();
+  CAMLreturn(Val_unit);
+}
+
+CAMLprim value resdl_SDL_DisableScreenSaver() {
+  CAMLparam0();
+  SDL_DisableScreenSaver();
+  CAMLreturn(Val_unit);
+}
+
+CAMLprim value resdl_SDL_IsScreenSaverEnabled() {
+  CAMLparam0();
+  int result = SDL_IsScreenSaverEnabled() == SDL_TRUE;
+  CAMLreturn(Val_int(result));
+}
+
 CAMLprim value resdl_SDL_SetMainReady() {
   SDL_SetMainReady();
 
