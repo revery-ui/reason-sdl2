@@ -122,6 +122,15 @@ let run = () => {
   /*   glfwSetWindowSize(secondaryWindow, 800, 600); */
   /*   glfwSetWindowTitle(secondaryWindow, "second window"); */
 
+  let (x, y) = Sdl2.Window.getPosition(primaryWindow)
+
+  print_endline(
+    "Window position:\t" ++
+    string_of_int(x) ++
+    " x " ++
+    string_of_int(y)
+  );
+
   let cursors = [|
     Sdl2.Cursor.createSystem(Arrow),
     Sdl2.Cursor.createSystem(IBeam),

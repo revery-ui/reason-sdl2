@@ -1,5 +1,6 @@
 #include <cstdint>
 #include <cstdio>
+#include <iostream>
 
 #include <algorithm>
 #include <array>
@@ -810,6 +811,21 @@ CAMLprim value resdl_SDL_SetWindowPosition(value vWin, value vX, value vY) {
   SDL_SetWindowPosition(win, x, y);
 
   CAMLreturn(Val_unit);
+}
+
+CAMLprim value resdl_SDL_GetWindowPosition(value vWin) {
+  CAMLparam1(vWin);
+  int x, y;
+  SDL_Window *win = (SDL_Window *)vWin;
+  SDL_GetWindowPosition(win, &x, &y);
+
+  CAMLlocal1(ret);
+  ret = caml_alloc(2, 0);
+
+  Store_field(ret, 0, x);
+  Store_field(ret, 1, y);
+
+  CAMLreturn(ret);
 }
 
 CAMLprim value resdl_SDL_WindowCenter(value vWin) {
