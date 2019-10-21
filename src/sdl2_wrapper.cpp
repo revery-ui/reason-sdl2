@@ -1,6 +1,5 @@
 #include <cstdint>
 #include <cstdio>
-#include <iostream>
 
 #include <algorithm>
 #include <array>
