@@ -536,6 +536,12 @@ function resdl_SDL_ShowSimpleMessageBox(flags, title, msg, win) {
     joo_global_object.alert(msg);
 }
 
+// Provides: resdl_SDL_GetNativeWindow
+function resdl_SDL_GetNativeWindow(win) {
+    // TODO: Return canvas?
+    return null;
+}
+
 // Provides: resdl_SDL_EnableHitTest
 function resdl_SDL_EnableHitTest() {
     // No-op

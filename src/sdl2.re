@@ -138,6 +138,9 @@ module Window = {
   // WINDOWS-ONLY: Get the monitor scale factor for the window
   // Other platforms: Always returns 1.0
   external getWin32ScaleFactor: t => float = "resdl_SDL_GetWin32ScaleFactor";
+
+  type nativeWindow;
+  external getNativeWindow: t => nativeWindow = "resdl_SDL_GetNativeWindow";
 };
 
 module OldGl = Gl;
