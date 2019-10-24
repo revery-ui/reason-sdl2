@@ -169,23 +169,23 @@ CAMLprim value resdl_SDL_GetNativeWindow(value vWin) {
   SDL_VERSION(&wmInfo.version);
   SDL_GetWindowWMInfo(win, &wmInfo);
 
-  void* pNativeWindow = NULL;
+  void *pNativeWindow = NULL;
   switch (wmInfo.subsystem) {
 #ifdef WIN32
-    case SDL_SYSWM_WINDOWS:
-      pNativeWindow = (void *)wmInfo.info.win.window;
-      break;
+  case SDL_SYSWM_WINDOWS:
+    pNativeWindow = (void *)wmInfo.info.win.window;
+    break;
 #elif __APPLE__
-    case SDL_SYSWM_COCOA:
-      pNativeWindow = (void *)wmInfo.info.cocoa.window;
-      break;
+  case SDL_SYSWM_COCOA:
+    pNativeWindow = (void *)wmInfo.info.cocoa.window;
+    break;
 #else
-    case SDL_SYSWM_X11:
-      pNativeWindow = (void *)wmInfo.info.x11.window;
-      break;
-    case SDL_SYSWM_WAYLAND:
-      pNativeWindow = (void *)wmInfo.info.wayland.wl_surface;
-      break;
+  case SDL_SYSWM_X11:
+    pNativeWindow = (void *)wmInfo.info.x11.window;
+    break;
+  case SDL_SYSWM_WAYLAND:
+    pNativeWindow = (void *)wmInfo.info.wayland.wl_surface;
+    break;
 #endif
   }
 
