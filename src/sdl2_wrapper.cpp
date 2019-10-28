@@ -184,7 +184,7 @@ CAMLprim value resdl_SDL_GetNativeWindow(value vWin) {
     pNativeWindow = (void *)wmInfo.info.x11.window;
     break;
   case SDL_SYSWM_WAYLAND:
-    pNativeWindow = (void *)wmInfo.info.wayland.wl_surface;
+    pNativeWindow = (void *)wmInfo.info.wl.surface;
     break;
 #endif
   }
