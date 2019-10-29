@@ -183,10 +183,15 @@ CAMLprim value resdl_SDL_GetNativeWindow(value vWin) {
   case SDL_SYSWM_X11:
     pNativeWindow = (void *)wmInfo.info.x11.window;
     break;
+  // TODO: Do we need a compilation flag to enable wayland support?
+  /*
   case SDL_SYSWM_WAYLAND:
     pNativeWindow = (void *)wmInfo.info.wl.surface;
     break;
+  */
 #endif
+  default:
+    break;
   }
 
   CAMLreturn((value)pNativeWindow);
