@@ -80,6 +80,9 @@ let run = () => {
   Sdl2.Window.setSize(primaryWindow, 800, 600);
   Sdl2.Window.center(primaryWindow);
 
+  Sdl2.Window.setMacBackgroundColor(primaryWindow, 0.0, 0.0, 0.0, 1.);
+  Sdl2.Window.setMacTitlebarTransparent(primaryWindow);
+
   Sdl2.Window.show(primaryWindow);
 
   /*Sdl2.Window.setHitTest(
@@ -110,6 +113,8 @@ let run = () => {
   // Sdl2.Window.setSize(primaryWindow, 800, 600);
   Sdl2.Window.setResizable(primaryWindow, true);
   Sdl2.Window.setMinimumSize(primaryWindow, 200, 100);
+
+  print_endline("setting transparent");
 
   // Start text input, to experiment with IME + events
   Sdl2.TextInput.setInputRect(25, 50, 100, 25);
