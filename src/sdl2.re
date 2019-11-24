@@ -88,6 +88,8 @@ module Window = {
   external getSize: t => Size.t = "resdl_SDL_GetWindowSize";
   external setBordered: (t, bool) => unit = "resdl_SDL_SetWindowBordered";
   external setIcon: (t, Surface.t) => unit = "resdl_SDL_SetWindowIcon";
+  external setTransparency: (t, float) => unit =
+    "resdl_SDL_SetWindowTransparency";
   external setPosition: (t, int, int) => unit = "resdl_SDL_SetWindowPosition";
   external center: t => unit = "resdl_SDL_WindowCenter";
   external setResizable: (t, bool) => unit = "resdl_SDL_SetWindowResizable";
@@ -143,8 +145,10 @@ module Window = {
   external getNativeWindow: t => nativeWindow = "resdl_SDL_GetNativeWindow";
 
   // MacOS-Only
-  external setMacTitlebarTransparent: t => unit = "resdl_SDL_SetMacTitlebarTransparent";
-  external setMacBackgroundColor: (t, float, float, float, float) => unit = "resdl_SDL_SetMacBackgroundColor";
+  external setMacTitlebarTransparent: t => unit =
+    "resdl_SDL_SetMacTitlebarTransparent";
+  external setMacBackgroundColor: (t, float, float, float, float) => unit =
+    "resdl_SDL_SetMacBackgroundColor";
 };
 
 module OldGl = Gl;

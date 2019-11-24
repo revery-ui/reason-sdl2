@@ -705,6 +705,22 @@ CAMLprim value resdl_SDL_SetWindowIcon(value vWindow, value vIcon) {
   CAMLreturn(Val_unit);
 };
 
+CAMLprim value resdl_SDL_SetWindowTransparency(value vWindow, value vTransparency) {
+  CAMLparam2(vWindow, vTransparency);
+
+  SDL_Window *win = (SDL_Window *)vWindow;
+  double transparency = Double_val(vTransparency);
+
+  int result;
+  result = SDL_SetWindowOpacity(win, transparency);
+
+  if (result == -1) {
+    printf("WARNING: Setting transparency not supported!");
+  }
+
+  CAMLreturn(Val_unit);
+}
+
 CAMLprim value resdl_SDL_CreateSystemCursor(value vCursor) {
   CAMLparam1(vCursor);
 
