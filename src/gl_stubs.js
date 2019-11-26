@@ -287,8 +287,8 @@ function caml_glReadPixels(x, y, vFormat, vType, vPixels) {
     joo_global_object.console.log("Warning: Your browser most likely doesn't support GL_RGB. Try GL_RGBA if you see an error");
   }
 
-  var width = vPixels.nth_dim(1) / numChannels;
-  var height = vPixels.nth_dim(0);
+  var width = vPixels.dims[1] / numChannels;
+  var height = vPixels.dims[0];
   var pixels = vPixels.data;
   joo_global_object.gl.readPixels(x, y, width, height, format, type, pixels);
 
