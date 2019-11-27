@@ -522,11 +522,18 @@ CAMLprim value caml_glTexImage2D_native(value vTextureType, value vLevel,
 
 CAMLprim value caml_glGetString(value vVal) {
   CAMLparam1(vVal);
+  CAMLlocal1(ret);
 
   GLenum str = variantToGlString(vVal);
   const char* sz = (const char *)glGetString(str);
 
-  CAMLreturn(caml_copy_string(sz));
+  if (!sz) {
+    ret = caml_copy_string("Unknown");
+  } else {
+    ret = caml_copy_string(sz); 
+  }
+
+  CAMLreturn(ret);
 };
 
 CAMLprim value caml_glTexImage2D_bytecode(value *argv, int argn) {

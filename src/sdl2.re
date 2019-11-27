@@ -143,8 +143,10 @@ module Window = {
   external getNativeWindow: t => nativeWindow = "resdl_SDL_GetNativeWindow";
 
   // MacOS-Only
-  external setMacTitlebarTransparent: t => unit = "resdl_SDL_SetMacTitlebarTransparent";
-  external setMacBackgroundColor: (t, float, float, float, float) => unit = "resdl_SDL_SetMacBackgroundColor";
+  external setMacTitlebarTransparent: t => unit =
+    "resdl_SDL_SetMacTitlebarTransparent";
+  external setMacBackgroundColor: (t, float, float, float, float) => unit =
+    "resdl_SDL_SetMacBackgroundColor";
 };
 
 module OldGl = Gl;
