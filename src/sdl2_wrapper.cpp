@@ -23,6 +23,10 @@
 #import <Cocoa/Cocoa.h>
 #endif
 
+#ifdef WIN32
+#include <Windows.h>
+#endif
+
 
 #define Val_none Val_int(0)
 static value Val_some(value v) {
@@ -201,6 +205,15 @@ CAMLprim value resdl_SDL_GetNativeWindow(value vWin) {
 
   CAMLreturn((value)pNativeWindow);
 };
+
+CAMLprim value resdl_SDL_WinAttachConsole() {
+  CAMLparam0();
+  int ret = 0;
+#ifdef WIN32
+  ret = AttachConsole(ATTACH_PARENT_PROCESS);
+#endif
+  CAMLreturn(Val_int(ret));
+}
 
 CAMLprim value resdl_SDL_SetMacTitlebarTransparent(value vWin) {
   CAMLparam1(vWin);
