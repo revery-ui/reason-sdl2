@@ -23,7 +23,6 @@
 #import <Cocoa/Cocoa.h>
 #endif
 
-
 #define Val_none Val_int(0)
 static value Val_some(value v) {
   CAMLparam1(v);
@@ -166,6 +165,33 @@ HWND getHWNDFromSDLWindow(SDL_Window *win) {
 
 #endif
 
+CAMLprim value resdl_SDL_GetPlatform() {
+  CAMLparam0();
+  CAMLlocal1(ret);
+
+  const char *str = SDL_GetPlatform();
+  ret = caml_copy_string(str);
+
+  CAMLreturn(ret);
+}
+
+CAMLprim value resdl_SDL_GetVersion() {
+  CAMLparam0();
+  CAMLlocal1(ret);
+
+  const char *str;
+#ifdef __APPLE__
+  NSProcessInfo *pInfo = [NSProcessInfo processInfo];
+  NSString *version = [pInfo operatingSystemVersionString];
+  str = [version UTF8String];
+#else
+  str = "??.??.??";
+#endif
+  ret = caml_copy_string(str);
+
+  CAMLreturn(ret);
+}
+
 CAMLprim value resdl_SDL_GetNativeWindow(value vWin) {
   CAMLparam1(vWin);
 
@@ -205,23 +231,25 @@ CAMLprim value resdl_SDL_GetNativeWindow(value vWin) {
 CAMLprim value resdl_SDL_SetMacTitlebarTransparent(value vWin) {
   CAMLparam1(vWin);
 
-  #ifdef __APPLE__
+#ifdef __APPLE__
   SDL_Window *win = (SDL_Window *)vWin;
   SDL_SysWMinfo wmInfo;
   SDL_VERSION(&wmInfo.version);
   SDL_GetWindowWMInfo(win, &wmInfo);
   NSWindow *nWindow = wmInfo.info.cocoa.window;
-  [nWindow setStyleMask: [nWindow styleMask] | NSWindowStyleMaskFullSizeContentView];
+  [nWindow
+      setStyleMask:[nWindow styleMask] | NSWindowStyleMaskFullSizeContentView];
   [nWindow setTitlebarAppearsTransparent:YES];
-  #endif
+#endif
 
   CAMLreturn(Val_unit);
 }
 
-CAMLprim value resdl_SDL_SetMacBackgroundColor(value vWin, value r, value g, value b, value a) {
+CAMLprim value resdl_SDL_SetMacBackgroundColor(value vWin, value r, value g,
+                                               value b, value a) {
   CAMLparam5(vWin, r, g, b, a);
 
-  #ifdef __APPLE__
+#ifdef __APPLE__
   SDL_Window *win = (SDL_Window *)vWin;
   SDL_SysWMinfo wmInfo;
   SDL_VERSION(&wmInfo.version);
@@ -231,9 +259,10 @@ CAMLprim value resdl_SDL_SetMacBackgroundColor(value vWin, value r, value g, val
   double blue = Double_val(b);
   double alpha = Double_val(a);
   NSWindow *nWindow = wmInfo.info.cocoa.window;
-  NSColor *rgb = [NSColor colorWithDeviceRed:red green:green blue:blue alpha:alpha];
+  NSColor *rgb =
+      [NSColor colorWithDeviceRed:red green:green blue:blue alpha:alpha];
   [nWindow setBackgroundColor:rgb];
-  #endif
+#endif
 
   CAMLreturn(Val_unit);
 }
@@ -721,7 +750,8 @@ CAMLprim value resdl_SDL_SetWindowIcon(value vWindow, value vIcon) {
   CAMLreturn(Val_unit);
 };
 
-CAMLprim value resdl_SDL_SetWindowTransparency(value vWindow, value vTransparency) {
+CAMLprim value resdl_SDL_SetWindowTransparency(value vWindow,
+                                               value vTransparency) {
   CAMLparam2(vWindow, vTransparency);
 
   SDL_Window *win = (SDL_Window *)vWindow;

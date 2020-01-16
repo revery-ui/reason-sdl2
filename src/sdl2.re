@@ -66,6 +66,12 @@ module Display = {
   external getDesktopMode: t => Mode.t = "resdl_SDL_GetDesktopDisplayMode";
 };
 
+module Platform = {
+  external getName: unit => string = "resdl_SDL_GetPlatform";
+
+  external getVersion: unit => string = "resdl_SDL_GetVersion";
+};
+
 module Window = {
   type t;
 
@@ -251,16 +257,16 @@ module Keycode = {
 };
 
 module WheelType = {
-    type t =
-      | Last
-      | Undefined
-      | Touchscreen
-      | Touchpad
-      | Wheel
-      | WheelPrecise
-      | OtherNonKinetic
-      | OtherKinetic;
-}
+  type t =
+    | Last
+    | Undefined
+    | Touchscreen
+    | Touchpad
+    | Wheel
+    | WheelPrecise
+    | OtherNonKinetic
+    | OtherKinetic;
+};
 
 module Keymod = {
   type t = int;
@@ -337,7 +343,7 @@ module Event = {
     isFling: bool,
     isInterrupt: bool,
     source: WheelType.t,
-  }
+  };
 
   type mouseButtonEvent = {
     windowID: int,
@@ -424,15 +430,26 @@ module Event = {
         deltaY,
         isFlipped ? 1 : 0,
       )
-    | MousePan({windowID, deltaX, deltaY, containsX, containsY, isFling, isInterrupt, _}) =>
-      Printf.sprintf("Pan event: %d %d %d %d %d %d %d",
-                     windowID,
-                     deltaX,
-                     deltaY,
-                     if(containsX) 1 else 0,
-                     if(containsY) 1 else 0,
-                     if(isFling) 1 else 0,
-                     if(isInterrupt) 1 else 0)
+    | MousePan({
+        windowID,
+        deltaX,
+        deltaY,
+        containsX,
+        containsY,
+        isFling,
+        isInterrupt,
+        _,
+      }) =>
+      Printf.sprintf(
+        "Pan event: %d %d %d %d %d %d %d",
+        windowID,
+        deltaX,
+        deltaY,
+        if (containsX) {1} else {0},
+        if (containsY) {1} else {0},
+        if (isFling) {1} else {0},
+        if (isInterrupt) {1} else {0},
+      )
     | MouseButtonUp({windowID, button, _}) =>
       Printf.sprintf(
         "MouseButtonUp windowId: %d button: %s",
