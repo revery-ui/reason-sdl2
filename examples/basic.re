@@ -15,11 +15,11 @@ let getExecutingDirectory = () =>
 let loadShader = (shaderType, source) => {
   let shader = glCreateShader(shaderType);
   let () = glShaderSource(shader, source);
-  let result = glCompileShader(shader);
-  switch (result) {
+  let _result = glCompileShader(shader);
+/*  switch (result) {
   | CompilationSuccess => print_endline("Shader compiled successfully.")
   | CompilationFailure(v) => print_endline("Failed to compile shader: " ++ v)
-  };
+  };*/
   shader;
 };
 
@@ -29,11 +29,11 @@ let initShaderProgram = (vsSource, fsSource) => {
   let shaderProgram = glCreateProgram();
   let () = glAttachShader(shaderProgram, vsShader);
   let _ = glAttachShader(shaderProgram, fsShader);
-  let result = glLinkProgram(shaderProgram);
-  switch (result) {
+  let _result = glLinkProgram(shaderProgram);
+  /*switch (result) {
   | LinkSuccess => print_endline("Shader linked successfully.")
   | LinkFailure(v) => print_endline("Failed to link shader: " ++ v)
-  };
+  };*/
   shaderProgram;
 };
 
@@ -41,17 +41,17 @@ let run = () => {
   let _ = Sdl2.init();
   let primaryWindow = Sdl2.Window.create(100, 100, "test");
   let context = Sdl2.Gl.setup(primaryWindow);
-  let version = Sdl2.Gl.glGetString(Sdl2.Gl.Version);
-  let vendor = Sdl2.Gl.glGetString(Sdl2.Gl.Vendor);
-  let shadingLanguageVersion =
+  let _version = Sdl2.Gl.glGetString(Sdl2.Gl.Version);
+  let _vendor = Sdl2.Gl.glGetString(Sdl2.Gl.Vendor);
+  let _shadingLanguageVersion =
     Sdl2.Gl.glGetString(Sdl2.Gl.ShadingLanguageVersion);
 
-  Printf.printf(
+  /*Printf.printf(
     "OpenGL Info - version: %s vendor: %s shading language version: %s\n",
     version,
     vendor,
     shadingLanguageVersion,
-  );
+  );*/
 
   Sdl2.Gl.setSwapInterval(1);
   //glfwMakeContextCurrent(primaryWindow);
@@ -67,20 +67,20 @@ let run = () => {
   Sdl2.Window.setTitle(primaryWindow, "reason-sdl2 example");
   Sdl2.Window.setWin32ProcessDPIAware(primaryWindow);
 
-  let scale = Sdl2.Window.getWin32ScaleFactor(primaryWindow);
-  print_endline("Win32 scale factor: " ++ string_of_float(scale));
+  let _scale = Sdl2.Window.getWin32ScaleFactor(primaryWindow);
+  //print_endline("Win32 scale factor: " ++ string_of_float(scale));
 
   let display = Sdl2.Window.getDisplay(primaryWindow);
-  let dpi = Sdl2.Display.getDPI(display);
-  print_endline("Display DPI: " ++ Sdl2.Display.Dpi.show(dpi));
+  let _dpi = Sdl2.Display.getDPI(display);
+  //print_endline("Display DPI: " ++ Sdl2.Display.Dpi.show(dpi));
 
-  let mode = Sdl2.Display.getDesktopMode(display);
-  print_endline("Display mode: " ++ Sdl2.Display.Mode.show(mode));
+  let _mode = Sdl2.Display.getDesktopMode(display);
+  //print_endline("Display mode: " ++ Sdl2.Display.Mode.show(mode));
 
   Sdl2.Window.setSize(primaryWindow, 800, 600);
   Sdl2.Window.center(primaryWindow);
 
-  Sdl2.Window.setTransparency(primaryWindow, 0.8);
+  //Sdl2.Window.setTransparency(primaryWindow, 0.8);
 
   Sdl2.Window.setMacBackgroundColor(primaryWindow, 0.0, 0.0, 0.0, 1.);
   Sdl2.Window.setMacTitlebarTransparent(primaryWindow);
@@ -165,14 +165,14 @@ let run = () => {
     Image.load(getExecutingDirectory() ++ "UVCheckerMap02-512.png");
 
   /* let img = Image.fromColor(255, 0, 0, 255); */
-  let dimensions = Image.getDimensions(img);
+  let _dimensions = Image.getDimensions(img);
   let pixels = Image.getPixels(img);
-  print_endline(
+  /*print_endline(
     "- width: "
     ++ string_of_int(dimensions.width)
     ++ " - height: "
     ++ string_of_int(dimensions.height),
-  );
+  );*/
 
   let texture = glCreateTexture();
   glBindTexture(GL_TEXTURE_2D, texture);
@@ -182,15 +182,15 @@ let run = () => {
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
   glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, GL_RGBA, GL_UNSIGNED_BYTE, pixels);
 
-  print_endline("Getting framebuffer size...");
+  //print_endline("Getting framebuffer size...");
 
-  let frameBufferSize = Sdl2.Gl.getDrawableSize(primaryWindow);
-  print_endline(
+  let _frameBufferSize = Sdl2.Gl.getDrawableSize(primaryWindow);
+  /*print_endline(
     "framebuffersize: "
     ++ string_of_int(frameBufferSize.width)
     ++ "x"
     ++ string_of_int(frameBufferSize.height),
-  );
+  );*/
 
   let vsSource = {|
         #ifndef GL_ES
@@ -215,7 +215,7 @@ let run = () => {
             vPos = aVertexPosition;
         }
     |};
-  print_endline(vsSource);
+  //print_endline(vsSource);
   let fsSource = {|
         #ifndef GL_ES
         #define lowp
@@ -238,7 +238,7 @@ let run = () => {
             //gl_FragColor = texture2D(texture, vTexCoord);
         }
     |};
-  print_endline(fsSource);
+  //print_endline(fsSource);
 
   /* Populate buffers for the cube geometry */
   let vArray = Float32Array.of_array(Cube.positions);
@@ -347,7 +347,7 @@ let run = () => {
     switch (Sdl2.Event.poll()) {
     | None => ()
     | Some(evt) =>
-      print_endline(Sdl2.Event.show(evt));
+      //print_endline(Sdl2.Event.show(evt));
       switch (evt) {
       | Sdl2.Event.Quit => exit(0)
       | _ => ()
@@ -385,7 +385,7 @@ let run = () => {
     false;
   });
 
-  print_endline("Done!");
+  //print_endline("Done!");
   //glfwTerminate();
   Lwt.return();
 };
