@@ -4,8 +4,11 @@
     (js_of_ocaml)
     (libraries
         lwt
-        sdl2 ))
+        sdl2 
+        console.lib
+        ))
 
 (install
+    (package sdl2-example)
     (section bin)
     (files favicon01.png UVCheckerMap02-512.png))

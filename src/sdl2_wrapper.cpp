@@ -238,25 +238,12 @@ CAMLprim value resdl_SDL_WinAttachConsole() {
 #ifdef WIN32
   ret = AttachConsole(ATTACH_PARENT_PROCESS);
   FILE *fDummy;
-  // HANDLE h = (HANDLE) _get_osfhandle(1);
   freopen_s(&fDummy, "CONIN$", "r", stdin);
   freopen_s(&fDummy, "CONOUT$", "w", stderr);
   freopen_s(&fDummy, "CONOUT$", "w", stdout);
-  HANDLE hConOut = CreateFile(("CONOUT$"), GENERIC_READ | GENERIC_WRITE,
-                              FILE_SHARE_READ | FILE_SHARE_WRITE, NULL,
-                              OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
-  HANDLE hConIn = CreateFile(("CONIN$"), GENERIC_READ | GENERIC_WRITE,
-                             FILE_SHARE_READ | FILE_SHARE_WRITE, NULL,
-                             OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
-  SetStdHandle(STD_OUTPUT_HANDLE, hConOut);
-  SetStdHandle(STD_ERROR_HANDLE, hConOut);
-  SetStdHandle(STD_INPUT_HANDLE, hConIn);
-  printf("yo");
 #endif
   CAMLreturn(Val_int(ret));
 }
-
-// CAMLprim value win_handle_fd
 
 CAMLprim value resdl_SDL_WinAllocConsole() {
   CAMLparam0();
@@ -264,12 +251,9 @@ CAMLprim value resdl_SDL_WinAllocConsole() {
 #ifdef WIN32
   ret = AllocConsole();
   FILE *fDummy;
-  // HANDLE h = (HANDLE) _get_osfhandle(1);
   freopen_s(&fDummy, "CONIN$", "r", stdin);
   freopen_s(&fDummy, "CONOUT$", "w", stderr);
   freopen_s(&fDummy, "CONOUT$", "w", stdout);
-  // SetStdHandle(STD_OUTPUT_HANDLE, h);
-  printf("yo");
 #endif
   CAMLreturn(Val_int(ret));
 }

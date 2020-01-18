@@ -15,11 +15,11 @@ let getExecutingDirectory = () =>
 let loadShader = (shaderType, source) => {
   let shader = glCreateShader(shaderType);
   let () = glShaderSource(shader, source);
-  let _result = glCompileShader(shader);
-  /*  switch (result) {
-      | CompilationSuccess => print_endline("Shader compiled successfully.")
-      | CompilationFailure(v) => print_endline("Failed to compile shader: " ++ v)
-      };*/
+  let result = glCompileShader(shader);
+  switch (result) {
+      | CompilationSuccess => Console.log("Shader compiled successfully.")
+      | CompilationFailure(v) => Console.log("Failed to compile shader: " ++ v)
+      };
   shader;
 };
 
@@ -29,33 +29,40 @@ let initShaderProgram = (vsSource, fsSource) => {
   let shaderProgram = glCreateProgram();
   let () = glAttachShader(shaderProgram, vsShader);
   let _ = glAttachShader(shaderProgram, fsShader);
-  let _result = glLinkProgram(shaderProgram);
-  /*switch (result) {
-    | LinkSuccess => print_endline("Shader linked successfully.")
-    | LinkFailure(v) => print_endline("Failed to link shader: " ++ v)
-    };*/
+  let result = glLinkProgram(shaderProgram);
+  switch (result) {
+    | LinkSuccess => Console.log("Shader linked successfully.")
+    | LinkFailure(v) => Console.log("Failed to link shader: " ++ v)
+    };
   shaderProgram;
 };
 
 let run = () => {
   let _ = Sdl2.init();
-  let _code = Sdl2.Platform.win32AttachConsole();
+  let attachResult = Sdl2.Platform.win32AttachConsole();
 
-  //print_endline("Operating system: " ++ Sdl2.Platform.getName());
-  //print_endline("Operating system version: " ++ Sdl2.Platform.getVersion());
+  // If we were unable to attach a console, try allocating a new one
+  let _code = if (attachResult == 0) {
+    Sdl2.Platform.win32AllocConsole();
+  } else {
+    attachResult;
+  }
+
+  Console.log("Operating system: " ++ Sdl2.Platform.getName());
+  Console.log("Operating system version: " ++ Sdl2.Platform.getVersion());
   let primaryWindow = Sdl2.Window.create(100, 100, "test");
   let context = Sdl2.Gl.setup(primaryWindow);
-  let _version = Sdl2.Gl.glGetString(Sdl2.Gl.Version);
-  let _vendor = Sdl2.Gl.glGetString(Sdl2.Gl.Vendor);
-  let _shadingLanguageVersion =
+  let version = Sdl2.Gl.glGetString(Sdl2.Gl.Version);
+  let vendor = Sdl2.Gl.glGetString(Sdl2.Gl.Vendor);
+  let shadingLanguageVersion =
     Sdl2.Gl.glGetString(Sdl2.Gl.ShadingLanguageVersion);
 
-  /*Printf.printf(
+  Console.log(Printf.sprintf(
       "OpenGL Info - version: %s vendor: %s shading language version: %s\n",
       version,
       vendor,
       shadingLanguageVersion,
-    );*/
+    ));
 
   Sdl2.Gl.setSwapInterval(1);
   //glfwMakeContextCurrent(primaryWindow);
@@ -71,15 +78,15 @@ let run = () => {
   Sdl2.Window.setTitle(primaryWindow, "reason-sdl2 example");
   Sdl2.Window.setWin32ProcessDPIAware(primaryWindow);
 
-  let _scale = Sdl2.Window.getWin32ScaleFactor(primaryWindow);
-  //print_endline("Win32 scale factor: " ++ string_of_float(scale));
+  let scale = Sdl2.Window.getWin32ScaleFactor(primaryWindow);
+  Console.log("Win32 scale factor: " ++ string_of_float(scale));
 
   let display = Sdl2.Window.getDisplay(primaryWindow);
-  let _dpi = Sdl2.Display.getDPI(display);
-  //print_endline("Display DPI: " ++ Sdl2.Display.Dpi.show(dpi));
+  let dpi = Sdl2.Display.getDPI(display);
+  Console.log("Display DPI: " ++ Sdl2.Display.Dpi.show(dpi));
 
-  let _mode = Sdl2.Display.getDesktopMode(display);
-  //print_endline("Display mode: " ++ Sdl2.Display.Mode.show(mode));
+  let mode = Sdl2.Display.getDesktopMode(display);
+  Console.log("Display mode: " ++ Sdl2.Display.Mode.show(mode));
 
   Sdl2.Window.setSize(primaryWindow, 800, 600);
   Sdl2.Window.center(primaryWindow);
@@ -169,14 +176,14 @@ let run = () => {
     Image.load(getExecutingDirectory() ++ "UVCheckerMap02-512.png");
 
   /* let img = Image.fromColor(255, 0, 0, 255); */
-  let _dimensions = Image.getDimensions(img);
+  let dimensions = Image.getDimensions(img);
   let pixels = Image.getPixels(img);
-  /*print_endline(
+  Console.log(
       "- width: "
       ++ string_of_int(dimensions.width)
       ++ " - height: "
       ++ string_of_int(dimensions.height),
-    );*/
+    );
 
   let texture = glCreateTexture();
   glBindTexture(GL_TEXTURE_2D, texture);
@@ -186,15 +193,15 @@ let run = () => {
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
   glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, GL_RGBA, GL_UNSIGNED_BYTE, pixels);
 
-  //print_endline("Getting framebuffer size...");
+  Console.log("Getting framebuffer size...");
 
-  let _frameBufferSize = Sdl2.Gl.getDrawableSize(primaryWindow);
-  /*print_endline(
+  let frameBufferSize = Sdl2.Gl.getDrawableSize(primaryWindow);
+  Console.log(
       "framebuffersize: "
       ++ string_of_int(frameBufferSize.width)
       ++ "x"
       ++ string_of_int(frameBufferSize.height),
-    );*/
+    );
 
   let vsSource = {|
         #ifndef GL_ES
@@ -219,7 +226,6 @@ let run = () => {
             vPos = aVertexPosition;
         }
     |};
-  //print_endline(vsSource);
   let fsSource = {|
         #ifndef GL_ES
         #define lowp
@@ -242,7 +248,6 @@ let run = () => {
             //gl_FragColor = texture2D(texture, vTexCoord);
         }
     |};
-  //print_endline(fsSource);
 
   /* Populate buffers for the cube geometry */
   let vArray = Float32Array.of_array(Cube.positions);
@@ -351,7 +356,7 @@ let run = () => {
     switch (Sdl2.Event.poll()) {
     | None => ()
     | Some(evt) =>
-      //print_endline(Sdl2.Event.show(evt));
+      //Console.log(Sdl2.Event.show(evt));
       switch (evt) {
       | Sdl2.Event.Quit => exit(0)
       | _ => ()
@@ -371,7 +376,7 @@ let run = () => {
     //| Some(v) => "Some(" ++ v ++ ")"
     //| None => "None"
     //}
-    //print_endline ("Clipboard string before: " ++ v);
+    //Console.log ("Clipboard string before: " ++ v);
 
     //Glfw.glfwSetClipboardString(primaryWindow, "test clipboard: " ++ string_of_int(frame^));
 
@@ -380,7 +385,7 @@ let run = () => {
     //| Some(v) => "Some(" ++ v ++ ")"
     //| None => "None"
     //}
-    //print_endline ("Clipboard string after: " ++ v);
+    //Console.log ("Clipboard string after: " ++ v);
 
     /* Run the GC so we can catch any GC-related crashes early! */
     Gc.full_major();
@@ -389,7 +394,7 @@ let run = () => {
     false;
   });
 
-  //print_endline("Done!");
+  Console.log("Done!");
   //glfwTerminate();
   Lwt.return();
 };

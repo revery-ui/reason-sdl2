@@ -1,5 +1,6 @@
 (executable
     (name test_sdl2)
+    (package sdl2-example)
     (preprocess (pps lwt_ppx))
     (public_name test_sdl2)
     (libraries
@@ -8,4 +9,5 @@
         reglm
         sdl2
         sdl2example
+        console.lib
             ))

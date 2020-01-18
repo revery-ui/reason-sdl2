@@ -1,0 +1,23 @@
+{
+  "source": "./package.json",
+  "scripts": {
+      "run": "esy '@example' x test_sdl2"
+  },
+  "override": {
+      "build": [
+        [
+          "dune",
+          "build",
+          "--root",
+          "."
+        ]
+      ],
+      "install": [
+        "esy-installer sdl2.install",
+        "esy-installer sdl2-example.install"
+      ],
+      "dependencies": {
+        "@reason-native/console": "*"
+      }
+  }
+}

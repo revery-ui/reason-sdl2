@@ -1,5 +1,6 @@
 (executable
     (name test_sdl2)
+    (package sdl2)
     (preprocess (pps lwt_ppx))
     (public_name test_sdl2_js)
     (js_of_ocaml)
@@ -9,8 +10,10 @@
         bigarray
         sdl2
         sdl2example
+        console.lib
             ))
 
 (install
+    (package sdl2)
     (section bin)
     (files gl-matrix-min.js index.html test_sdl2.bc.js))
