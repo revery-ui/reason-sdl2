@@ -17,9 +17,9 @@ let loadShader = (shaderType, source) => {
   let () = glShaderSource(shader, source);
   let result = glCompileShader(shader);
   switch (result) {
-      | CompilationSuccess => Console.log("Shader compiled successfully.")
-      | CompilationFailure(v) => Console.log("Failed to compile shader: " ++ v)
-      };
+  | CompilationSuccess => Console.log("Shader compiled successfully.")
+  | CompilationFailure(v) => Console.log("Failed to compile shader: " ++ v)
+  };
   shader;
 };
 
@@ -31,9 +31,9 @@ let initShaderProgram = (vsSource, fsSource) => {
   let _ = glAttachShader(shaderProgram, fsShader);
   let result = glLinkProgram(shaderProgram);
   switch (result) {
-    | LinkSuccess => Console.log("Shader linked successfully.")
-    | LinkFailure(v) => Console.log("Failed to link shader: " ++ v)
-    };
+  | LinkSuccess => Console.log("Shader linked successfully.")
+  | LinkFailure(v) => Console.log("Failed to link shader: " ++ v)
+  };
   shaderProgram;
 };
 
@@ -42,11 +42,12 @@ let run = () => {
   let attachResult = Sdl2.Platform.win32AttachConsole();
 
   // If we were unable to attach a console, try allocating a new one
-  let _code = if (attachResult == 0) {
-    Sdl2.Platform.win32AllocConsole();
-  } else {
-    attachResult;
-  }
+  let _code =
+    if (attachResult == 0) {
+      Sdl2.Platform.win32AllocConsole();
+    } else {
+      attachResult;
+    };
 
   Console.log("Operating system: " ++ Sdl2.Platform.getName());
   Console.log("Operating system version: " ++ Sdl2.Platform.getVersion());
@@ -57,12 +58,14 @@ let run = () => {
   let shadingLanguageVersion =
     Sdl2.Gl.glGetString(Sdl2.Gl.ShadingLanguageVersion);
 
-  Console.log(Printf.sprintf(
+  Console.log(
+    Printf.sprintf(
       "OpenGL Info - version: %s vendor: %s shading language version: %s\n",
       version,
       vendor,
       shadingLanguageVersion,
-    ));
+    ),
+  );
 
   Sdl2.Gl.setSwapInterval(1);
   //glfwMakeContextCurrent(primaryWindow);
@@ -179,11 +182,11 @@ let run = () => {
   let dimensions = Image.getDimensions(img);
   let pixels = Image.getPixels(img);
   Console.log(
-      "- width: "
-      ++ string_of_int(dimensions.width)
-      ++ " - height: "
-      ++ string_of_int(dimensions.height),
-    );
+    "- width: "
+    ++ string_of_int(dimensions.width)
+    ++ " - height: "
+    ++ string_of_int(dimensions.height),
+  );
 
   let texture = glCreateTexture();
   glBindTexture(GL_TEXTURE_2D, texture);
@@ -197,11 +200,11 @@ let run = () => {
 
   let frameBufferSize = Sdl2.Gl.getDrawableSize(primaryWindow);
   Console.log(
-      "framebuffersize: "
-      ++ string_of_int(frameBufferSize.width)
-      ++ "x"
-      ++ string_of_int(frameBufferSize.height),
-    );
+    "framebuffersize: "
+    ++ string_of_int(frameBufferSize.width)
+    ++ "x"
+    ++ string_of_int(frameBufferSize.height),
+  );
 
   let vsSource = {|
         #ifndef GL_ES
