@@ -20,7 +20,8 @@
         ]
       ],
       "install": [
-        "esy-installer"
+        "esy-installer sdl2.install",
+        "esy-installer sdl2-example.install"
       ],
       "dependencies": {
         "@opam/js_of_ocaml": "*",

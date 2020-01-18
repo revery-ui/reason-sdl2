@@ -542,6 +542,40 @@ function resdl_SDL_GetNativeWindow(win) {
     return null;
 }
 
+// Provides: resdl_SDL_WinAttachConsole
+function resdl_SDL_WinAttachConsole() {
+    // no-op
+    return 1;
+}
+
+// Provides: resdl_SDL_WinAllocConsole
+function resdl_SDL_WinAllocConsole() {
+    // no-op
+    return 1;
+}
+
+// Provides: resdl_SDL_GetPlatform
+// Requires: caml_js_to_string
+function resdl_SDL_GetPlatform() {
+    return caml_js_to_string("Browser");
+}
+
+// Provides: resdl_SDL_GetVersion
+// Requires: caml_js_to_string
+function resdl_SDL_GetVersion() {
+    return caml_js_to_string("Not implemented");
+}
+
+// Provides: resdl_SDL_SetMacBackgroundColor
+function resdl_SDL_SetMacBackgroundColor() {
+    // No-op
+}
+
+// Provides: resdl_SDL_SetMacTitlebarTransparent
+function resdl_SDL_SetMacTitlebarTransparent() {
+    // No-op
+}
+
 // Provides: resdl_SDL_EnableHitTest
 function resdl_SDL_EnableHitTest() {
     // No-op
