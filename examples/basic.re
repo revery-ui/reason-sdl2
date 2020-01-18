@@ -16,10 +16,10 @@ let loadShader = (shaderType, source) => {
   let shader = glCreateShader(shaderType);
   let () = glShaderSource(shader, source);
   let _result = glCompileShader(shader);
-/*  switch (result) {
-  | CompilationSuccess => print_endline("Shader compiled successfully.")
-  | CompilationFailure(v) => print_endline("Failed to compile shader: " ++ v)
-  };*/
+  /*  switch (result) {
+      | CompilationSuccess => print_endline("Shader compiled successfully.")
+      | CompilationFailure(v) => print_endline("Failed to compile shader: " ++ v)
+      };*/
   shader;
 };
 
@@ -31,9 +31,9 @@ let initShaderProgram = (vsSource, fsSource) => {
   let _ = glAttachShader(shaderProgram, fsShader);
   let _result = glLinkProgram(shaderProgram);
   /*switch (result) {
-  | LinkSuccess => print_endline("Shader linked successfully.")
-  | LinkFailure(v) => print_endline("Failed to link shader: " ++ v)
-  };*/
+    | LinkSuccess => print_endline("Shader linked successfully.")
+    | LinkFailure(v) => print_endline("Failed to link shader: " ++ v)
+    };*/
   shaderProgram;
 };
 
@@ -51,11 +51,11 @@ let run = () => {
     Sdl2.Gl.glGetString(Sdl2.Gl.ShadingLanguageVersion);
 
   /*Printf.printf(
-    "OpenGL Info - version: %s vendor: %s shading language version: %s\n",
-    version,
-    vendor,
-    shadingLanguageVersion,
-  );*/
+      "OpenGL Info - version: %s vendor: %s shading language version: %s\n",
+      version,
+      vendor,
+      shadingLanguageVersion,
+    );*/
 
   Sdl2.Gl.setSwapInterval(1);
   //glfwMakeContextCurrent(primaryWindow);
@@ -172,11 +172,11 @@ let run = () => {
   let _dimensions = Image.getDimensions(img);
   let pixels = Image.getPixels(img);
   /*print_endline(
-    "- width: "
-    ++ string_of_int(dimensions.width)
-    ++ " - height: "
-    ++ string_of_int(dimensions.height),
-  );*/
+      "- width: "
+      ++ string_of_int(dimensions.width)
+      ++ " - height: "
+      ++ string_of_int(dimensions.height),
+    );*/
 
   let texture = glCreateTexture();
   glBindTexture(GL_TEXTURE_2D, texture);
@@ -190,11 +190,11 @@ let run = () => {
 
   let _frameBufferSize = Sdl2.Gl.getDrawableSize(primaryWindow);
   /*print_endline(
-    "framebuffersize: "
-    ++ string_of_int(frameBufferSize.width)
-    ++ "x"
-    ++ string_of_int(frameBufferSize.height),
-  );*/
+      "framebuffersize: "
+      ++ string_of_int(frameBufferSize.width)
+      ++ "x"
+      ++ string_of_int(frameBufferSize.height),
+    );*/
 
   let vsSource = {|
         #ifndef GL_ES
@@ -355,7 +355,7 @@ let run = () => {
       switch (evt) {
       | Sdl2.Event.Quit => exit(0)
       | _ => ()
-      };
+      }
     };
 
     render(primaryWindow);

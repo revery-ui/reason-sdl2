@@ -72,8 +72,8 @@ module Platform = {
   external getVersion: unit => string = "resdl_SDL_GetVersion";
 
   // Windows only
-  external win32AllocConsole: unit => int = "resdl_SDL_WinAllocConsole"; 
-  external win32AttachConsole: unit => int = "resdl_SDL_WinAttachConsole"; 
+  external win32AllocConsole: unit => int = "resdl_SDL_WinAllocConsole";
+  external win32AttachConsole: unit => int = "resdl_SDL_WinAttachConsole";
 };
 
 module Window = {
