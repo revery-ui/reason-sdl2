@@ -39,6 +39,10 @@ let initShaderProgram = (vsSource, fsSource) => {
 
 let run = () => {
   let _ = Sdl2.init();
+  let _code = Sdl2.Platform.win32AttachConsole();
+
+  //print_endline("Operating system: " ++ Sdl2.Platform.getName());
+  //print_endline("Operating system version: " ++ Sdl2.Platform.getVersion());
   let primaryWindow = Sdl2.Window.create(100, 100, "test");
   let context = Sdl2.Gl.setup(primaryWindow);
   let _version = Sdl2.Gl.glGetString(Sdl2.Gl.Version);
