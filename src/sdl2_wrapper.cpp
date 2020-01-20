@@ -25,6 +25,8 @@
 
 #ifdef WIN32
 #include <Windows.h>
+#include <fcntl.h>
+#include <io.h>
 #endif
 
 #define Val_none Val_int(0)
@@ -232,15 +234,55 @@ CAMLprim value resdl_SDL_GetNativeWindow(value vWin) {
   CAMLreturn((value)pNativeWindow);
 };
 
+#ifdef WIN32
+// This method is calling after attach / alloc console
+// to wire up the new stdin/stdout/stderr.
+// See further details (thanks @dra27 for the help!)
+// - https://github.com/ocaml/ocaml/issues/9252
+void resdl_Win32AttachStdIO() {
+  int fd_in = _open_osfhandle((intptr_t)GetStdHandle(STD_INPUT_HANDLE),
+                              _O_RDONLY | _O_BINARY);
+  int fd_out = _open_osfhandle((intptr_t)GetStdHandle(STD_OUTPUT_HANDLE),
+                               _O_WRONLY | _O_BINARY);
+  int fd_err = _open_osfhandle((intptr_t)GetStdHandle(STD_ERROR_HANDLE),
+                               _O_WRONLY | _O_BINARY);
+
+  if (fd_in) {
+    dup2(fd_in, 0);
+    close(fd_in);
+    SetStdHandle(STD_INPUT_HANDLE, (HANDLE)_get_osfhandle(0));
+  }
+
+  if (fd_out) {
+    dup2(fd_out, 1);
+    close(fd_out);
+    SetStdHandle(STD_OUTPUT_HANDLE, (HANDLE)_get_osfhandle(1));
+  }
+
+  if (fd_err) {
+    dup2(fd_err, 2);
+    close(fd_err);
+    SetStdHandle(STD_ERROR_HANDLE, (HANDLE)_get_osfhandle(2));
+  }
+
+  *stdin = *(fdopen(0, "rb"));
+  *stdout = *(fdopen(1, "wb"));
+  *stderr = *(fdopen(2, "wb"));
+
+  setvbuf(stdin, NULL, _IONBF, 0);
+  setvbuf(stdout, NULL, _IONBF, 0);
+  setvbuf(stderr, NULL, _IONBF, 0);
+}
+#endif
+
 CAMLprim value resdl_SDL_WinAttachConsole() {
   CAMLparam0();
   int ret = 0;
 #ifdef WIN32
   ret = AttachConsole(ATTACH_PARENT_PROCESS);
-  FILE *fDummy;
-  freopen_s(&fDummy, "CONIN$", "r", stdin);
-  freopen_s(&fDummy, "CONOUT$", "w", stderr);
-  freopen_s(&fDummy, "CONOUT$", "w", stdout);
+  if (ret == 1) {
+    resdl_Win32AttachStdIO();
+  }
 #endif
   CAMLreturn(Val_int(ret));
 }
@@ -250,10 +292,9 @@ CAMLprim value resdl_SDL_WinAllocConsole() {
   int ret = 0;
 #ifdef WIN32
   ret = AllocConsole();
-  FILE *fDummy;
-  freopen_s(&fDummy, "CONIN$", "r", stdin);
-  freopen_s(&fDummy, "CONOUT$", "w", stderr);
-  freopen_s(&fDummy, "CONOUT$", "w", stdout);
+  if (ret == 1) {
+    resdl_Win32AttachStdIO();
+  }
 #endif
   CAMLreturn(Val_int(ret));
 }
