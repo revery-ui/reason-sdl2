@@ -24,7 +24,7 @@
       ]
     ],
     "install": [
-      "esy-installer"
+      "esy-installer sdl2.install"
     ]
   },
   "dependencies": {
