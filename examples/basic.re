@@ -282,7 +282,7 @@ let run = () => {
   let delta = ref(0.);
   let render = window => {
     //  glfwMakeContextCurrent(window);
-    print_endline ("-- Render: start");
+    print_endline("-- Render: start");
     Sdl2.Gl.makeCurrent(window, context);
     let time = Unix.gettimeofday();
     delta := delta^ +. time -. prevTime^;
@@ -353,7 +353,7 @@ let run = () => {
     glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_SHORT, 0);
 
     Sdl2.Gl.swapWindow(window);
-    print_endline ("-- Render: end");
+    print_endline("-- Render: end");
   };
 
   //let frame = ref(0);
