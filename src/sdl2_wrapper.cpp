@@ -260,11 +260,21 @@ void resdl_Win32AttachStdIO() {
                                _O_WRONLY | _O_BINARY);
   int fd_err = _open_osfhandle((intptr_t)GetStdHandle(STD_ERROR_HANDLE),
                                _O_WRONLY | _O_BINARY);
+  resdl__log("open_osfhandles complete");
   if (fd_out) {
     dup2(fd_out, 1);
     close(fd_out);
     SetStdHandle(STD_OUTPUT_HANDLE, (HANDLE)_get_osfhandle(1));
   }
+  resdl__log("SetStdHandle for STD_OUTPUT");
+  *stdout = *(fdopen(1, "wb"));
+  resdl__log("Reopened stdout");
+  setvbuf(stdout, NULL, _IONBF, 0);
+  resdl__log("Setvbuf for stdout");
+
+  printf("Hello, world!\n");
+  resdl__log("Printed?");
+  //if (fd_out) {
   /*printf("Got here: 2\n"); */
 
   /*if (fd_in) {
