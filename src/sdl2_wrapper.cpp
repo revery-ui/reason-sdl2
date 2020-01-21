@@ -262,8 +262,11 @@ void resdl_Win32AttachStdIO() {
                                _O_WRONLY | _O_BINARY);
   resdl__log("open_osfhandles complete");
   if (fd_out) {
+    resdl__log(" -- dup2");
     dup2(fd_out, 1);
+    resdl__log(" -- close");
     close(fd_out);
+    resdl__log(" -- setstdhandle");
     SetStdHandle(STD_OUTPUT_HANDLE, (HANDLE)_get_osfhandle(1));
   }
   resdl__log("SetStdHandle for STD_OUTPUT");
