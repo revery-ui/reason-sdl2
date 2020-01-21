@@ -16,6 +16,7 @@ steps:
     displayName: 'esy @example build'
   - script: esy @example x test_output
     displayName: 'esy @example x test_output'
+    continueOnError: true
   - script: type loggy.txt
     displayName: "@example: Show log"
   - script: esy @js install
