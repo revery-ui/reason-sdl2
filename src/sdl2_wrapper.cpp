@@ -247,10 +247,12 @@ void resdl__log (const char *msg) {
 // - https://github.com/ocaml/ocaml/issues/9252
 void resdl_Win32AttachStdIO() {
   resdl__log("resdl_Win32AttachStdIO");
-  FILE *newStdin;
-  freopen_s(&newStdin, "CONOUT$", "wb", stdout);
+  FILE *newStdout;
+  freopen_s(&newStdout, "CONOUT$", "wb", stdout);
   resdl__log("freopen_s result");
-  fprintf(newStdin, "Print to new?\n");
+  setvbuf(newStdout, NULL, _IONBF, 0);
+  resdl__log("setvbuf on newStdout");
+  fprintf(newStdout, "Print to new?\n");
   /*FILE *fDummy;
   freopen_s(&fDummy, "CONIN$", "r", stdin);
   freopen_s(&fDummy, "CONOUT$", "w", stderr);
@@ -278,7 +280,7 @@ void resdl_Win32AttachStdIO() {
   //*stdout = newStdin;
   //*stdout = *(fdopen(1, "wb"));
   //resdl__log("Reopened stdout");
-  setvbuf(stdout, NULL, _IONBF, 0);
+  //setvbuf(stdout, NULL, _IONBF, 0);
   resdl__log("Setvbuf for stdout");
 
   printf("Hello, world!\n");
