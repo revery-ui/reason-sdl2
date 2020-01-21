@@ -1,4 +1,4 @@
-let _ret = Sdl2.Platform.win32AllocConsole();
+let _ret = Sdl2.Platform.win32AttachConsole();
 
 prerr_endline("Hello from prerr_endline!");
 print_endline("Hello from print_endline!");

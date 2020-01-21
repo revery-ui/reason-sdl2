@@ -279,11 +279,8 @@ CAMLprim value resdl_SDL_WinAttachConsole() {
   CAMLparam0();
   int ret = 0;
 #ifdef WIN32
-
-  if (GetStdHandle(STD_OUTPUT_HANDLE)) {
-    printf("already got stdout\n");
-    // resdl__log("There's already a stdout? Weird");
-  } else {
+  // Only attach if we don't already have a stdout handle
+  if (GetStdHandle(STD_OUTPUT_HANDLE) == NULL) {
     ret = AttachConsole(ATTACH_PARENT_PROCESS);
     if (ret) {
       resdl_Win32AttachStdIO();
@@ -298,7 +295,7 @@ CAMLprim value resdl_SDL_WinAllocConsole() {
   int ret = 0;
 #ifdef WIN32
   ret = AllocConsole();
-  if (ret == 1) {
+  if (ret) {
     resdl_Win32AttachStdIO();
   }
 #endif
