@@ -281,7 +281,7 @@ CAMLprim value resdl_SDL_WinAttachConsole() {
 #ifdef WIN32
   ret = AttachConsole(ATTACH_PARENT_PROCESS);
   if (ret) {
-    resdl_Win32AttachStdIO();
+    //resdl_Win32AttachStdIO();
   }
 #endif
   CAMLreturn(Val_int(ret));
