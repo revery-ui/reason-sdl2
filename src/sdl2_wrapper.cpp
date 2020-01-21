@@ -281,7 +281,7 @@ CAMLprim value resdl_SDL_WinAttachConsole() {
 #ifdef WIN32
 
   if (GetStdHandle(STD_OUTPUT_HANDLE)) {
-    resdl__log("There's already a stdout? Weird");
+    // resdl__log("There's already a stdout? Weird");
   } else {
     ret = AttachConsole(ATTACH_PARENT_PROCESS);
     if (ret) {
