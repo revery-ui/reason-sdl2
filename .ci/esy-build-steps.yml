@@ -14,8 +14,6 @@ steps:
     displayName: 'esy @example install'
   - script: esy @example build
     displayName: 'esy @example build'
-  - script: esy @example x test_output
-    displayName: 'esy @example x test_output'
   - script: esy @js install
     displayName: 'esy @js install'
   - script: esy @js build
