@@ -1,7 +1,7 @@
-let _ret = Sdl2.Platform.win32AttachConsole();
+let _ret = Sdl2.Platform.win32AllocConsole();
 
-//prerr_endline("Hello from prerr_endline!");
-//print_endline("Hello from print_endline!");
+prerr_endline("Hello from prerr_endline!");
+print_endline("Hello from print_endline!");
 
 Unix.sleepf(5.0);
 
