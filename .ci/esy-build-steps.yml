@@ -21,7 +21,7 @@ steps:
     displayName: "@example: Show log"
   - script: esy @example x which test_output
     displayName: "@example: which?"
-  - script: _esy/example/store/i/reason_sdl2-430a86b3/bin/test_output.exe
+  - script: _esy\example\store\i\reason_sdl2-430a86b3\bin\test_output.exe
     displayName: "Run @example directly!"
   - script: esy @js install
     displayName: 'esy @js install'
