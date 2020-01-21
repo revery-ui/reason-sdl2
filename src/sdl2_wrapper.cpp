@@ -246,6 +246,7 @@ void resdl__log (const char *msg) {
 // See further details (thanks @dra27 for the help!)
 // - https://github.com/ocaml/ocaml/issues/9252
 void resdl_Win32AttachStdIO() {
+
   resdl__log("resdl_Win32AttachStdIO");
   FILE *newStdout;
   freopen_s(&newStdout, "CONOUT$", "w", stdout);
@@ -260,7 +261,7 @@ void resdl_Win32AttachStdIO() {
 
 
   printf("Hello from attach\n");
-  fprintf(stderr, "Hello from stderr\n");*/
+  fprintf(stderr, "Hello from stderr\n"); */
   int fd_in = _open_osfhandle((intptr_t)GetStdHandle(STD_INPUT_HANDLE),
                               _O_RDONLY | _O_BINARY);
   int fd_out = _open_osfhandle((intptr_t)GetStdHandle(STD_OUTPUT_HANDLE),
@@ -320,9 +321,14 @@ CAMLprim value resdl_SDL_WinAttachConsole() {
   CAMLparam0();
   int ret = 0;
 #ifdef WIN32
-  ret = AttachConsole(ATTACH_PARENT_PROCESS);
-  if (ret) {
-    resdl_Win32AttachStdIO();
+
+  if (GetStdHandle(STD_OUTPUT_HANDLE)) {
+    resdl__log("There's already a stdout? Weird");
+  } else {
+    ret = AttachConsole(ATTACH_PARENT_PROCESS);
+    if (ret) {
+      resdl_Win32AttachStdIO();
+    }
   }
 #endif
   CAMLreturn(Val_int(ret));
