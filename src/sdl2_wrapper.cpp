@@ -285,6 +285,8 @@ CAMLprim value resdl_SDL_WinAttachConsole() {
     if (ret) {
       resdl_Win32AttachStdIO();
     }
+  } else {
+    printf("Already got stdout!\n");
   }
 #endif
   CAMLreturn(Val_int(ret));
