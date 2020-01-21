@@ -234,12 +234,19 @@ CAMLprim value resdl_SDL_GetNativeWindow(value vWin) {
   CAMLreturn((value)pNativeWindow);
 };
 
+void resdl__log (const char *msg) {
+  FILE *file = fopen("loggy.txt", "a");
+  fprintf(file, "%s\n", msg);
+  fclose(file);
+}
+
 #ifdef WIN32
 // This method is calling after attach / alloc console
 // to wire up the new stdin/stdout/stderr.
 // See further details (thanks @dra27 for the help!)
 // - https://github.com/ocaml/ocaml/issues/9252
 void resdl_Win32AttachStdIO() {
+  resdl__log("resdl_Win32AttachStdIO");
   /*FILE *fDummy;
   freopen_s(&fDummy, "CONIN$", "r", stdin);
   freopen_s(&fDummy, "CONOUT$", "w", stderr);
