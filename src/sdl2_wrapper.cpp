@@ -280,7 +280,7 @@ CAMLprim value resdl_SDL_WinAttachConsole() {
   int ret = 0;
 #ifdef WIN32
   ret = AttachConsole(ATTACH_PARENT_PROCESS);
-  if (ret == 1) {
+  if (ret) {
     resdl_Win32AttachStdIO();
   }
 #endif
@@ -292,7 +292,7 @@ CAMLprim value resdl_SDL_WinAllocConsole() {
   int ret = 0;
 #ifdef WIN32
   ret = AllocConsole();
-  if (ret == 1) {
+  if (ret) {
     resdl_Win32AttachStdIO();
   }
 #endif
