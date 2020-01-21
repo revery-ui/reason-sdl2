@@ -240,20 +240,20 @@ CAMLprim value resdl_SDL_GetNativeWindow(value vWin) {
 // See further details (thanks @dra27 for the help!)
 // - https://github.com/ocaml/ocaml/issues/9252
 void resdl_Win32AttachStdIO() {
-  FILE *fDummy;
+  /*FILE *fDummy;
   freopen_s(&fDummy, "CONIN$", "r", stdin);
   freopen_s(&fDummy, "CONOUT$", "w", stderr);
   freopen_s(&fDummy, "CONOUT$", "w", stdout);
 
   printf("Hello from attach\n");
-  fprintf(stderr, "Hello from stderr\n");
-  /*int fd_in = _open_osfhandle((intptr_t)GetStdHandle(STD_INPUT_HANDLE),
+  fprintf(stderr, "Hello from stderr\n");*/
+  int fd_in = _open_osfhandle((intptr_t)GetStdHandle(STD_INPUT_HANDLE),
                               _O_RDONLY | _O_BINARY);
   int fd_out = _open_osfhandle((intptr_t)GetStdHandle(STD_OUTPUT_HANDLE),
                                _O_WRONLY | _O_BINARY);
   int fd_err = _open_osfhandle((intptr_t)GetStdHandle(STD_ERROR_HANDLE),
                                _O_WRONLY | _O_BINARY);
-  printf("Got here: 2\n");
+  /*printf("Got here: 2\n");
 
   if (fd_in) {
     dup2(fd_in, 0);
