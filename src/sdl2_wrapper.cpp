@@ -250,7 +250,7 @@ void resdl_Win32AttachStdIO() {
   FILE *newStdout;
   freopen_s(&newStdout, "CONOUT$", "w", stdout);
   resdl__log("freopen_s result");
-  setvbuf(newStdout, NULL, _IONBF, 0);
+  //setvbuf(newStdout, NULL, _IONBF, 0);
   resdl__log("setvbuf on newStdout");
   fprintf(newStdout, "Print to new?\n");
   /*FILE *fDummy;
@@ -278,7 +278,7 @@ void resdl_Win32AttachStdIO() {
   }
   resdl__log("SetStdHandle for STD_OUTPUT");
   //*stdout = newStdin;
-  //*stdout = *(fdopen(1, "wb"));
+  *stdout = *newStdout;
   //resdl__log("Reopened stdout");
   //setvbuf(stdout, NULL, _IONBF, 0);
   resdl__log("Setvbuf for stdout");
