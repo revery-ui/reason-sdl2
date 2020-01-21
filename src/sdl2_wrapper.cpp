@@ -265,13 +265,17 @@ void resdl_Win32AttachStdIO() {
     SetStdHandle(STD_ERROR_HANDLE, (HANDLE)_get_osfhandle(2));
   }
 
-  *stdin = *(fdopen(0, "rb"));
-  *stdout = *(fdopen(1, "wb"));
-  *stderr = *(fdopen(2, "wb"));
+  FILE *pDummy;
+  freopen_s(&pDummy, "CONOUT$", "wb", stdout);
+  freopen_s(&pDummy, "CONOUT$", "wb", stderr);
+  freopen_s(&pDummy, "CONIN$", "bb", stdin);
+  //*stdin = *(fdopen(0, "rb"));
+  //*stdout = *(fdopen(1, "wb"));
+  //*stderr = *(fdopen(2, "wb"));
 
-  setvbuf(stdin, NULL, _IONBF, 0);
-  setvbuf(stdout, NULL, _IONBF, 0);
-  setvbuf(stderr, NULL, _IONBF, 0);
+  //setvbuf(stdin, NULL, _IONBF, 0);
+  //setvbuf(stdout, NULL, _IONBF, 0);
+  //setvbuf(stderr, NULL, _IONBF, 0);
 }
 #endif
 
