@@ -252,32 +252,38 @@ void resdl_Win32AttachStdIO() {
                                _O_WRONLY | _O_BINARY);
   int fd_err = _open_osfhandle((intptr_t)GetStdHandle(STD_ERROR_HANDLE),
                                _O_WRONLY | _O_BINARY);
+  printf("Got here: 2\n");
 
   if (fd_in) {
     dup2(fd_in, 0);
     close(fd_in);
     SetStdHandle(STD_INPUT_HANDLE, (HANDLE)_get_osfhandle(0));
   }
+  printf("Got here: 3\n");
 
   if (fd_out) {
     dup2(fd_out, 1);
     close(fd_out);
     SetStdHandle(STD_OUTPUT_HANDLE, (HANDLE)_get_osfhandle(1));
   }
+  printf("Got here: 4\n");
 
   if (fd_err) {
     dup2(fd_err, 2);
     close(fd_err);
     SetStdHandle(STD_ERROR_HANDLE, (HANDLE)_get_osfhandle(2));
   }
+  printf("Got here: 5\n");
 
   *stdin = *(fdopen(0, "rb"));
   *stdout = *(fdopen(1, "wb"));
   *stderr = *(fdopen(2, "wb"));
+  printf("Got here: 6\n");
 
   setvbuf(stdin, NULL, _IONBF, 0);
   setvbuf(stdout, NULL, _IONBF, 0);
   setvbuf(stderr, NULL, _IONBF, 0);
+  printf("Done here: 7\n");
 }
 #endif
 
