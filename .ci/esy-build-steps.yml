@@ -10,6 +10,8 @@ steps:
     displayName: 'esy install'
   - script: esy build
     displayName: 'esy build'
+  - script: esy @example install
+    displayName: 'esy @example install'
   - script: esy @example build
     displayName: 'esy @example build'
   - script: esy @example x test_output
