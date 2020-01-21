@@ -246,7 +246,7 @@ void resdl_Win32AttachStdIO() {
   freopen_s(&fDummy, "CONOUT$", "w", stdout);
 
   printf("Hello from attach\n");
-  int fd_in = _open_osfhandle((intptr_t)GetStdHandle(STD_INPUT_HANDLE),
+  /*int fd_in = _open_osfhandle((intptr_t)GetStdHandle(STD_INPUT_HANDLE),
                               _O_RDONLY | _O_BINARY);
   int fd_out = _open_osfhandle((intptr_t)GetStdHandle(STD_OUTPUT_HANDLE),
                                _O_WRONLY | _O_BINARY);
@@ -283,7 +283,7 @@ void resdl_Win32AttachStdIO() {
   setvbuf(stdin, NULL, _IONBF, 0);
   setvbuf(stdout, NULL, _IONBF, 0);
   setvbuf(stderr, NULL, _IONBF, 0);
-  printf("Done here: 7\n");
+  printf("Done here: 7\n");*/
 }
 #endif
 
