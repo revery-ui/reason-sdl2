@@ -234,86 +234,44 @@ CAMLprim value resdl_SDL_GetNativeWindow(value vWin) {
   CAMLreturn((value)pNativeWindow);
 };
 
-void resdl__log (const char *msg) {
-  FILE *file = fopen("loggy.txt", "a");
-  fprintf(file, "%s\n", msg);
-  fclose(file);
-}
-
 #ifdef WIN32
 // This method is calling after attach / alloc console
 // to wire up the new stdin/stdout/stderr.
 // See further details (thanks @dra27 for the help!)
 // - https://github.com/ocaml/ocaml/issues/9252
 void resdl_Win32AttachStdIO() {
-
-  resdl__log("resdl_Win32AttachStdIO");
-  FILE *newStdout;
-  freopen_s(&newStdout, "CONOUT$", "w", stdout);
-  resdl__log("freopen_s result");
-  //setvbuf(newStdout, NULL, _IONBF, 0);
-  resdl__log("setvbuf on newStdout");
-  fprintf(newStdout, "Print to new?\n");
-  /*FILE *fDummy;
-  freopen_s(&fDummy, "CONIN$", "r", stdin);
-  freopen_s(&fDummy, "CONOUT$", "w", stderr);
-  freopen_s(&fDummy, "CONOUT$", "w", stdout);
-
-
-  printf("Hello from attach\n");
-  fprintf(stderr, "Hello from stderr\n"); */
   int fd_in = _open_osfhandle((intptr_t)GetStdHandle(STD_INPUT_HANDLE),
                               _O_RDONLY | _O_BINARY);
   int fd_out = _open_osfhandle((intptr_t)GetStdHandle(STD_OUTPUT_HANDLE),
                                _O_WRONLY | _O_BINARY);
   int fd_err = _open_osfhandle((intptr_t)GetStdHandle(STD_ERROR_HANDLE),
                                _O_WRONLY | _O_BINARY);
-  resdl__log("open_osfhandles complete");
-  if (fd_out) {
-    resdl__log(" -- dup2");
-    dup2(fd_out, 1);
-    resdl__log(" -- close");
-    close(fd_out);
-    resdl__log(" -- setstdhandle");
-    SetStdHandle(STD_OUTPUT_HANDLE, (HANDLE)_get_osfhandle(1));
-  }
-  resdl__log("SetStdHandle for STD_OUTPUT");
-  //*stdout = newStdin;
-  *stdout = *newStdout;
-  //resdl__log("Reopened stdout");
-  //setvbuf(stdout, NULL, _IONBF, 0);
-  resdl__log("Setvbuf for stdout");
 
-  printf("Hello, world!\n");
-  resdl__log("Printed?");
-  //if (fd_out) {
-  /*printf("Got here: 2\n"); */
-
-  /*if (fd_in) {
+  if (fd_in) {
     dup2(fd_in, 0);
     close(fd_in);
     SetStdHandle(STD_INPUT_HANDLE, (HANDLE)_get_osfhandle(0));
   }
-  printf("Got here: 3\n");
 
-  printf("Got here: 4\n");
+  if (fd_out) {
+    dup2(fd_out, 1);
+    close(fd_out);
+    SetStdHandle(STD_OUTPUT_HANDLE, (HANDLE)_get_osfhandle(1));
+  }
 
   if (fd_err) {
     dup2(fd_err, 2);
     close(fd_err);
     SetStdHandle(STD_ERROR_HANDLE, (HANDLE)_get_osfhandle(2));
   }
-  printf("Got here: 5\n");
 
   *stdin = *(fdopen(0, "rb"));
   *stdout = *(fdopen(1, "wb"));
   *stderr = *(fdopen(2, "wb"));
-  printf("Got here: 6\n");
 
   setvbuf(stdin, NULL, _IONBF, 0);
   setvbuf(stdout, NULL, _IONBF, 0);
   setvbuf(stderr, NULL, _IONBF, 0);
-  printf("Done here: 7\n");*/
 }
 #endif
 
@@ -339,7 +297,7 @@ CAMLprim value resdl_SDL_WinAllocConsole() {
   int ret = 0;
 #ifdef WIN32
   ret = AllocConsole();
-  if (ret) {
+  if (ret == 1) {
     resdl_Win32AttachStdIO();
   }
 #endif
