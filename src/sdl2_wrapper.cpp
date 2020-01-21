@@ -248,7 +248,7 @@ void resdl__log (const char *msg) {
 void resdl_Win32AttachStdIO() {
   resdl__log("resdl_Win32AttachStdIO");
   FILE *newStdout;
-  freopen_s(&newStdout, "CONOUT$", "wb", stdout);
+  freopen_s(&newStdout, "CONOUT$", "w", stdout);
   resdl__log("freopen_s result");
   setvbuf(newStdout, NULL, _IONBF, 0);
   resdl__log("setvbuf on newStdout");
