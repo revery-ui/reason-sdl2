@@ -248,12 +248,14 @@ void resdl__log (const char *msg) {
 void resdl_Win32AttachStdIO() {
   resdl__log("resdl_Win32AttachStdIO");
   FILE *newStdin;
-  freopen_s(&newStdin, "CONOUT$", "w", stdout);
+  freopen_s(&newStdin, "CONOUT$", "wb", stdout);
   resdl__log("freopen_s result");
+  fprintf(newStdin, "Print to new?\n");
   /*FILE *fDummy;
   freopen_s(&fDummy, "CONIN$", "r", stdin);
   freopen_s(&fDummy, "CONOUT$", "w", stderr);
   freopen_s(&fDummy, "CONOUT$", "w", stdout);
+
 
   printf("Hello from attach\n");
   fprintf(stderr, "Hello from stderr\n");*/
@@ -273,6 +275,7 @@ void resdl_Win32AttachStdIO() {
     SetStdHandle(STD_OUTPUT_HANDLE, (HANDLE)_get_osfhandle(1));
   }
   resdl__log("SetStdHandle for STD_OUTPUT");
+  //*stdout = newStdin;
   //*stdout = *(fdopen(1, "wb"));
   //resdl__log("Reopened stdout");
   setvbuf(stdout, NULL, _IONBF, 0);
