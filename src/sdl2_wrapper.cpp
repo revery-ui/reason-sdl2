@@ -244,7 +244,7 @@ void resdl_Win32AttachStdIO() {
   FILE *pDummy;
   freopen_s(&pDummy, "CONOUT$", "wb", stdout);
   freopen_s(&pDummy, "CONOUT$", "wb", stderr);
-  freopen_s(&pDummy, "CONIN$", "bb", stdin);
+  freopen_s(&pDummy, "CONIN$", "rb", stdin);
 /*  int fd_in = _open_osfhandle((intptr_t)GetStdHandle(STD_INPUT_HANDLE),
                               _O_RDONLY | _O_BINARY);
   int fd_out = _open_osfhandle((intptr_t)GetStdHandle(STD_OUTPUT_HANDLE),
