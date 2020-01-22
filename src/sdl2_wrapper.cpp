@@ -256,6 +256,9 @@ void resdl_Win32AttachStdIO() {
   resdl__log("resdl_Win32AttachStdio - 4");
   freopen_s(&pDummy, "CONIN$", "rb", stdin);
   resdl__log("resdl_Win32AttachStdio - 5");
+
+  printf("Hello from C\n");
+  resdl__log("Called hello from C");
 /*  int fd_in = _open_osfhandle((intptr_t)GetStdHandle(STD_INPUT_HANDLE),
                               _O_RDONLY | _O_BINARY);
   int fd_out = _open_osfhandle((intptr_t)GetStdHandle(STD_OUTPUT_HANDLE),
