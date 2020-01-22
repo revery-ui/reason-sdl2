@@ -17,18 +17,6 @@ steps:
   - script: esy @example x test_output
     displayName: 'esy @example x test_output'
     continueOnError: true
-  - script: type loggy.txt
-    displayName: "@example: Show log"
-    continueOnError: true
-  - script: esy @example x which test_output
-    displayName: "@example: which?"
-    continueOnError: true
-  - script: _esy\example\store\i\reason_sdl2-b50370cf\bin\test_output.exe
-    displayName: "Run @example directly!"
-    continueOnError: true
-  - script: type loggy.txt
-    displayName: "@example: Show log again"
-    continueOnError: true
   - script: esy @js install
     displayName: 'esy @js install'
   - script: esy @js build
