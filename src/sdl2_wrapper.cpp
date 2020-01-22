@@ -248,36 +248,7 @@ void resdl__log(const char *msg) {
 // - https://github.com/ocaml/ocaml/issues/9252
 void resdl_Win32AttachStdIO() {
   resdl__log("resdl_Win32AttachStdio - 1");
-  FILE *pDummy;
-  resdl__log("resdl_Win32AttachStdio - 2");
-  freopen_s(&pDummy, "CONOUT$", "w", stdout);
-  resdl__log("resdl_Win32AttachStdio - 3");
-  freopen_s(&pDummy, "CONOUT$", "w", stderr);
-  resdl__log("resdl_Win32AttachStdio - 4");
-  freopen_s(&pDummy, "CONIN$", "r", stdin);
-  resdl__log("resdl_Win32AttachStdio - 5");
-
-  HANDLE hStdout = CreateFile("CONOUT$", 
-    GENERIC_READ|GENERIC_WRITE,
-    FILE_SHARE_READ | FILE_SHARE_WRITE,
-    NULL,
-    OPEN_EXISTING,
-    FILE_ATTRIBUTE_NORMAL, NULL);
-
-  HANDLE hStdin = CreateFile("CONIN$",
-    GENERIC_READ|GENERIC_WRITE,
-    FILE_SHARE_READ|FILE_SHARE_WRITE,
-    NULL,
-    OPEN_EXISTING,
-    FILE_ATTRIBUTE_NORMAL, NULL);
-
-  SetStdHandle(STD_OUTPUT_HANDLE,hStdout);
-  SetStdHandle(STD_ERROR_HANDLE,hStdout);
-  SetStdHandle(STD_INPUT_HANDLE,hStdin);
-
-  printf("Hello from C\n");
-  resdl__log("Called hello from C");
-/*  int fd_in = _open_osfhandle((intptr_t)GetStdHandle(STD_INPUT_HANDLE),
+  int fd_in = _open_osfhandle((intptr_t)GetStdHandle(STD_INPUT_HANDLE),
                               _O_RDONLY | _O_BINARY);
   int fd_out = _open_osfhandle((intptr_t)GetStdHandle(STD_OUTPUT_HANDLE),
                                _O_WRONLY | _O_BINARY);
@@ -300,14 +271,14 @@ void resdl_Win32AttachStdIO() {
     dup2(fd_err, 2);
     close(fd_err);
     SetStdHandle(STD_ERROR_HANDLE, (HANDLE)_get_osfhandle(2));
-  }*/
-  //*stdin = *(fdopen(0, "rb"));
-  //*stdout = *(fdopen(1, "wb"));
-  //*stderr = *(fdopen(2, "wb"));
+  }
+  *stdin = *(fdopen(0, "rb"));
+  *stdout = *(fdopen(1, "wb"));
+  *stderr = *(fdopen(2, "wb"));
 
-  //setvbuf(stdin, NULL, _IONBF, 0);
-  //setvbuf(stdout, NULL, _IONBF, 0);
-  //setvbuf(stderr, NULL, _IONBF, 0);
+  setvbuf(stdin, NULL, _IONBF, 0);
+  setvbuf(stdout, NULL, _IONBF, 0);
+  setvbuf(stderr, NULL, _IONBF, 0);
 }
 #endif
 
@@ -325,7 +296,7 @@ CAMLprim value resdl_SDL_WinAttachConsole() {
       resdl_Win32AttachStdIO();
     }
   } else {
-    resdl__log("Attach success; attaching to stdio");
+    resdl__log("Already got a stdout");
     printf("Already got stdout!\n");
   }
 #endif
