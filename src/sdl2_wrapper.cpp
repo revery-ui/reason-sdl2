@@ -257,6 +257,24 @@ void resdl_Win32AttachStdIO() {
   freopen_s(&pDummy, "CONIN$", "r", stdin);
   resdl__log("resdl_Win32AttachStdio - 5");
 
+  HANDLE hStdout = CreateFile("CONOUT$", 
+    GENERIC_READ|GENERIC_WRITE,
+    FILE_SHARE_READ | FILE_SHARE_WRITE,
+    NULL,
+    OPEN_EXISTING,
+    FILE_ATTRIBUTE_NORMAL, NULL);
+
+  HANDLE hStdin = CreateFile("CONIN$",
+    GENERIC_READ|GENERIC_WRITE,
+    FILE_SHARE_READ|FILE_SHARE_WRITE,
+    NULL,
+    OPEN_EXISTING,
+    FILE_ATTRIBUTE_NORMAL, NULL);
+
+  SetStdHandle(STD_OUTPUT_HANDLE,hStdout);
+  SetStdHandle(STD_ERROR_HANDLE,hStdout);
+  SetStdHandle(STD_INPUT_HANDLE,hStdin);
+
   printf("Hello from C\n");
   resdl__log("Called hello from C");
 /*  int fd_in = _open_osfhandle((intptr_t)GetStdHandle(STD_INPUT_HANDLE),
@@ -297,6 +315,7 @@ CAMLprim value resdl_SDL_WinAttachConsole() {
   CAMLparam0();
   int ret = 0;
 #ifdef WIN32
+    resdl__log("** Called resdl_SDL_WinAttachConsole **");
   // Only attach if we don't already have a stdout handle
   if (GetStdHandle(STD_OUTPUT_HANDLE) == NULL) {
     resdl__log("No STD_OUTPUT_HANDLE, attaching to console...");
