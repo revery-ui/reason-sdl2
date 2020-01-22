@@ -250,11 +250,11 @@ void resdl_Win32AttachStdIO() {
   resdl__log("resdl_Win32AttachStdio - 1");
   FILE *pDummy;
   resdl__log("resdl_Win32AttachStdio - 2");
-  freopen_s(&pDummy, "CONOUT$", "wb", stdout);
+  freopen_s(&pDummy, "CONOUT$", "w", stdout);
   resdl__log("resdl_Win32AttachStdio - 3");
-  freopen_s(&pDummy, "CONOUT$", "wb", stderr);
+  freopen_s(&pDummy, "CONOUT$", "w", stderr);
   resdl__log("resdl_Win32AttachStdio - 4");
-  freopen_s(&pDummy, "CONIN$", "rb", stdin);
+  freopen_s(&pDummy, "CONIN$", "r", stdin);
   resdl__log("resdl_Win32AttachStdio - 5");
 
   printf("Hello from C\n");
