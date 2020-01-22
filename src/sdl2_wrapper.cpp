@@ -234,17 +234,28 @@ CAMLprim value resdl_SDL_GetNativeWindow(value vWin) {
   CAMLreturn((value)pNativeWindow);
 };
 
+void resdl__log(const char *msg) {
+  FILE *fLog = fopen("loggy.txt", "a");
+  fprintf(fLog, "%s\n", msg);
+  fclose(fLog);
+}
+
 #ifdef WIN32
+
 // This method is calling after attach / alloc console
 // to wire up the new stdin/stdout/stderr.
 // See further details (thanks @dra27 for the help!)
 // - https://github.com/ocaml/ocaml/issues/9252
 void resdl_Win32AttachStdIO() {
-
+  resdl__log("resdl_Win32AttachStdio - 1");
   FILE *pDummy;
+  resdl__log("resdl_Win32AttachStdio - 2");
   freopen_s(&pDummy, "CONOUT$", "wb", stdout);
+  resdl__log("resdl_Win32AttachStdio - 3");
   freopen_s(&pDummy, "CONOUT$", "wb", stderr);
+  resdl__log("resdl_Win32AttachStdio - 4");
   freopen_s(&pDummy, "CONIN$", "rb", stdin);
+  resdl__log("resdl_Win32AttachStdio - 5");
 /*  int fd_in = _open_osfhandle((intptr_t)GetStdHandle(STD_INPUT_HANDLE),
                               _O_RDONLY | _O_BINARY);
   int fd_out = _open_osfhandle((intptr_t)GetStdHandle(STD_OUTPUT_HANDLE),
@@ -285,11 +296,14 @@ CAMLprim value resdl_SDL_WinAttachConsole() {
 #ifdef WIN32
   // Only attach if we don't already have a stdout handle
   if (GetStdHandle(STD_OUTPUT_HANDLE) == NULL) {
+    resdl__log("No STD_OUTPUT_HANDLE, attaching to console...");
     ret = AttachConsole(ATTACH_PARENT_PROCESS);
     if (ret) {
+    resdl__log("Attach success; attaching to stdio");
       resdl_Win32AttachStdIO();
     }
   } else {
+    resdl__log("Attach success; attaching to stdio");
     printf("Already got stdout!\n");
   }
 #endif
