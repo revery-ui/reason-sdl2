@@ -23,7 +23,7 @@ steps:
   - script: esy @example x which test_output
     displayName: "@example: which?"
     continueOnError: true
-  - script: _esy\example\store\i\reason_sdl2-61eda0c0\bin\test_output.exe
+  - script: _esy\example\store\i\reason_sdl2-b50370cf\bin\test_output.exe
     displayName: "Run @example directly!"
     continueOnError: true
   - script: type loggy.txt
