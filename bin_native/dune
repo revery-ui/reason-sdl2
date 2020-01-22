@@ -23,4 +23,6 @@
         lwt
         lwt.unix
         reglm
+        sdl2
+        sdl2example
             ))
