@@ -23,7 +23,7 @@ let root = Sys.getenv "cur__root"
 let c_flags = ["-I"; (Sys.getenv "SDL2_INCLUDE_PATH"); "-I"; Filename.concat root "include"; "-I"; Filename.concat root "src"]
 
 let c_flags = match get_os with
-    | Windows -> c_flags
+    | Windows -> c_flags @ ["-mwindows"]
     | Linux -> c_flags @ ["-fPIC"]
     | _ -> c_flags
 ;;
@@ -39,6 +39,7 @@ let flags =
         @ ccopt(libPath)
         @ cclib("-lSDL2")
         @ cclib("-lgdi32")
+        @ cclib("-subsystem windows");
     | Linux -> []
         @ ccopt(libPath)
         @ cclib("-lGL")
@@ -63,7 +64,7 @@ let flags =
 let cxx_flags =
     match get_os with
     | Linux -> c_flags @ ["-std=c++11"]
-    | Windows -> c_flags @ ["-fno-exceptions"; "-fno-rtti"; "-lstdc++"]
+    | Windows -> c_flags @ ["-fno-exceptions"; "-fno-rtti"; "-lstdc++"; "-mwindows"]
     | Mac -> c_flags @ ["-x"; "objective-c++"]
     | _ -> c_flags
 ;;
