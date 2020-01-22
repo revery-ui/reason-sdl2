@@ -25,4 +25,5 @@
         reglm
         sdl2
         sdl2example
+        console.lib
             ))
