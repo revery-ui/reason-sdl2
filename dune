@@ -1,4 +1,4 @@
-(ignored_subdirs (node_modules))
+(dirs src examples bin_js bin_native config)
 
 (alias
     (name runtest)

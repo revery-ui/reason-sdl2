@@ -8,8 +8,9 @@
         [
           "dune",
           "build",
-          "--root",
-          "."
+          "-p",
+	  "sdl2,sdl2-example",
+          "-j4"
         ]
       ],
       "install": [

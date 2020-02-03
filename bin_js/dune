@@ -14,6 +14,6 @@
             ))
 
 (install
-    (package sdl2)
+    (package sdl2-js)
     (section bin)
     (files gl-matrix-min.js index.html test_sdl2.bc.js))

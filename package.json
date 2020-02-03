@@ -12,15 +12,8 @@
       [
         "dune",
         "build",
-        "--root",
-        "."
-      ],
-      [
-        "dune",
-        "build",
-        "--root",
-        ".",
-        "./bin_js/test_sdl2.bc.js"
+        "-p",
+        "sdl2"
       ]
     ],
     "install": [
@@ -31,9 +24,6 @@
     "@opam/dune": "^1.7.3",
     "@esy-ocaml/reason": "^3.3.7",
     "refmterr": "^3.1.0",
-    "@opam/js_of_ocaml": "^3.3.0",
-    "@opam/js_of_ocaml-compiler": "^3.3.0",
-    "@opam/js_of_ocaml-lwt": "^3.3.0",
     "@opam/lwt": "^4.0.0",
     "@opam/lwt_ppx": "^1.1.0",
     "esy-sdl2": "^2.0.10005",
