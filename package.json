@@ -28,7 +28,7 @@
     "@opam/lwt_ppx": "^1.1.0",
     "esy-sdl2": "^2.0.10005",
     "esy-cmake": "^0.3.4",
-    "reason-gl-matrix": "^0.9.9304"
+    "reason-gl-matrix": "^0.9.9306"
   },
   "resolutions": {
     "@opam/cmdliner": "1.0.2"
