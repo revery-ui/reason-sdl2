@@ -65,6 +65,10 @@ let flags =
 
 let c_library_flags =
     match get_os with
+    | Linux -> [
+        libPath;
+        "-lSDL2";
+    ]
     | Mac -> [
         libPath;
         "-lSDL2";
