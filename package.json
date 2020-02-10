@@ -6,7 +6,7 @@
   "scripts": {
     "format": "esy dune build @fmt --auto-promote",
     "run": "esy '@example' x test_sdl2",
-    "byte:build": "esy '@example' dune build bin_native/test_sdl2.bc"
+    "build:byte": "esy '@example' dune build bin_native/test_sdl2.bc"
   },
   "esy": {
     "build": [
