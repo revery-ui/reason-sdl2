@@ -12,8 +12,6 @@
 #include <caml/mlvalues.h>
 #include <caml/threads.h>
 
-#include <glad/glad.h>
-
 #include "stb_image.h"
 
 #include <SDL2/SDL.h>
@@ -28,6 +26,8 @@
 #include <fcntl.h>
 #include <io.h>
 #endif
+
+#include <glad/glad.h>
 
 #define Val_none Val_int(0)
 static value Val_some(value v) {
@@ -476,8 +476,44 @@ CAMLprim value resdl_SDL_GL_Setup(value w) {
   SDL_Window *win = (SDL_Window *)w;
   SDL_GLContext ctx = SDL_GL_CreateContext(win);
 
-  gladLoadGLES2Loader((GLADloadproc)SDL_GL_GetProcAddress);
   return (value)ctx;
+}
+
+typedef const GLubyte *(*glGetStringFunc)(GLenum);
+
+CAMLprim value resdl_SDL_GL_GetString(value vStr) {
+  CAMLparam1(vStr);
+  CAMLlocal1(ret);
+
+  GLenum name = GL_VENDOR;
+  switch (Int_val(vStr)) {
+  case 0:
+    name = GL_VENDOR;
+    break;
+  case 1:
+    name = GL_RENDERER;
+    break;
+  case 2:
+    name = GL_VERSION;
+    break;
+  case 3:
+    name = GL_SHADING_LANGUAGE_VERSION;
+    break;
+  default:
+    break;
+  }
+
+  glGetStringFunc glGetString =
+      (glGetStringFunc)(SDL_GL_GetProcAddress("glGetString"));
+
+  if (!glGetString) {
+    ret = caml_copy_string("Unable to get OpenGL proc address for glGetString");
+  } else {
+    const char *sz = (const char *)((void *)glGetString(name));
+    ret = caml_copy_string(sz);
+  }
+
+  CAMLreturn(ret);
 }
 
 CAMLprim value resdl_SDL_GL_MakeCurrent(value vWindow, value vContext) {
@@ -1060,12 +1096,20 @@ CAMLprim value resdl_SDL_CreateWindow(value vWidth, value vHeight,
   // According to the docs - `SDL_GL_SetAttribute` needs
   // to be called prior to creating the window.
 
-  /* Turn on double buffering with a 24bit Z buffer.
-   * You may need to change this to 16 or 32 for your system */
-  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2);
+  // Attributes pulled from:
+  // https://github.com/google/skia/blob/master/example/SkiaSDLExample.cpp
+  static const int kStencilBits = 8; // Skia needs 8 stencil bits
+  SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
   SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 0);
+  SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 8);
+  SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 8);
+  SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 8);
   SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
-  // SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
+  SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 0);
+  SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, kStencilBits);
+
+  // SDL_GL_SetAttribute(SDL_GL_ACCELERATED_VISUAL, 1);
 
   SDL_Window *win = (SDL_CreateWindow(
       String_val(vName), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width,

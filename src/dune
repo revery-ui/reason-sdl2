@@ -1,15 +1,14 @@
 (library
     (name sdl2)
     (public_name sdl2)
-    (js_of_ocaml (javascript_files sdl2_stubs.js gl_stubs.js stb_image_stubs.js image_stubs.js))
+    (js_of_ocaml (javascript_files sdl2_stubs.js))
     (libraries
         lwt
         reglm)
     (library_flags (:include flags.sexp))
     (c_library_flags (:include c_library_flags.sexp))
-    (c_names glad)
     (c_flags (:include c_flags.sexp))
-    (cxx_names sdl2_wrapper gl_wrapper reglfw_image stb_image stb_image_wrapper)
+    (cxx_names sdl2_wrapper stb_image)
     (cxx_flags (:include cxx_flags.sexp)))
 
 (rule
