@@ -1,9 +1,7 @@
 (library
     (name sdl2example)
-    (preprocess (pps lwt_ppx))
     (js_of_ocaml)
     (libraries
-        lwt
         sdl2 
         console.lib
         ))

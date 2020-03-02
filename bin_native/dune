@@ -2,29 +2,23 @@
     (name test_sdl2)
     (modes byte native)
     (package sdl2-example)
-    (preprocess (pps lwt_ppx))
     (public_name test_sdl2)
     (modules test_sdl2)
     (libraries
-        lwt
-        lwt.unix
-        reglm
         sdl2
         sdl2example
         console.lib
+	unix
             ))
 
 (executable
     (name test_output)
     (package sdl2-example)
-    (preprocess (pps lwt_ppx))
     (public_name test_output)
     (modules test_output)
     (libraries
-        lwt
-        lwt.unix
-        reglm
         sdl2
         sdl2example
         console.lib
+	unix
             ))

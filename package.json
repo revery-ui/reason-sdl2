@@ -23,16 +23,11 @@
   },
   "dependencies": {
     "@opam/dune": "^1.7.3",
+    "@opam/dune-configurator": "*",
     "@esy-ocaml/reason": "^3.3.7",
     "refmterr": "^3.1.0",
-    "@opam/lwt": "^4.0.0",
-    "@opam/lwt_ppx": "^1.1.0",
     "esy-sdl2": "^2.0.10005",
-    "esy-cmake": "^0.3.4",
-    "reason-gl-matrix": "^0.9.9306"
-  },
-  "resolutions": {
-    "@opam/cmdliner": "1.0.2"
+    "esy-cmake": "^0.3.4"
   },
   "devDependencies": {
     "ocaml": ">=4.6.0 <4.9.0"

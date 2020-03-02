@@ -1,7 +1,3 @@
-open Sdl2;
-open Sdl2.Gl;
-open Reglm;
-
 let isNative =
   switch (Sys.backend_type) {
   | Native => true
@@ -13,7 +9,7 @@ let getExecutingDirectory = () =>
   isNative ? Filename.dirname(Sys.argv[0]) ++ Filename.dir_sep : "";
 
 let run = () => {
-  Sdl2.Log.setOutputFunction((category, priority, message) => {
+  Sdl2.Log.setOutputFunction((_category, _priority, message) => {
     Console.log("SDL2: " ++ message)
   });
 
@@ -208,5 +204,4 @@ let run = () => {
 
   Console.log("Done!");
   //glfwTerminate();
-  Lwt.return();
 };
