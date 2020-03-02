@@ -19,8 +19,3 @@ steps:
   - script: esy @example x test_output
     displayName: 'esy @example x test_output'
     continueOnError: true
-  - script: esy @js install
-    displayName: 'esy @js install'
-  - script: esy @js build
-    displayName: 'esy @js build'
-
