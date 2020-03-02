@@ -1,5 +1,6 @@
 esy.lock/
 _esy/
 
+node_modules/
 *.merlin
 *.install
