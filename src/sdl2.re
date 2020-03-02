@@ -65,6 +65,42 @@ module Display = {
   external getDesktopMode: t => Mode.t = "resdl_SDL_GetDesktopDisplayMode";
 };
 
+module Log = {
+  type category =
+    | Application
+    | Error
+    | Assert
+    | System
+    | Audio
+    | Video
+    | Render
+    | Input
+    | Test
+    | Custom
+    | Unknown;
+
+  type priority =
+    | Verbose
+    | Debug
+    | Info
+    | Warn
+    | Error
+    | Critical;
+
+  type logOutputFunction = (category, priority, string) => unit;
+
+  let _outputFunction: ref(logOutputFunction) = ref((_, _, _) => ());
+  let setOutputFunction = outputFunction => {
+    _outputFunction := outputFunction;
+  };
+
+  let _onLog = (category, priority, str) => {
+    _outputFunction^(category, priority, str);
+  };
+
+  Callback.register("reason_sdl2_onLog", _onLog);
+};
+
 module Platform = {
   external getName: unit => string = "resdl_SDL_GetPlatform";
 

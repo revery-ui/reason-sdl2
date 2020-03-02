@@ -13,6 +13,10 @@ let getExecutingDirectory = () =>
   isNative ? Filename.dirname(Sys.argv[0]) ++ Filename.dir_sep : "";
 
 let run = () => {
+  Sdl2.Log.setOutputFunction((category, priority, message) => {
+    Console.log("SDL2: " ++ message)
+  });
+
   let _ = Sdl2.init();
   let attachResult = Sdl2.Platform.win32AttachConsole();
 
@@ -142,8 +146,8 @@ let run = () => {
   // TODO:
   //glfwSwapInterval(0);
 
-  let width = ref(800);
-  let height = ref(600);
+  //let width = ref(800);
+  //let height = ref(600);
 
   let frameBufferSize = Sdl2.Gl.getDrawableSize(primaryWindow);
   Console.log(
@@ -155,7 +159,6 @@ let run = () => {
 
   let render = window => {
     //  glfwMakeContextCurrent(window);
-    print_endline("-- Render: start");
     Sdl2.Gl.makeCurrent(window, context);
     Sdl2.Gl.swapWindow(window);
   };

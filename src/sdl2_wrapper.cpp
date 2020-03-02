@@ -476,6 +476,11 @@ CAMLprim value resdl_SDL_GL_Setup(value w) {
   SDL_Window *win = (SDL_Window *)w;
   SDL_GLContext ctx = SDL_GL_CreateContext(win);
 
+  if (!ctx) {
+    SDL_LogCritical(SDL_LOG_CATEGORY_ERROR, "SDL_GL_Setup failed: %s\n",
+                    SDL_GetError());
+  }
+
   return (value)ctx;
 }
 
@@ -1116,6 +1121,11 @@ CAMLprim value resdl_SDL_CreateWindow(value vWidth, value vHeight,
       height,
       SDL_WINDOW_OPENGL | SDL_WINDOW_ALLOW_HIGHDPI | SDL_WINDOW_RESIZABLE));
 
+  if (!win) {
+    SDL_LogCritical(SDL_LOG_CATEGORY_ERROR, "SDL_CreateWindow failed: %s\n",
+                    SDL_GetError());
+  }
+
   value vWindow = (value)win;
   CAMLreturn(vWindow);
 }
@@ -1201,9 +1211,96 @@ CAMLprim value resdl_SDL_GetWindowId(value vWindow) {
   CAMLreturn(Val_int(id));
 }
 
+void resdl_onLog(void *unused, int category, SDL_LogPriority priority,
+                 const char *message) {
+  CAMLparam0();
+  CAMLlocal1(messageString);
+
+  static value *reason_sdl_onLog = NULL;
+
+  if (reason_sdl_onLog == NULL) {
+    reason_sdl_onLog = caml_named_value("reason_sdl2_onLog");
+  }
+
+  int iCategory, iPriority;
+
+  switch (category) {
+  case SDL_LOG_CATEGORY_APPLICATION:
+    iCategory = 0;
+    break;
+  case SDL_LOG_CATEGORY_ERROR:
+    iCategory = 1;
+    break;
+  case SDL_LOG_CATEGORY_ASSERT:
+    iCategory = 2;
+    break;
+  case SDL_LOG_CATEGORY_SYSTEM:
+    iCategory = 3;
+    break;
+  case SDL_LOG_CATEGORY_AUDIO:
+    iCategory = 4;
+    break;
+  case SDL_LOG_CATEGORY_VIDEO:
+    iCategory = 5;
+    break;
+  case SDL_LOG_CATEGORY_RENDER:
+    iCategory = 6;
+    break;
+  case SDL_LOG_CATEGORY_INPUT:
+    iCategory = 7;
+    break;
+  case SDL_LOG_CATEGORY_TEST:
+    iCategory = 8;
+  case SDL_LOG_CATEGORY_CUSTOM:
+    iCategory = 9;
+    break;
+  default:
+    iCategory = 10;
+    break;
+  }
+
+  switch (priority) {
+  case SDL_LOG_PRIORITY_VERBOSE:
+    iPriority = 0;
+    break;
+  case SDL_LOG_PRIORITY_DEBUG:
+    iPriority = 1;
+    break;
+  case SDL_LOG_PRIORITY_INFO:
+    iPriority = 2;
+    break;
+  case SDL_LOG_PRIORITY_WARN:
+    iPriority = 3;
+    break;
+  case SDL_LOG_PRIORITY_ERROR:
+    iPriority = 4;
+    break;
+  case SDL_LOG_PRIORITY_CRITICAL:
+    iPriority = 5;
+    break;
+  default:
+    iPriority = 0;
+    break;
+  }
+
+  messageString = caml_copy_string(message);
+  caml_callback3(*reason_sdl_onLog, Val_int(iCategory), Val_int(iPriority),
+                 messageString);
+
+  CAMLreturn0;
+}
+
 CAMLprim value resdl_SDL_Init() {
   CAMLparam0();
+
+  SDL_LogSetOutputFunction(&resdl_onLog, NULL);
+
   int ret = SDL_Init(SDL_INIT_VIDEO);
+
+  if (ret < 0) {
+    SDL_LogCritical(SDL_LOG_CATEGORY_ERROR, "SDL_Init failed: %s\n",
+                    SDL_GetError());
+  }
 
   CAMLreturn(Val_int(ret));
 }
