@@ -838,11 +838,11 @@ CAMLprim value resdl_SDL_WaitTimeoutEvent(value vTimeout) {
 }
 
 CAMLprim value resdl_SDL_GetTicks() {
-    CAMLparam0();
+  CAMLparam0();
 
-    int result = SDL_GetTicks();
+  int result = SDL_GetTicks();
 
-    CAMLreturn(Val_int(result));
+  CAMLreturn(Val_int(result));
 }
 
 CAMLprim value resdl_SDL_GetWindowSize(value vWindow) {

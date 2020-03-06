@@ -635,8 +635,9 @@ module Version = {
   external getCompiled: unit => t = "resdl_SDL_GetCompiledVersion";
   external getLinked: unit => t = "resdl_SDL_GetLinkedVersion";
 
-  let toString: t => string = ({major, minor, patch}) => Printf.sprintf(
-    "Major: %d Minor: %d Patch: %d", major, minor, patch);
+  let toString: t => string =
+    ({major, minor, patch}) =>
+      Printf.sprintf("Major: %d Minor: %d Patch: %d", major, minor, patch);
 };
 
 type renderFunction = unit => bool;
