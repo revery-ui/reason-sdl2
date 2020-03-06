@@ -43,13 +43,13 @@ let run = () => {
   );
 
   Console.log(
-    "SDL2 Compiled Version: " 
-      ++ (Sdl2.Version.getCompiled() |> Sdl2.Version.toString)
+    "SDL2 Compiled Version: "
+    ++ (Sdl2.Version.getCompiled() |> Sdl2.Version.toString),
   );
 
   Console.log(
-    "SDL2 Linked Version: " 
-      ++ (Sdl2.Version.getLinked() |> Sdl2.Version.toString)
+    "SDL2 Linked Version: "
+    ++ (Sdl2.Version.getLinked() |> Sdl2.Version.toString),
   );
 
   Sdl2.Gl.setSwapInterval(1);
