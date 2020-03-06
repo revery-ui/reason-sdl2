@@ -625,6 +625,20 @@ module Timekeeping = {
   external getTicks: unit => int = "resdl_SDL_GetTicks";
 };
 
+module Version = {
+  type t = {
+    major: int,
+    minor: int,
+    patch: int,
+  };
+
+  external getCompiled: unit => t = "resdl_SDL_GetCompiledVersion";
+  external getLinked: unit => t = "resdl_SDL_GetLinkedVersion";
+
+  let toString: t => string = ({major, minor, patch}) => Printf.sprintf(
+    "Major: %d Minor: %d Patch: %d", major, minor, patch);
+};
+
 type renderFunction = unit => bool;
 external _javaScriptRenderLoop: renderFunction => unit =
   "resdl__javascript__renderloop";
