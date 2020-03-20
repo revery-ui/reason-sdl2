@@ -52,6 +52,9 @@ let run = () => {
     ++ (Sdl2.Version.getLinked() |> Sdl2.Version.toString),
   );
 
+  Console.log("Scancode: " ++ (Sdl2.Scancode.ofName("B") |> string_of_int));
+  Console.log("Keycode: " ++ (Sdl2.Keycode.ofName("B") |> string_of_int));
+
   Sdl2.Gl.setSwapInterval(1);
   //glfwMakeContextCurrent(primaryWindow);
 

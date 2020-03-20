@@ -251,6 +251,8 @@ module Scancode = {
 
   external getName: t => string = "resdl_SDL_GetScancodeName";
 
+  external ofName: string => t = "resdl_SDL_GetScancodeFromName";
+
   [@noalloc] external ofInt: int => t = "resdl_PassThrough";
   [@noalloc] external toInt: t => int = "resdl_PassThrough";
 
@@ -263,6 +265,8 @@ module Keycode = {
   type t = int;
 
   external getName: t => string = "resdl_SDL_GetKeyName";
+
+  external ofName: string => t = "resdl_SDL_GetKeyFromName";
 
   [@noalloc]
   external ofScancode: Scancode.t => t = "resdl_SDL_GetKeyFromScancode";

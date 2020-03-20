@@ -1333,6 +1333,22 @@ CAMLprim value resdl_SDL_GetScancodeName(value vScancode) {
   CAMLreturn(ret);
 }
 
+CAMLprim value resdl_SDL_GetKeyFromName(value vKeyName) {
+  CAMLparam1(vKeyName);
+
+  int keycode = (int)SDL_GetKeyFromName(String_val(vKeyName));
+
+  CAMLreturn(Val_int(keycode));
+}
+
+CAMLprim value resdl_SDL_GetScancodeFromName(value vScancodeName) {
+  CAMLparam1(vScancodeName);
+
+  int scancode = (int)SDL_GetScancodeFromName(String_val(vScancodeName));
+
+  CAMLreturn(Val_int(scancode));
+}
+
 CAMLprim value resdl_SDL_GetKeyName(value vKey) {
   CAMLparam1(vKey);
   CAMLlocal1(ret);
