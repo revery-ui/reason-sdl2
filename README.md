@@ -9,15 +9,14 @@
 `esy` is used for building, so if you don't have `esy`, install it:
 
 ```
-npm install -g esy@0.5.8
+npm install -g esy
 ```
 
-- `esy install`
-- `esy build`
+Then just run `esy` in the root of the project to install and build.
 
 ## Running
 
-- `esy x test_sdl2`
+Run `esy @example install` initially to install, then `esy @example run` to build and run the example. 
 
 ## License
 
