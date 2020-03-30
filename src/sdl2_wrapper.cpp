@@ -1235,7 +1235,7 @@ void resdl_onLog(void *unused, int category, SDL_LogPriority priority,
   CAMLparam0();
   CAMLlocal1(messageString);
 
-  static value *reason_sdl_onLog = NULL;
+  static const value *reason_sdl_onLog = NULL;
 
   if (reason_sdl_onLog == NULL) {
     reason_sdl_onLog = caml_named_value("reason_sdl2_onLog");
