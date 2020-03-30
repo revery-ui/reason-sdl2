@@ -1119,7 +1119,7 @@ CAMLprim value resdl_SDL_CreateWindow(value vWidth, value vHeight,
   SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 0);
 #elif __APPLE__
   SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 0);
+  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
 #else
   // There's no guarantee that Linux 3.0 is available on Linux.
   // ie, on my CentOS 6 box, with latest Intel drivers - only 2.1 is supported.
@@ -1129,11 +1129,12 @@ CAMLprim value resdl_SDL_CreateWindow(value vWidth, value vHeight,
   SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 8);
   SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 8);
   SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 8);
+  SDL_GL_SetAttribute(SDL_GL_ALPHA_SIZE, 8);
   SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
   SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 0);
   SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, kStencilBits);
 
-  // SDL_GL_SetAttribute(SDL_GL_ACCELERATED_VISUAL, 1);
+  SDL_GL_SetAttribute(SDL_GL_ACCELERATED_VISUAL, 1);
 
   SDL_Window *win = (SDL_CreateWindow(
       String_val(vName), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width,
