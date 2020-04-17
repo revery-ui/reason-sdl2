@@ -297,7 +297,7 @@ module Keycode = {
   let minus = 45;
   let period = 46;
   let slash = 47;
-  let carrot = 94;
+  let caret = 94;
 
   let equals = 61;
 
