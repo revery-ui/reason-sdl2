@@ -285,12 +285,19 @@ module Keycode = {
   // https://wiki.libsdl.org/SDLKeycodeLookup
   let unknown = 0;
   let backspace = 8;
-
+  let return = 13;
   let escape = 27;
-
+  let space = 32;
+  
+  let left_paren = 40;
+  let right_paren = 41;
+  
+  let multiply = 42;
+  let plus = 43;
   let minus = 45;
   let period = 46;
   let slash = 47;
+  let carrot = 94;
 
   let equals = 61;
 
@@ -304,6 +311,27 @@ module Keycode = {
   let digit7 = 55;
   let digit8 = 56;
   let digit9 = 57;
+  
+  let pad_multiply = 1073741909;  
+  let pad_plus = 1073741911;
+  let pad_minus = 1073741910;
+  let pad_period = 1073741923;
+  let pad_slash = 1073741908;
+  
+  let pad_equals = 1073741927;
+  
+  let p_digit0 = 1073741922
+  let p_digit1 = 1073741913;
+  let p_digit2 = 1073741914;
+  let p_digit3 = 1073741915;
+  let p_digit4 = 1073741916;
+  let p_digit5 = 1073741917;
+  let p_digit6 = 1073741918;
+  let p_digit7 = 1073741919;
+  let p_digit8 = 1073741920;
+  let p_digit9 = 1073741921;
+  
+  
 
   let c = 99;
 
