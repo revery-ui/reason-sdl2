@@ -286,7 +286,9 @@ module Keycode = {
   let unknown = 0;
   let backspace = 8;
   let return = 13;
+
   let escape = 27;
+
   let space = 32;
   
   let left_paren = 40;
