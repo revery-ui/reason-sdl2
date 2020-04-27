@@ -717,17 +717,39 @@ CAMLprim value Val_SDL_Event(SDL_Event *event) {
   case SDL_PANEVENT:
     v = caml_alloc(1, 24);
 
-    vInner = caml_alloc(9, 0);
+    vInner = caml_alloc(5, 0);
     Store_field(vInner, 0, Val_int(event->window.windowID));
-    Store_field(vInner, 1, Val_int(event->pan.x));
-    Store_field(vInner, 2, Val_int(event->pan.y));
-    Store_field(vInner, 3, Val_bool(event->pan.contains_x));
-    Store_field(vInner, 4, Val_bool(event->pan.contains_y));
-    Store_field(vInner, 5, Val_bool(event->pan.fling));
-    Store_field(vInner, 6, Val_bool(event->pan.interrupt));
-    // verify this is the correct way of representing a ref to some WheelType.t
-    Store_field(vInner, 7, Val_int(event->pan.source_type));
-    Store_field(vInner, 8, Val_int(event->pan.timestamp));
+    Store_field(vInner, 1, Val_int(event->pan.timestamp));
+    
+    Store_field(vInner, 2, Val_int(event->pan.source));
+    int axis;
+    switch (event->pan.axis) {
+        case SDL_PAN_AXIS_VERTICAL: axis = 0; break;
+        case SDL_PAN_AXIS_HORIZONTAL: axis = 1; break;
+    }
+
+    Store_field(vInner, 3, Val_int(axis));
+
+    switch (event->pan.pantype) {
+        case SDL_PANEVENTTYPE_INTERRUPT:
+            //
+            Store_field(vInner, 4, Val_int(0));
+            break;
+        case SDL_PANEVENTTYPE_FLING:
+            //
+            Store_field(vInner, 4, Val_int(1));
+            break;
+        case SDL_PANEVENTTYPE_PAN:
+            CAMLlocal2(panElement, floatElement);
+            panElement = caml_alloc(1, 0);
+
+            floatElement = caml_copy_double(event->pan.contents.pan.delta);
+
+            Store_field(panElement, 0, floatElement);
+
+            Store_field(vInner, 4, panElement);
+            break;
+    }
 
     Store_field(v, 0, vInner);
     break;
