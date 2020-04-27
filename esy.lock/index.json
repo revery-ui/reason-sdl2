@@ -1,5 +1,5 @@
 {
-  "checksum": "ac1f2b2929ad8ddc6272a50eefa53372",
+  "checksum": "67a8bee2a2da5e3c6ceaa4e70a4fac6d",
   "root": "reason-sdl2@link-dev:./package.json",
   "node": {
     "refmterr@3.3.0@d41d8cd9": {
@@ -34,7 +34,6 @@
       "overrides": [],
       "dependencies": [
         "refmterr@3.3.0@d41d8cd9", "esy-sdl2@2.0.10006@d41d8cd9",
-        "esy-cmake@0.3.5@d41d8cd9",
         "@opam/dune-configurator@opam:2.5.1@aeb9d8d5",
         "@opam/dune@opam:2.5.1@a0c1e658", "@esy-ocaml/reason@3.6.0@d41d8cd9"
       ],
@@ -65,20 +64,6 @@
         "type": "install",
         "source": [
           "archive:https://registry.npmjs.org/esy-sdl2/-/esy-sdl2-2.0.10006.tgz#sha1:f16e204a0c3a5fbeca1bb0d1cccbaaa4519cddd3"
-        ]
-      },
-      "overrides": [],
-      "dependencies": [],
-      "devDependencies": []
-    },
-    "esy-cmake@0.3.5@d41d8cd9": {
-      "id": "esy-cmake@0.3.5@d41d8cd9",
-      "name": "esy-cmake",
-      "version": "0.3.5",
-      "source": {
-        "type": "install",
-        "source": [
-          "archive:https://registry.npmjs.org/esy-cmake/-/esy-cmake-0.3.5.tgz#sha1:2df0bdfe9317fbcded5f463fca1f346464494c7a"
         ]
       },
       "overrides": [],
