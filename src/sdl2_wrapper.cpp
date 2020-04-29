@@ -887,6 +887,22 @@ CAMLprim value resdl_SDL_GetWindowSize(value vWindow) {
   CAMLreturn(ret);
 }
 
+CAMLprim value resdl_SDL_GetWindowPosition(value vWindow) {
+  CAMLparam1(vWindow);
+  CAMLlocal1(position);
+  
+  SDL_Window *win = (SDL_Window *)vWindow;
+  int x, y = 0;
+
+  SDL_GetWindowPosition(win, &x, &y);
+  
+  position = caml_alloc(2, 0);
+  Store_field(position, 0, Val_int(x));
+  Store_field(position, 1, Val_int(y));
+  
+  CAMLreturn(position);
+}
+
 CAMLprim value resdl_SDL_GL_GetDrawableSize(value vWindow) {
   CAMLparam1(vWindow);
   CAMLlocal1(ret);

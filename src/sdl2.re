@@ -137,6 +137,7 @@ module Window = {
   external create: (int, int, string) => t = "resdl_SDL_CreateWindow";
   external getId: t => int = "resdl_SDL_GetWindowId";
   external getSize: t => Size.t = "resdl_SDL_GetWindowSize";
+  external getPosition: t => (int, int) = "resdl_SDL_GetWindowPosition";
   external setBordered: (t, bool) => unit = "resdl_SDL_SetWindowBordered";
   external getPixelFormat: t => PixelFormat.t =
     "resdl_SDL_GetWindowPixelFormat";
