@@ -469,10 +469,10 @@ CAMLprim value resdl_SDL_GetDisplayBounds(value vDisplay) {
   SDL_GetDisplayBounds(displayIndex, &sdlRect);
 
   rect = caml_alloc(4, 0);
-  Store_field(rect, 0, sdlRect.x);
-  Store_field(rect, 1, sdlRect.y);
-  Store_field(rect, 2, sdlRect.w);
-  Store_field(rect, 3, sdlRect.h);
+  Store_field(rect, 0, Val_int(sdlRect.x));
+  Store_field(rect, 1, Val_int(sdlRect.y));
+  Store_field(rect, 2, Val_int(sdlRect.w));
+  Store_field(rect, 3, Val_int(sdlRect.h));
   CAMLreturn(rect);
 };
 
@@ -486,10 +486,10 @@ CAMLprim value resdl_SDL_GetDisplayUsableBounds(value vDisplay) {
   SDL_GetDisplayUsableBounds(displayIndex, &sdlRect);
 
   rect = caml_alloc(4, 0);
-  Store_field(rect, 0, sdlRect.x);
-  Store_field(rect, 1, sdlRect.y);
-  Store_field(rect, 2, sdlRect.h);
-  Store_field(rect, 3, sdlRect.h);
+  Store_field(rect, 0, Val_int(sdlRect.x));
+  Store_field(rect, 1, Val_int(sdlRect.y));
+  Store_field(rect, 2, Val_int(sdlRect.w));
+  Store_field(rect, 3, Val_int(sdlRect.h));
   CAMLreturn(rect);
 };
 
