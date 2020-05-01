@@ -493,6 +493,12 @@ CAMLprim value resdl_SDL_GetDisplayUsableBounds(value vDisplay) {
   CAMLreturn(rect);
 };
 
+CAMLprim value resdl_SDL_GetNumVideoDisplays(value vUnit) {
+  CAMLparam0();
+  int num = SDL_GetNumVideoDisplays();
+  CAMLreturn(Val_int(num));
+};
+
 CAMLprim value resdl_SDL_GetPixelFormatName(value vPixelFormat) {
   CAMLparam1(vPixelFormat);
   CAMLlocal1(ret);

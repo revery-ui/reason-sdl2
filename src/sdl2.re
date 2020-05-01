@@ -67,6 +67,7 @@ module Display = {
     };
   };
 
+  external getNumberOfDisplays: unit => int = "resdl_SDL_GetNumVideoDisplays";
   external getDPI: t => Dpi.t = "resdl_SDL_GetDisplayDPI";
   external getCurrentMode: t => Mode.t = "resdl_SDL_GetCurrentDisplayMode";
   external getDesktopMode: t => Mode.t = "resdl_SDL_GetDesktopDisplayMode";
