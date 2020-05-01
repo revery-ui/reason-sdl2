@@ -80,6 +80,15 @@ let run = () => {
   let scale = Sdl2.Window.getWin32ScaleFactor(primaryWindow);
   Console.log("Win32 scale factor: " ++ string_of_float(scale));
 
+  Console.log("Displays:");
+  List.iter(
+    display => {
+      let Sdl2.Rect.{x, y, width, height} = Sdl2.Display.getBounds(display);
+      Printf.printf("\tx: %n, y: %n, w: %n, h: %n\n%!", x, y, width, height);
+    },
+    Sdl2.Display.getDisplays(),
+  );
+
   let display = Sdl2.Window.getDisplay(primaryWindow);
   let dpi = Sdl2.Display.getDPI(display);
   Console.log("Display DPI: " ++ Sdl2.Display.Dpi.show(dpi));
