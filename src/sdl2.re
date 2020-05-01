@@ -134,7 +134,16 @@ module Window = {
 
   type hitTestCallback = (t, int, int) => hitTestResult;
 
-  external create: (int, int, string) => t = "resdl_SDL_CreateWindow";
+  external create:
+    (
+      string,
+      [ | `Undefined | `Centered | `Absolute(int)],
+      [ | `Undefined | `Centered | `Absolute(int)],
+      int,
+      int
+    ) =>
+    t =
+    "resdl_SDL_CreateWindow";
   external getId: t => int = "resdl_SDL_GetWindowId";
   external getSize: t => Size.t = "resdl_SDL_GetWindowSize";
   external getPosition: t => (int, int) = "resdl_SDL_GetWindowPosition";

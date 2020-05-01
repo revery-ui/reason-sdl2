@@ -1146,9 +1146,27 @@ CAMLprim value resdl_SDL_WindowCenter(value vWin) {
   CAMLreturn(Val_unit);
 }
 
-CAMLprim value resdl_SDL_CreateWindow(value vWidth, value vHeight,
-                                      value vName) {
-  CAMLparam3(vWidth, vHeight, vName);
+CAMLprim value resdl_SDL_CreateWindow(value vName, value vX, value vY,
+                                      value vWidth, value vHeight) {
+  CAMLparam5(vName, vX, vY, vWidth, vHeight);
+
+  int x;
+  if (vX == hash_variant("Centered")) {
+    x = SDL_WINDOWPOS_CENTERED;
+  } else if (Is_block(vX) && Field(vX, 0) == hash_variant("Absolute")) {
+    x = Int_val(Field(vX, 1));
+  } else {
+    x = SDL_WINDOWPOS_UNDEFINED;
+  };
+  
+  int y;
+  if (vY == hash_variant("Centered")) {
+    y = SDL_WINDOWPOS_CENTERED;
+  } else if (Is_block(vY) && Field(vY, 0) == hash_variant("Absolute")) {
+    y = Int_val(Field(vY, 1));
+  } else {
+    y = SDL_WINDOWPOS_UNDEFINED;
+  };
 
   int width = Int_val(vWidth);
   int height = Int_val(vHeight);
@@ -1183,8 +1201,7 @@ CAMLprim value resdl_SDL_CreateWindow(value vWidth, value vHeight,
   SDL_GL_SetAttribute(SDL_GL_ACCELERATED_VISUAL, 1);
 
   SDL_Window *win = (SDL_CreateWindow(
-      String_val(vName), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width,
-      height,
+      String_val(vName), x, y, width, height,
       SDL_WINDOW_OPENGL | SDL_WINDOW_ALLOW_HIGHDPI | SDL_WINDOW_RESIZABLE));
 
   if (!win) {
