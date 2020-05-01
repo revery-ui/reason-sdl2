@@ -59,10 +59,9 @@ module Display = {
   };
 
   external getDPI: t => Dpi.t = "resdl_SDL_GetDisplayDPI";
-
   external getCurrentMode: t => Mode.t = "resdl_SDL_GetCurrentDisplayMode";
-
   external getDesktopMode: t => Mode.t = "resdl_SDL_GetDesktopDisplayMode";
+  external getBounds: t => Rect.t = "resdl_SDL_GetDisplayBounds";
 };
 
 module PixelFormat = {

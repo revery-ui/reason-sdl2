@@ -459,6 +459,23 @@ CAMLprim value resdl_SDL_GetDesktopDisplayMode(value vDisplay) {
   CAMLreturn(ret);
 };
 
+CAMLprim value resdl_SDL_GetDisplayBounds(value vDisplay) {
+  CAMLparam1(vDisplay);
+  CAMLlocal1(rect);
+
+  int displayIndex = Int_val(vDisplay);
+  SDL_Rect sdlRect;
+
+  SDL_GetDisplayBounds(displayIndex, &sdlRect);
+
+  rect = caml_alloc(4, 0);
+  Store_field(rect, 0, sdlRect.x);
+  Store_field(rect, 1, sdlRect.y);
+  Store_field(rect, 2, sdlRect.w);
+  Store_field(rect, 3, sdlRect.h);
+  CAMLreturn(rect);
+};
+
 CAMLprim value resdl_SDL_GetPixelFormatName(value vPixelFormat) {
   CAMLparam1(vPixelFormat);
   CAMLlocal1(ret);
