@@ -1291,6 +1291,16 @@ CAMLprim value resdl_SDL_MaximizeWindow(value vWin) {
   CAMLreturn(Val_unit);
 }
 
+CAMLprim value resdl_SDL_IsWindowMaximized(value vWin) {
+  CAMLparam1(vWin);
+
+  SDL_Window *win = (SDL_Window *)vWin;
+  Uint32 flags = SDL_GetWindowFlags(win);
+  bool hasMaximizedFlag = (flags & SDL_WINDOW_MAXIMIZED) != 0;
+
+  CAMLreturn(Val_bool(hasMaximizedFlag));
+}
+
 CAMLprim value resdl_SDL_MinimizeWindow(value vWin) {
   CAMLparam1(vWin);
 

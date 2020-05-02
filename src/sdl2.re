@@ -205,6 +205,8 @@ module Window = {
   external minimize: t => unit = "resdl_SDL_MinimizeWindow";
   external restore: t => unit = "resdl_SDL_RestoreWindow";
   external maximize: t => unit = "resdl_SDL_MaximizeWindow";
+  
+  external isMaximized: t => bool = "resdl_SDL_IsWindowMaximized";
 
   external getDisplay: t => Display.t = "resdl_SDL_GetWindowDisplayIndex";
 
