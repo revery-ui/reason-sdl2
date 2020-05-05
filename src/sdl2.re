@@ -1,6 +1,19 @@
 module Float32Array = Float32Array;
 module Uint16Array = Uint16Array;
 
+// Added this small unwrap function as a sort
+// of shim for 4.08's Option.value. This can be
+// removed if and when the package relies on >=4.08
+let unwrap = (~default: 'a=?, opt) =>
+  switch (opt) {
+  | Some(v) => v
+  | None =>
+    switch (default) {
+    | Some(v2) => v2
+    | None => raise(Not_found);
+    }
+  };
+
 module Size = {
   type t = {
     width: int,
@@ -665,10 +678,7 @@ module Event = {
       Printf.sprintf(
         "DropText - windowID: %d file: %s x: %d y: %d\n",
         windowID,
-        switch (file) {
-        | Some(f) => f
-        | None => ""
-        },
+        unwrap(~default="", file),
         x,
         y,
       )
@@ -676,10 +686,7 @@ module Event = {
       Printf.sprintf(
         "DropFile - windowID: %d file: %s x: %d y: %d\n",
         windowID,
-        switch (file) {
-        | Some(f) => f
-        | None => ""
-        },
+        unwrap(~default="", file),
         x,
         y,
       )
