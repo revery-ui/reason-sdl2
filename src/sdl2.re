@@ -684,12 +684,7 @@ module Event = {
         y,
       )
     | DropBegin({windowID, x, y, _}) =>
-      Printf.sprintf(
-        "DropBegin - windowID: %d x: %d y: %d\n",
-        windowID,
-        x,
-        y,
-      )
+      Printf.sprintf("DropBegin - windowID: %d x: %d y: %d\n", windowID, x, y)
     | DropComplete({windowID, x, y, _}) =>
       Printf.sprintf(
         "DropComplete - windowID: %d x: %d y: %d\n",
