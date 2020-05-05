@@ -652,11 +652,20 @@ CAMLprim value Val_SDL_WindowEventWithData(int type, int windowID, int data1,
   CAMLreturn(ret);
 }
 
+void getNonFocusedMousePosition(SDL_Window *window, int *x, int *y) {
+  int mouseX, mouseY;
+  SDL_GetGlobalMouseState(&mouseX, &mouseY);
+  int windowX, windowY;
+  SDL_GetWindowPosition(window, &windowX, &windowY);
+  *x = mouseX - windowX;
+  *y = mouseY - windowY;
+}
+
 CAMLprim value Val_SDL_Event(SDL_Event *event) {
   CAMLparam0();
   CAMLlocal2(v, vInner);
 
-  int tag, mouseButton;
+  int tag, mouseButton, x, y;
 
   switch (event->type) {
   case SDL_QUIT:
@@ -770,6 +779,66 @@ CAMLprim value Val_SDL_Event(SDL_Event *event) {
     Store_field(vInner, 8, Val_int(event->pan.timestamp));
 
     Store_field(v, 0, vInner);
+    break;
+  case SDL_DROPTEXT:
+    v = caml_alloc(1, 25);
+    vInner = caml_alloc(5, 0);
+
+    getNonFocusedMousePosition(SDL_GetWindowFromID(event->drop.windowID), &x, &y);
+
+    Store_field(vInner, 0, Val_int(event->drop.windowID));
+    Store_field(vInner, 1, Val_some(caml_copy_string(event->drop.file)));
+    Store_field(vInner, 2, Val_int(event->drop.timestamp));
+    Store_field(vInner, 3, Val_int(x));
+    Store_field(vInner, 4, Val_int(y));
+
+    Store_field(v, 0, vInner);
+    SDL_free(event->drop.file);
+    break;
+  case SDL_DROPFILE:
+    v = caml_alloc(1, 26);
+    vInner = caml_alloc(5, 0);
+
+    getNonFocusedMousePosition(SDL_GetWindowFromID(event->drop.windowID), &x, &y);
+
+    Store_field(vInner, 0, Val_int(event->drop.windowID));
+    Store_field(vInner, 1, Val_some(caml_copy_string(event->drop.file)));
+    Store_field(vInner, 2, Val_int(event->drop.timestamp));
+    Store_field(vInner, 3, Val_int(x));
+    Store_field(vInner, 4, Val_int(y));
+
+    Store_field(v, 0, vInner);
+    SDL_free(event->drop.file);
+    break;
+  case SDL_DROPBEGIN:
+    v = caml_alloc(1, 27);
+    vInner = caml_alloc(5, 0);
+
+    getNonFocusedMousePosition(SDL_GetWindowFromID(event->drop.windowID), &x, &y);
+
+    Store_field(vInner, 0, Val_int(event->drop.windowID));
+    Store_field(vInner, 1, Val_none);
+    Store_field(vInner, 2, Val_int(event->drop.timestamp));
+    Store_field(vInner, 3, Val_int(x));
+    Store_field(vInner, 4, Val_int(y));
+
+    Store_field(v, 0, vInner);
+    SDL_free(event->drop.file);
+    break;
+  case SDL_DROPCOMPLETE:
+    v = caml_alloc(1, 28);
+    vInner = caml_alloc(5, 0);
+
+    getNonFocusedMousePosition(SDL_GetWindowFromID(event->drop.windowID), &x, &y);
+
+    Store_field(vInner, 0, Val_int(event->drop.windowID));
+    Store_field(vInner, 1, Val_none);
+    Store_field(vInner, 2, Val_int(event->drop.timestamp));
+    Store_field(vInner, 3, Val_int(x));
+    Store_field(vInner, 4, Val_int(y));
+
+    Store_field(v, 0, vInner);
+    SDL_free(event->drop.file);
     break;
   case SDL_KEYMAPCHANGED:
     v = Val_int(2);
@@ -930,16 +999,16 @@ CAMLprim value resdl_SDL_GetWindowSize(value vWindow) {
 CAMLprim value resdl_SDL_GetWindowPosition(value vWindow) {
   CAMLparam1(vWindow);
   CAMLlocal1(position);
-  
+
   SDL_Window *win = (SDL_Window *)vWindow;
   int x, y = 0;
 
   SDL_GetWindowPosition(win, &x, &y);
-  
+
   position = caml_alloc(2, 0);
   Store_field(position, 0, Val_int(x));
   Store_field(position, 1, Val_int(y));
-  
+
   CAMLreturn(position);
 }
 
@@ -1198,7 +1267,7 @@ CAMLprim value resdl_SDL_CreateWindow(value vName, value vX, value vY,
   } else {
     x = SDL_WINDOWPOS_UNDEFINED;
   };
-  
+
   int y;
   if (vY == hash_variant("Centered")) {
     y = SDL_WINDOWPOS_CENTERED;
