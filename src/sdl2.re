@@ -10,7 +10,7 @@ let unwrap = (~default: 'a=?, opt) =>
   | None =>
     switch (default) {
     | Some(v2) => v2
-    | None => raise(Not_found);
+    | None => raise(Not_found)
     }
   };
 
