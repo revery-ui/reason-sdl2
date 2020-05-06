@@ -16,9 +16,13 @@
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_syswm.h>
+#include "mouse_helper.h"
+#include "RESDL_DragEvent.h"
 
 #ifdef __APPLE__
 #import <Cocoa/Cocoa.h>
+#import <objc/runtime.h>
+#import "ReasonSDL2Window.h"
 #endif
 
 #ifdef WIN32
@@ -53,6 +57,8 @@ static value Val_error(value v) {
   Store_field(some, 0, v);
   CAMLreturn(some);
 }
+
+int RESDL_DRAGENTER = SDL_RegisterEvents(1);
 
 extern "C" {
 CAMLprim value resdl_SDL_EnableScreenSaver() {
@@ -650,15 +656,6 @@ CAMLprim value Val_SDL_WindowEventWithData(int type, int windowID, int data1,
   Store_field(ret, 0, v);
 
   CAMLreturn(ret);
-}
-
-void getNonFocusedMousePosition(SDL_Window *window, int *localMouseX, int *localMouseY) {
-  int globalMouseX, globalMouseY;
-  SDL_GetGlobalMouseState(&globalMouseX, &globalMouseY);
-  int windowX, windowY;
-  SDL_GetWindowPosition(window, &windowX, &windowY);
-  *localMouseX = globalMouseX - windowX;
-  *localMouseY = globalMouseY - windowY;
 }
 
 CAMLprim value Val_SDL_Event(SDL_Event *event) {
@@ -1317,6 +1314,10 @@ CAMLprim value resdl_SDL_CreateWindow(value vName, value vX, value vY,
     SDL_LogCritical(SDL_LOG_CATEGORY_ERROR, "SDL_CreateWindow failed: %s\n",
                     SDL_GetError());
   }
+
+#ifdef __APPLE__
+  ReasonSDL2Window *rsdl2Win = [ReasonSDL2Window newWithSDLWindow:win dragEventType:RESDL_DRAGENTER];
+#endif
 
   value vWindow = (value)win;
   CAMLreturn(vWindow);

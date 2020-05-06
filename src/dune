@@ -5,7 +5,7 @@
     (library_flags (:include flags.sexp))
     (c_library_flags (:include c_library_flags.sexp))
     (c_flags (:include c_flags.sexp))
-    (cxx_names sdl2_wrapper stb_image)
+    (cxx_names sdl2_wrapper stb_image ReasonSDL2Window)
     (cxx_flags (:include cxx_flags.sexp)))
 
 (rule
