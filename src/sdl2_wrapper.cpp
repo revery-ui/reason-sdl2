@@ -58,7 +58,7 @@ static value Val_error(value v) {
   CAMLreturn(some);
 }
 
-int RESDL_DRAGENTER = SDL_RegisterEvents(1);
+int RESDL_DRAGENTER = 1;
 
 extern "C" {
 CAMLprim value resdl_SDL_EnableScreenSaver() {
@@ -664,6 +664,10 @@ CAMLprim value Val_SDL_Event(SDL_Event *event) {
 
   int tag, mouseButton, mousePosX, mousePosY;
 
+  printf("Event type: %d\n", event->type);
+  printf("User event type: %d\n", SDL_USEREVENT);
+  printf("User event type: %d\n", RESDL_DRAGENTER);
+
   switch (event->type) {
   case SDL_QUIT:
     v = Val_int(0);
@@ -898,6 +902,23 @@ CAMLprim value Val_SDL_Event(SDL_Event *event) {
     };
 
     break;
+  case SDL_USEREVENT:
+    printf("user event! WindowID: %d\n", event->user.windowID);
+    if (event->user.code == RESDL_DRAGENTER) {
+      v = caml_alloc(1, 28);
+      vInner = caml_alloc(5, 0);
+
+      Store_field(vInner, 0, Val_int(event->user.windowID));
+      Store_field(vInner, 1, Val_none);
+      Store_field(vInner, 2, Val_int(event->user.timestamp));
+      Store_field(vInner, 3, Val_int(((RESDL_DragEvent_data *)event->user.data1)->mouseX));
+      Store_field(vInner, 4, Val_int(((RESDL_DragEvent_data *)event->user.data1)->mouseY));
+
+      Store_field(v, 0, vInner);
+      free(event->user.data1);
+    } else {
+      v = Val_int(1);
+    }
   default:
     v = Val_int(1);
   }
@@ -1316,7 +1337,7 @@ CAMLprim value resdl_SDL_CreateWindow(value vName, value vX, value vY,
   }
 
 #ifdef __APPLE__
-  ReasonSDL2Window *rsdl2Win = [ReasonSDL2Window newWithSDLWindow:win dragEventType:RESDL_DRAGENTER];
+  ReasonSDL2Window *rsdl2Win = [ReasonSDL2Window newWithSDLWindow:SDL_GetWindowID(win) dragEventType:RESDL_DRAGENTER];
 #endif
 
   value vWindow = (value)win;

@@ -553,6 +553,7 @@ module Event = {
     | DropFile(dropEvent) // 26
     | DropBegin(dropEvent) // 27
     | DropComplete(dropEvent) // 28
+    | DragEnter(dropEvent) // 29
     // An event that hasn't been implemented yet
     | Unknown
     | KeymapChanged;
@@ -695,6 +696,13 @@ module Event = {
     | DropComplete({windowID, x, y, _}) =>
       Printf.sprintf(
         "DropComplete - windowID: %d x: %d y: %d\n",
+        windowID,
+        x,
+        y,
+      )
+    | DragEnter({windowID, x, y, _}) =>
+      Printf.sprintf(
+        "DragEnter - windowID: %d x: %d y: %d\n",
         windowID,
         x,
         y,
