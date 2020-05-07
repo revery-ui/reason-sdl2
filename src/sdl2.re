@@ -504,7 +504,7 @@ module Event = {
 
   /* Drop events
     dropNotificationEvent occurs when SDL is notifying when a drop
-    is about to/has taken place through DROPBEGING & DROPCOMPLETE
+    is about to/has taken place through DROPBEGIN & DROPCOMPLETE
 
     dropEvent occurs when a file is actually being dropped
 
