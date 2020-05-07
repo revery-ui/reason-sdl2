@@ -9,27 +9,19 @@
     "build:byte": "esy '@example' b dune build bin_native/test_sdl2.bc"
   },
   "esy": {
-    "build": [
-      [
-        "dune",
-        "build",
-        "-p",
-        "sdl2"
-      ]
-    ],
-    "install": [
-      "esy-installer sdl2.install"
-    ]
+    "build": "dune build -p sdl2",
+    "buildDev": "refmterr dune build --root . --only-package sdl2"
   },
   "dependencies": {
-    "@opam/dune": "^1.7.3",
-    "@opam/dune-configurator": "*",
     "@esy-ocaml/reason": "^3.3.7",
     "refmterr": "^3.1.0",
-    "esy-sdl2": "^2.0.10006"
+    "@opam/dune": ">=1.6",
+    "@opam/dune-configurator": "*",
+    "esy-sdl2": "^2.0.10006",
+    "ocaml": ">=4.6.0 <4.11.0"
   },
   "devDependencies": {
-    "ocaml": ">=4.6.0 <4.9.0",
+    "refmterr": "^3.1.0",
     "@opam/ocaml-lsp-server": "github:ocaml/ocaml-lsp:ocaml-lsp-server.opam#04733ed"
   }
 }

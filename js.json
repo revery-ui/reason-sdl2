@@ -4,31 +4,19 @@
       "run": "esy '@js' x bash -c 'http-server #{self.bin}'"
   },
   "override": {
-      "build": [
-        [
-          "dune",
-          "build",
-          "--root",
-          "."
-        ],
-        [
-          "dune",
-          "build",
-          "--root",
-          ".",
-          "./bin_js/test_sdl2.bc.js"
-        ]
-      ],
-      "install": [
-        "esy-installer sdl2.install",
-        "esy-installer sdl2-example.install"
-      ],
-      "dependencies": {
-        "@opam/js_of_ocaml": "*",
-        "@opam/js_of_ocaml-compiler": "*",
-        "@opam/js_of_ocaml-lwt": "*",
-        "http-server": "*",
-        "@opam/merlin-extend": "0.4"
-      }
-  }
+    "build": "dune build -p sdl2,sdl2-js",
+    "buildDev": "refmterr dune build --promote-install-files --root . --only-package sdl2,sdl2-js",
+    "install": [
+      "esy-installer sdl2.install", "esy-installer sdl2-js.install"
+    ],
+    "dependencies": {
+      "@opam/js_of_ocaml": "*",
+      "@opam/js_of_ocaml-compiler": "*",
+      "@opam/js_of_ocaml-lwt": "*",
+      "http-server": "*",
+      "@opam/lwt_ppx": "^2.0.0",
+      "@opam/merlin-extend": "0.4"
+    }
+  },
+  "dependencies": { "@reason-native/console": "^0.1.0" }
 }

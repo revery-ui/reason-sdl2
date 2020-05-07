@@ -4,15 +4,8 @@
       "run": "esy '@example' x test_sdl2"
   },
   "override": {
-      "build": [
-        [
-          "dune",
-          "build",
-          "-p",
-	  "sdl2,sdl2-example",
-          "-j4"
-        ]
-      ],
+      "build": "dune build -p sdl2,sdl2-example -j4",
+      "buildDev": "refmterr dune build --promote-install-files --root . --only-package sdl2,sdl2-example -j4",
       "install": [
         "esy-installer sdl2.install",
         "esy-installer sdl2-example.install",
@@ -20,7 +13,7 @@
         "bash -c \"cp #{esy-sdl2.bin}/*.dll \\'$cur__bin\\' #{os == 'windows' ? '' : '2>/dev/null || true'}\""
       ],
       "dependencies": {
-        "@reason-native/console": "*"
+        "@reason-native/console": "^0.1.0"
       }
   }
 }
