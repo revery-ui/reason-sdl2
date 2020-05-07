@@ -787,7 +787,7 @@ CAMLprim value Val_SDL_Event(SDL_Event *event) {
     getNonFocusedMousePosition(SDL_GetWindowFromID(event->drop.windowID), &mousePosX, &mousePosY);
 
     Store_field(vInner, 0, Val_int(event->drop.windowID));
-    Store_field(vInner, 1, Val_some(caml_copy_string(event->drop.file)));
+    Store_field(vInner, 1, caml_copy_string(event->drop.file));
     Store_field(vInner, 2, Val_int(event->drop.timestamp));
     Store_field(vInner, 3, Val_int(mousePosX));
     Store_field(vInner, 4, Val_int(mousePosY));
@@ -802,7 +802,7 @@ CAMLprim value Val_SDL_Event(SDL_Event *event) {
     getNonFocusedMousePosition(SDL_GetWindowFromID(event->drop.windowID), &mousePosX, &mousePosY);
 
     Store_field(vInner, 0, Val_int(event->drop.windowID));
-    Store_field(vInner, 1, Val_some(caml_copy_string(event->drop.file)));
+    Store_field(vInner, 1, caml_copy_string(event->drop.file));
     Store_field(vInner, 2, Val_int(event->drop.timestamp));
     Store_field(vInner, 3, Val_int(mousePosX));
     Store_field(vInner, 4, Val_int(mousePosY));
@@ -812,30 +812,28 @@ CAMLprim value Val_SDL_Event(SDL_Event *event) {
     break;
   case SDL_DROPBEGIN:
     v = caml_alloc(1, 27);
-    vInner = caml_alloc(5, 0);
+    vInner = caml_alloc(4, 0);
 
     getNonFocusedMousePosition(SDL_GetWindowFromID(event->drop.windowID), &mousePosX, &mousePosY);
 
     Store_field(vInner, 0, Val_int(event->drop.windowID));
-    Store_field(vInner, 1, Val_none);
-    Store_field(vInner, 2, Val_int(event->drop.timestamp));
-    Store_field(vInner, 3, Val_int(mousePosX));
-    Store_field(vInner, 4, Val_int(mousePosY));
+    Store_field(vInner, 1, Val_int(event->drop.timestamp));
+    Store_field(vInner, 2, Val_int(mousePosX));
+    Store_field(vInner, 3, Val_int(mousePosY));
 
     Store_field(v, 0, vInner);
     SDL_free(event->drop.file);
     break;
   case SDL_DROPCOMPLETE:
     v = caml_alloc(1, 28);
-    vInner = caml_alloc(5, 0);
+    vInner = caml_alloc(4, 0);
 
     getNonFocusedMousePosition(SDL_GetWindowFromID(event->drop.windowID), &mousePosX, &mousePosY);
 
     Store_field(vInner, 0, Val_int(event->drop.windowID));
-    Store_field(vInner, 1, Val_none);
-    Store_field(vInner, 2, Val_int(event->drop.timestamp));
-    Store_field(vInner, 3, Val_int(mousePosX));
-    Store_field(vInner, 4, Val_int(mousePosY));
+    Store_field(vInner, 1, Val_int(event->drop.timestamp));
+    Store_field(vInner, 2, Val_int(mousePosX));
+    Store_field(vInner, 3, Val_int(mousePosY));
 
     Store_field(v, 0, vInner);
     SDL_free(event->drop.file);

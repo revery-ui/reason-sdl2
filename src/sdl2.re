@@ -1,19 +1,6 @@
 module Float32Array = Float32Array;
 module Uint16Array = Uint16Array;
 
-// Added this small unwrap function as a sort
-// of shim for 4.08's Option.value. This can be
-// removed if and when the package relies on >=4.08
-let unwrap = (~default: 'a=?, opt) =>
-  switch (opt) {
-  | Some(v) => v
-  | None =>
-    switch (default) {
-    | Some(v2) => v2
-    | None => raise(Not_found)
-    }
-  };
-
 module Size = {
   type t = {
     width: int,
@@ -514,9 +501,25 @@ module Event = {
     height: int,
   };
 
+
+  /* Drop events
+    dropNotificationEvent occurs when SDL is notifying when a drop
+    is about to/has taken place through DROPBEGING & DROPCOMPLETE
+
+    dropEvent occurs when a file is actually being dropped
+
+    The main difference is that dropEvent includes a file/text path, whereas
+    dropNotificationEvent does not.
+   */
+  type dropNotificationEvent = {
+    windowID: int,
+    timestamp: int,
+    x: int,
+    y: int
+  }
   type dropEvent = {
     windowID: int,
-    file: option(string),
+    file: string,
     timestamp: int,
     x: int,
     y: int,
@@ -551,8 +554,8 @@ module Event = {
     | MousePan(mousePan) // 24
     | DropText(dropEvent) // 25
     | DropFile(dropEvent) // 26
-    | DropBegin(dropEvent) // 27
-    | DropComplete(dropEvent) // 28
+    | DropBegin(dropNotificationEvent) // 27
+    | DropComplete(dropNotificationEvent) // 28
     // An event that hasn't been implemented yet
     | Unknown
     | KeymapChanged;
@@ -678,7 +681,7 @@ module Event = {
       Printf.sprintf(
         "DropText - windowID: %d file: %s x: %d y: %d\n",
         windowID,
-        unwrap(~default="", file),
+        file,
         x,
         y,
       )
@@ -686,7 +689,7 @@ module Event = {
       Printf.sprintf(
         "DropFile - windowID: %d file: %s x: %d y: %d\n",
         windowID,
-        unwrap(~default="", file),
+        file,
         x,
         y,
       )
