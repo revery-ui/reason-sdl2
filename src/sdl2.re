@@ -358,7 +358,32 @@ module Keycode = {
   let p_digit9 = 1073741921;
   let p_digit0 = 1073741922;
 
+  let a = 97;
+  let b = 98;
   let c = 99;
+  let d = 100;
+  let e = 101;
+  let f = 102;
+  let g = 103;
+  let h = 104;
+  let i = 105;
+  let j = 106;
+  let k = 107;
+  let l = 108;
+  let m = 109;
+  let n = 110;
+  let o = 111;
+  let p = 112;
+  let q = 113;
+  let r = 114;
+  let s = 115;
+  let t = 116;
+  let u = 117;
+  let v = 118;
+  let w = 119;
+  let x = 120;
+  let y = 121;
+  let z = 122;
 
   let delete = 127;
 
@@ -501,22 +526,21 @@ module Event = {
     height: int,
   };
 
-
   /* Drop events
-    dropNotificationEvent occurs when SDL is notifying when a drop
-    is about to/has taken place through DROPBEGIN & DROPCOMPLETE
+      dropNotificationEvent occurs when SDL is notifying when a drop
+      is about to/has taken place through DROPBEGIN & DROPCOMPLETE
 
-    dropEvent occurs when a file is actually being dropped
+      dropEvent occurs when a file is actually being dropped
 
-    The main difference is that dropEvent includes a file/text path, whereas
-    dropNotificationEvent does not.
-   */
+      The main difference is that dropEvent includes a file/text path, whereas
+      dropNotificationEvent does not.
+     */
   type dropNotificationEvent = {
     windowID: int,
     timestamp: int,
     x: int,
-    y: int
-  }
+    y: int,
+  };
   type dropEvent = {
     windowID: int,
     file: string,
