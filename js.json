@@ -24,6 +24,7 @@
         "esy-installer sdl2-example.install"
       ],
       "dependencies": {
+        "@opam/lwt_ppx": "^2",
         "@opam/js_of_ocaml": "*",
         "@opam/js_of_ocaml-compiler": "*",
         "@opam/js_of_ocaml-lwt": "*",
