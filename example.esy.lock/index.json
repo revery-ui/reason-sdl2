@@ -308,20 +308,20 @@
       ],
       "devDependencies": [ "ocaml@4.8.1000@d41d8cd9" ]
     },
-    "@opam/ocaml-migrate-parsetree@opam:1.7.2@bc8b618e": {
-      "id": "@opam/ocaml-migrate-parsetree@opam:1.7.2@bc8b618e",
+    "@opam/ocaml-migrate-parsetree@opam:1.7.3@dbcf3b47": {
+      "id": "@opam/ocaml-migrate-parsetree@opam:1.7.3@dbcf3b47",
       "name": "@opam/ocaml-migrate-parsetree",
-      "version": "opam:1.7.2",
+      "version": "opam:1.7.3",
       "source": {
         "type": "install",
         "source": [
-          "archive:https://opam.ocaml.org/cache/sha256/6a/6ae6753c3e632a63f76b031afc3eab74b209babdfdba4030060a934ce0660bd6#sha256:6ae6753c3e632a63f76b031afc3eab74b209babdfdba4030060a934ce0660bd6",
-          "archive:https://github.com/ocaml-ppx/ocaml-migrate-parsetree/releases/download/v1.7.2/ocaml-migrate-parsetree-v1.7.2.tbz#sha256:6ae6753c3e632a63f76b031afc3eab74b209babdfdba4030060a934ce0660bd6"
+          "archive:https://opam.ocaml.org/cache/sha256/6d/6d85717bcf476b87f290714872ed4fbde0233dc899c3158a27f439d70224fb55#sha256:6d85717bcf476b87f290714872ed4fbde0233dc899c3158a27f439d70224fb55",
+          "archive:https://github.com/ocaml-ppx/ocaml-migrate-parsetree/releases/download/v1.7.3/ocaml-migrate-parsetree-v1.7.3.tbz#sha256:6d85717bcf476b87f290714872ed4fbde0233dc899c3158a27f439d70224fb55"
         ],
         "opam": {
           "name": "ocaml-migrate-parsetree",
-          "version": "1.7.2",
-          "path": "example.esy.lock/opam/ocaml-migrate-parsetree.1.7.2"
+          "version": "1.7.3",
+          "path": "example.esy.lock/opam/ocaml-migrate-parsetree.1.7.3"
         }
       },
       "overrides": [],
@@ -821,7 +821,7 @@
       "dependencies": [
         "ocaml@4.8.1000@d41d8cd9", "@opam/result@opam:1.5@6b753c82",
         "@opam/ocamlfind@opam:1.8.1@ff07b0f9",
-        "@opam/ocaml-migrate-parsetree@opam:1.7.2@bc8b618e",
+        "@opam/ocaml-migrate-parsetree@opam:1.7.3@dbcf3b47",
         "@opam/merlin-extend@opam:0.5@a5dd7d4b",
         "@opam/menhir@opam:20200211@26571604",
         "@opam/fix@opam:20200131@0ecd2f01", "@opam/dune@opam:2.5.1@a0c1e658"
