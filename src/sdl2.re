@@ -279,6 +279,10 @@ module MouseButton = {
     };
 };
 
+module Mouse = {
+  external capture: bool => int = "resdl_SDL_CaptureMouse";
+};
+
 module Scancode = {
   type t = int;
 

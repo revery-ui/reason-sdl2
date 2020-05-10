@@ -1663,6 +1663,12 @@ CAMLprim value resdl_SDL_ShowSimpleMessageBox(value vFlags, value vTitle,
   CAMLreturn(Val_unit);
 }
 
+CAMLprim value resdl_SDL_CaptureMouse(value vEnabled) {
+  CAMLparam0();
+  SDL_bool enabled = Int_val(vEnabled) == 1 ? SDL_TRUE : SDL_FALSE;
+  CAMLreturn(Val_int(SDL_CaptureMouse(enabled)));
+}
+
 CAMLprim value resdl_PassThrough(value v) { return v; };
 
 CAMLprim value resdl__javascript__renderloop() { return Val_unit; }
