@@ -27,7 +27,8 @@ let run = () => {
   Console.log("Operating system: " ++ Sdl2.Platform.getName());
   Console.log("Operating system version: " ++ Sdl2.Platform.getVersion());
   let primaryWindow =
-    Sdl2.Window.create("test", `Centered, `Centered, 100, 100);
+    Sdl2.Window.create("test", `Centered, `Centered, 100, 100)
+    |> Result.get_ok;
   let context = Sdl2.Gl.setup(primaryWindow);
   let version = Sdl2.Gl.getString(Sdl2.Gl.Version);
   let vendor = Sdl2.Gl.getString(Sdl2.Gl.Vendor);
