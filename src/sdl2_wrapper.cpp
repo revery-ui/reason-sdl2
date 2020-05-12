@@ -1334,14 +1334,12 @@ CAMLprim value resdl_SDL_CreateWindow(value vName, value vX, value vY,
       SDL_WINDOW_OPENGL | SDL_WINDOW_ALLOW_HIGHDPI | SDL_WINDOW_RESIZABLE));
 
   if (!win) {
-    SDL_LogCritical(SDL_LOG_CATEGORY_ERROR, "SDL_CreateWindow failed: %s\n",
-                    SDL_GetError());
+    value error = caml_copy_string(SDL_GetError());
+    CAMLreturn(Val_error(error));
+  } else {
+    SDL_AddEventWatch(resizeListener, NULL);
+    CAMLreturn(Val_ok((value)win));
   }
-
-  SDL_AddEventWatch(resizeListener, NULL);
-
-  value vWindow = (value)win;
-  CAMLreturn(vWindow);
 }
 
 CAMLprim value resdl_SDL_SetWindowBordered(value vWin, value vBordered) {
