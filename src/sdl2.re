@@ -207,6 +207,7 @@ module Window = {
   external maximize: t => unit = "resdl_SDL_MaximizeWindow";
 
   external isMaximized: t => bool = "resdl_SDL_IsWindowMaximized";
+  external isFullscreen: t => bool = "resdl_SDL_IsWindowFullscreen";
 
   external getDisplay: t => Display.t = "resdl_SDL_GetWindowDisplayIndex";
 

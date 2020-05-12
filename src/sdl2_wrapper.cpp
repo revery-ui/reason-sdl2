@@ -1392,6 +1392,25 @@ CAMLprim value resdl_SDL_IsWindowMaximized(value vWin) {
   CAMLreturn(Val_bool(hasMaximizedFlag));
 }
 
+CAMLprim value resdl_SDL_IsWindowFullscreen(value vWin) {
+  CAMLparam1(vWin);
+  // SDL's fullscreen window flags don't work on macOS
+  SDL_Window *win = (SDL_Window *)vWin;
+  bool isFullscreen;
+#ifdef __APPLE__
+  SDL_SysWMinfo wmInfo;
+  SDL_VERSION(&wmInfo.version);
+  SDL_GetWindowWMInfo(win, &wmInfo);
+  NSWindow *nWindow = wmInfo.info.cocoa.window;
+  isFullscreen = (([nWindow styleMask] & NSWindowStyleMaskFullScreen) == NSWindowStyleMaskFullScreen);
+#else
+  Uint32 flags = SDL_GetWindowFlags(win);
+  isFullscreen = (flags & SDL_WINDOW_FULLSCREEN) != 0;
+#endif
+
+  CAMLreturn(Val_bool(isFullscreen));
+}
+
 CAMLprim value resdl_SDL_MinimizeWindow(value vWin) {
   CAMLparam1(vWin);
 
