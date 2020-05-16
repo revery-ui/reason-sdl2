@@ -1,5 +1,5 @@
 {
-  "checksum": "da2ade54a7667c6e0440afa8881d946c",
+  "checksum": "e96b8b2fa5535bb19986b2866cfdcbb3",
   "root": "reason-sdl2@link-dev:./package.json",
   "node": {
     "refmterr@3.3.0@d41d8cd9": {
@@ -33,7 +33,8 @@
       },
       "overrides": [ "example.json" ],
       "dependencies": [
-        "refmterr@3.3.0@d41d8cd9", "esy-sdl2@2.0.10006@d41d8cd9",
+        "refmterr@3.3.0@d41d8cd9",
+        "esy-sdl2@github:revery-ui/esy-sdl2#1d60774@d41d8cd9",
         "@reason-native/console@0.1.0@d41d8cd9",
         "@opam/dune-configurator@opam:2.5.1@aeb9d8d5",
         "@opam/dune@opam:2.5.1@a0c1e658", "@esy-ocaml/reason@3.6.0@d41d8cd9"
@@ -57,15 +58,13 @@
       "dependencies": [],
       "devDependencies": []
     },
-    "esy-sdl2@2.0.10006@d41d8cd9": {
-      "id": "esy-sdl2@2.0.10006@d41d8cd9",
+    "esy-sdl2@github:revery-ui/esy-sdl2#1d60774@d41d8cd9": {
+      "id": "esy-sdl2@github:revery-ui/esy-sdl2#1d60774@d41d8cd9",
       "name": "esy-sdl2",
-      "version": "2.0.10006",
+      "version": "github:revery-ui/esy-sdl2#1d60774",
       "source": {
         "type": "install",
-        "source": [
-          "archive:https://registry.npmjs.org/esy-sdl2/-/esy-sdl2-2.0.10006.tgz#sha1:f16e204a0c3a5fbeca1bb0d1cccbaaa4519cddd3"
-        ]
+        "source": [ "github:revery-ui/esy-sdl2#1d60774" ]
       },
       "overrides": [],
       "dependencies": [],
