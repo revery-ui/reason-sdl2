@@ -585,6 +585,7 @@ module Event = {
     | DropFile(dropEvent) // 26
     | DropBegin(dropNotificationEvent) // 27
     | DropComplete(dropNotificationEvent) // 28
+    | WindowFullscreen(windowEvent) // 29
     // An event that hasn't been implemented yet
     | Unknown
     | KeymapChanged;
@@ -690,6 +691,8 @@ module Event = {
       Printf.sprintf("WindowMinimized: %d\n", windowID)
     | WindowMaximized({windowID}) =>
       Printf.sprintf("WindowMaximized: %d\n", windowID)
+    | WindowFullscreen({windowID}) =>
+      Printf.sprintf("WindowFullscreen: %d\n", windowID)
     | WindowRestored({windowID}) =>
       Printf.sprintf("WindowRestored: %d\n", windowID)
     | WindowEnter({windowID}) =>

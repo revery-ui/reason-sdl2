@@ -870,6 +870,9 @@ CAMLprim value Val_SDL_Event(SDL_Event *event) {
     case SDL_WINDOWEVENT_MAXIMIZED:
       v = Val_SDL_WindowEvent(15, event->window.windowID);
       break;
+    case SDL_WINDOWEVENT_FULLSCREEN:
+      v = Val_SDL_WindowEvent(29, event->window.windowID);
+      break;
     case SDL_WINDOWEVENT_RESTORED:
       v = Val_SDL_WindowEvent(16, event->window.windowID);
       break;
