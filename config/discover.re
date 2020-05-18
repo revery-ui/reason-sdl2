@@ -81,12 +81,7 @@ let flags =
     @ ccopt("-liconv")
   };
 
-let c_library_flags =
-  switch (get_os) {
-  | Linux => [libPath, "-lSDL2"]
-  | Mac => [libPath, "-lSDL2"]
-  | _ => []
-  };
+let c_library_flags = [libPath];
 
 let cxx_flags =
   switch (get_os) {
