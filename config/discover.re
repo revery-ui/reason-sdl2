@@ -39,8 +39,9 @@ let c_flags =
   | _ => c_flags
   };
 
-let libPath = Sys.getenv("SDL2_LIB_PATH") ++ "/libSDL2.a";
-prerr_endline ("SDL2 Library Path: " ++ libPath);
+let libFolderPath = Sys.getenv("SDL2_LIB_PATH");
+let libFilePath = libFolderPath ++ "/libSDL2.a";
+prerr_endline ("SDL2 Library Folder Path: " ++ libFolderPath);
 
 let ccopt = s => ["-ccopt", s];
 let cclib = s => ["-cclib", s];
@@ -49,14 +50,16 @@ let flags =
   switch (get_os) {
   | Windows =>
     []
-    @ ccopt(libPath)
+    // On Windows, we ship the DLL side-by-side
+    @ ccopt("-L" ++ libFolderPath)
+    @ cclib("-lSDL2")
     @ cclib("-lgdi32")
     @ cclib("-subsystem windows")
   | Linux =>
     []
     @ cclib("-lGL")
     @ cclib("-lGLU")
-    @ ccopt(libPath)
+    @ ccopt(libFilePath)
     @ cclib("-lX11")
     @ cclib("-lXxf86vm")
     @ cclib("-lXrandr")
@@ -66,7 +69,7 @@ let flags =
     @ cclib("-lXi")
   | _ =>
     []
-    @ ccopt(libPath)
+    @ ccopt(libFilePath)
     @ ccopt("-framework AppKit")
     @ ccopt("-framework Foundation")
     @ ccopt("-framework OpenGL")
@@ -81,7 +84,10 @@ let flags =
     @ ccopt("-liconv")
   };
 
-let c_library_flags = [libPath];
+let c_library_flags = switch (get_os) {
+  | Windows => ["-L" ++ libFolderPath, "-lSDL2"]
+  | _ => [libFilePath];
+}
 
 let cxx_flags =
   switch (get_os) {
