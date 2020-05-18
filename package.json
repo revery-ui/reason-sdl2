@@ -26,10 +26,7 @@
     "@opam/dune-configurator": "*",
     "@esy-ocaml/reason": "^3.3.7",
     "refmterr": "^3.1.0",
-    "esy-sdl2": "^2.0.10006"
-  },
-  "resolutions": {
-    "esy-sdl2": "github:revery-ui/esy-sdl2#1d60774"
+    "esy-sdl2": "^2.0.10007"
   },
   "devDependencies": {
     "ocaml": ">=4.6.0 <4.9.0",
