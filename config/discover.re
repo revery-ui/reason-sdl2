@@ -50,15 +50,13 @@ let flags =
   | Windows =>
     []
     @ ccopt(libPath)
-    @ cclib("-lSDL2")
     @ cclib("-lgdi32")
     @ cclib("-subsystem windows")
   | Linux =>
     []
-    @ ccopt(libPath)
     @ cclib("-lGL")
     @ cclib("-lGLU")
-    @ cclib("-lSDL2")
+    @ ccopt(libPath)
     @ cclib("-lX11")
     @ cclib("-lXxf86vm")
     @ cclib("-lXrandr")
@@ -69,7 +67,6 @@ let flags =
   | _ =>
     []
     @ ccopt(libPath)
-    @ cclib("-lSDL2")
     @ ccopt("-framework AppKit")
     @ ccopt("-framework Foundation")
     @ ccopt("-framework OpenGL")
