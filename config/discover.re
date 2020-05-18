@@ -39,7 +39,8 @@ let c_flags =
   | _ => c_flags
   };
 
-let libPath = "-L" ++ Sys.getenv("SDL2_LIB_PATH");
+let libPath = Sys.getenv("SDL2_LIB_PATH") ++ "/libSDL2.a";
+prerr_endline ("SDL2 Library Path: " ++ libPath);
 
 let ccopt = s => ["-ccopt", s];
 let cclib = s => ["-cclib", s];
