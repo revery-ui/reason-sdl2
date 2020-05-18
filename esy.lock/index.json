@@ -1,5 +1,5 @@
 {
-  "checksum": "1c73bc0caf9f1ddb121097474c1d6b99",
+  "checksum": "4b4bc14741f4a0cc781c4ba30682d2ab",
   "root": "reason-sdl2@link-dev:./package.json",
   "node": {
     "refmterr@3.3.2@d41d8cd9": {
@@ -34,7 +34,7 @@
       "overrides": [],
       "dependencies": [
         "refmterr@3.3.2@d41d8cd9",
-        "esy-sdl2@github:revery-ui/esy-sdl2#e2761df@d41d8cd9",
+        "esy-sdl2@github:revery-ui/esy-sdl2#bb471ca19@d41d8cd9",
         "@opam/dune-configurator@opam:2.5.1@aeb9d8d5",
         "@opam/dune@opam:2.5.1@a0c1e658", "@esy-ocaml/reason@3.6.0@d41d8cd9"
       ],
@@ -57,13 +57,13 @@
       "dependencies": [],
       "devDependencies": []
     },
-    "esy-sdl2@github:revery-ui/esy-sdl2#e2761df@d41d8cd9": {
-      "id": "esy-sdl2@github:revery-ui/esy-sdl2#e2761df@d41d8cd9",
+    "esy-sdl2@github:revery-ui/esy-sdl2#bb471ca19@d41d8cd9": {
+      "id": "esy-sdl2@github:revery-ui/esy-sdl2#bb471ca19@d41d8cd9",
       "name": "esy-sdl2",
-      "version": "github:revery-ui/esy-sdl2#e2761df",
+      "version": "github:revery-ui/esy-sdl2#bb471ca19",
       "source": {
         "type": "install",
-        "source": [ "github:revery-ui/esy-sdl2#e2761df" ]
+        "source": [ "github:revery-ui/esy-sdl2#bb471ca19" ]
       },
       "overrides": [],
       "dependencies": [],
