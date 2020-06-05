@@ -93,7 +93,7 @@ let run = () => {
   let display = Sdl2.Window.getDisplay(primaryWindow);
   
   switch (Sdl2.Display.getDPI(display)) {
-  | Error(msg) => prerr_endline("Error: " ++ msg)
+  | Error(msg) => Console.error("Error: " ++ msg)
   | Ok(dpi) => Console.log("Display DPI: " ++ Sdl2.Display.Dpi.show(dpi));
   };
 
