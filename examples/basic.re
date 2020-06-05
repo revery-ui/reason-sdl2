@@ -91,8 +91,11 @@ let run = () => {
   );
 
   let display = Sdl2.Window.getDisplay(primaryWindow);
-  let dpi = Sdl2.Display.getDPI(display);
-  Console.log("Display DPI: " ++ Sdl2.Display.Dpi.show(dpi));
+  
+  switch (Sdl2.Display.getDPI(display)) {
+  | Error(msg) => prerr_endline("Error: " ++ msg)
+  | Ok(dpi) => Console.log("Display DPI: " ++ Sdl2.Display.Dpi.show(dpi));
+  };
 
   let mode = Sdl2.Display.getDesktopMode(display);
   Console.log("Display mode: " ++ Sdl2.Display.Mode.show(mode));
