@@ -71,7 +71,7 @@ module Display = {
   let getDisplays = () =>
     List.init(getNumberOfDisplays(), (i) => (Obj.magic(i: int): t));
 
-  external getDPI: t => Dpi.t = "resdl_SDL_GetDisplayDPI";
+  external getDPI: t => result(Dpi.t, string) = "resdl_SDL_GetDisplayDPI";
   external getCurrentMode: t => Mode.t = "resdl_SDL_GetCurrentDisplayMode";
   external getDesktopMode: t => Mode.t = "resdl_SDL_GetDesktopDisplayMode";
   external getBounds: t => Rect.t = "resdl_SDL_GetDisplayBounds";

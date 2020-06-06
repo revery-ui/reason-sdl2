@@ -418,12 +418,19 @@ CAMLprim value resdl_SDL_GetDisplayDPI(value vDisplay) {
   int displayIndex = Int_val(vDisplay);
 
   float ddpi, hdpi, vdpi;
-  SDL_GetDisplayDPI(displayIndex, &ddpi, &hdpi, &vdpi);
+  int errorCode = SDL_GetDisplayDPI(displayIndex, &ddpi, &hdpi, &vdpi);
 
-  ret = caml_alloc(3, 0);
-  Store_double_field(ret, 0, ddpi);
-  Store_double_field(ret, 1, hdpi);
-  Store_double_field(ret, 2, vdpi);
+  if (errorCode != 0) {
+    ret = Val_error(caml_copy_string(SDL_GetError()));
+  } else {
+    ret = caml_alloc(3, 0);
+    Store_double_field(ret, 0, ddpi);
+    Store_double_field(ret, 1, hdpi);
+    Store_double_field(ret, 2, vdpi);
+  
+    ret = Val_ok(ret);
+  }
+
   CAMLreturn(ret);
 };
 
