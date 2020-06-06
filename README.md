@@ -1,4 +1,4 @@
-# NOTE: This has now been moved to Revery repo: https://github.com/revery-ui/revery
+# NOTE: This has now been moved to the Revery repo: https://github.com/revery-ui/revery
 ---
 
 [![Build Status](https://dev.azure.com/revery-ui/revery/_apis/build/status/revery-ui.reason-sdl2?branchName=master)](https://dev.azure.com/revery-ui/revery/_build/latest?definitionId=19&branchName=master)
