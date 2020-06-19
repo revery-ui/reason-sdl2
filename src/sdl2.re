@@ -167,6 +167,7 @@ module Window = {
   external setTransparency: (t, float) => unit =
     "resdl_SDL_SetWindowTransparency";
   external setPosition: (t, int, int) => unit = "resdl_SDL_SetWindowPosition";
+  external getPosition: t => (int, int) = "resdl_SDL_GetWindowPosition";
   external center: t => unit = "resdl_SDL_WindowCenter";
   external setResizable: (t, bool) => unit = "resdl_SDL_SetWindowResizable";
   external setSize: (t, int, int) => unit = "resdl_SDL_SetWindowSize";
